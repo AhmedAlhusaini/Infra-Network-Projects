@@ -1,0 +1,7 @@
+Vlans
+Access & Trunk 
+STP
+HSRP
+
+===
+DHCP --> DORA : DIscover Offer Request Acknowledge 

@@ -1,0 +1,52 @@
+Config PAT
+*****************
+Create Rule / List 
+
+ip nat inside source list 1 int se0/2/0 overload
+ip nat inside source list 1 int se0/2/1 overload
+
+*****************
+Adding Permist / Deny In List 
+
+access-list 1 permit 172.16.1.0 0.0.0.127
+access-list 1 permit 172.16.1.128 0.0.0.127
+access-list 1 permit 172.16.2.0 0.0.0.127
+access-list 1 permit 172.16.2.128 0.0.0.127
+access-list 1 permit 172.16.3.0 0.0.0.127
+access-list 1 permit 172.16.3.128 0.0.0.15
+do w
+*************************
+Determine Who is inside & Out side 
+
+int ra gig0/0-1
+ip nat inside 
+ex
+int se0/2/0
+ip nat outside
+int se0/2/1
+ip nat outside
+ex
+do w
+
+***************Test
+sh ip nat trans
+*****************CopyPaste*****
+
+ip nat inside source list 1 int se0/2/0 overload
+ip nat inside source list 1 int se0/2/1 overload
+access-list 1 permit 172.16.1.0 0.0.0.127
+access-list 1 permit 172.16.1.128 0.0.0.127
+access-list 1 permit 172.16.2.0 0.0.0.127
+access-list 1 permit 172.16.2.128 0.0.0.127
+access-list 1 permit 172.16.3.0 0.0.0.127
+access-list 1 permit 172.16.3.128 0.0.0.15
+do w
+int ra gig0/0-1
+ip nat inside 
+ex
+int se0/2/0
+ip nat outside
+int se0/2/1
+ip nat outside
+ex
+do w

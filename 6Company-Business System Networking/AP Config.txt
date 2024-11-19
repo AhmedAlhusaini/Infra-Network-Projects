@@ -1,0 +1,18 @@
+SSID: Sales-AP
+Pass: Admin@123
+*************************
+SSID: HR&Logistics-AP
+Pass: Admin@123
+*************************
+SSID: Finance&Accounts-AP
+Pass: Admin@123
+*************************
+SSID: Admin&PublicRelationships-AP
+Pass: Admin@123
+*************************
+SSID: ICT-AP
+Pass: Admin@123
+*************************
+SSID: SererRoom-AP
+Pass: Admin@123
+*************************

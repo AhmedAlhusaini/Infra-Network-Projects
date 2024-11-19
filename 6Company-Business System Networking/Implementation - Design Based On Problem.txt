@@ -1,0 +1,297 @@
+0.Use a software modeling tool to visualize the network topology (Use Hierarchical Network Design
+	- Software Modelling Tools: MS Visio, Visual Paradigm, or Draw.io for modeling network design.
+	- No Problem To Draw Physically How Devices will be distributed , even graphically 
+
+1. Plan A Network -> Topology ; What Kind of Devices / Types & Specs  ( Good Practice To Apply Hierarchical Model ) 
+	Devices :
+		A. Printer 
+		B. Wifi 
+		C. SW
+		D. Routers
+	Hierarchical Model : Here upon bussiness case and design consultant , he determine the network design style ( star , mesh , ...etc )
+		CE/CD 
+		Core Layer 
+		Distributation Layer 
+		Access Layer 
+2. Passive Cabling
+	A. Buildings / Floors / Physical  Cablling DIstribution
+		1. 1st Floor => Departments ( A, B )
+		2. 2nd Floor => Departments ( C, D, F )
+		3. 3rd Floor => Departments ( S,D,F, ..etc )
+	B. Cablling Between Router ( Serial or Eithernet ) ==> You need to enable serial interfaces on routers => HWIC-2T
+		Which Serial Type and what are the differences ( Serial DCE , DTE , ..etc )
+		* Where To Config Clock Rate ??
+	C. Between Routers Cablling ( Serial , ...etc)
+3. Networks Summaries & Subnetting 
+4. Ports ==> Decide which ports ( access or trunck ) for Vlans , Security and others 
+5. Vlans
+	A. VTP
+	B. Manuall
+6. Routing :
+	1. Protocols ( Interior & Exterorier ) 
+	2. Sub Interfaces or virtual interfaces 
+
+7. Think About Scalling Designs & Redendency 
+
+8. Think About STP ( Version , Isolation For Vlans , .. etc ) 
+
+=========Begin Config Part======
+
+0. Basic Config 
+	No Ip domain- Lookup
+	banner motd $--$
+	Hostname 
+	cdp run ==> show cdp neighbors 
+	line console configuration
+		line console 0 
+		pass cisco 
+		login
+	line vty
+		line vty 0 15
+		pass cisco
+		login 
+	enable password cisco
+	service password-encryption
+
+
+
+1. Take Routers First 
+	Turn Interfaces 
+	Set Clock Rate For DCEs Only 
+	Config IPs
+2. Configure Multi Layer Switch :
+	* Don't forget to enable Ip routing 
+	* INTs no switch ports
+	* IPs
+	* Config last resort IP and config backup one with different AD ( BTW Do wthis at each layer router , MLT )
+		$ ip route 0.0.0.0 0.0.0.0 gig1/0/1
+		$ ip route 0.0.0.0 0.0.0.0 gig1/0/2 70  
+	* Advertise Network ( on general config or over interfaces )
+			# On General Config , this is without configuring virtual interfaces for each vlan:
+				* router ospf 10
+				* Define Router-id
+				* network "network summary" wild card mask 
+3. Vlans
+	Sw Port Mode Acc
+	Sw acc vlan **
+
+4. COnfig Router IP Add
+
+5. Config Int Vlan Router ==> Sub Interfaces || Virtual Interfaces
+
+6. Config DHCP 
+
+7. Configure Routing Protocols 
+
+8. Test at each step 
+	A. Same Vlan 
+	B. Different Vlan under same router 
+	C. Vlan Under Router to Another Vlan In another Router 
+
+9. Config Wifi 
+
+10.Config SSH
+	A.Hostname => hostname F3-Router
+	B.Domain Name => ip domain-name ESRI
+	C. User Name + Pass => username admin pass P@ssw0rd
+	D.Generate Crypto Key => crypto key genereate rsa , Then 1024
+	F. 	F3-Router(config)#line vty 0 15
+		F3-Router(config-line)#login local 
+		F3-Router(config-line)#transport input ssh 
+		F3-Router(config-line)#do wr
+
+11. Test SSH Over Each Router 
+
+12. Configure Port security ==> Int Fa0/7 that connect in IT Department "PC-Test"
+	F3-Switch(config)#int fa0/7
+	F3-Switch(config-if)#switchport port-security 
+	F3-Switch(config-if)#switchport port-security maximum 1
+	F3-Switch(config-if)#switchport port-security mac-address sticky 
+	F3-Switch(config-if)#switchport port-security violation shutdown 
+	F3-Switch(config-if)#exit 
+	F3-Switch(config)#do w
+
+
+
+basic Config For L2/L3 Access Switches 
+========================
+en 
+conf t 
+
+banner motd $ No UnAuthorirzed Access : This is Core Router 1 $
+hostname Core-R1
+no ip domain-lookup 
+cdp run 
+line console 0
+pass cisco 
+login
+exit 
+
+
+Simple : 
+	line vty 0 15 
+	pass cisco 
+	login 
+	exit
+
+With Users:
+	Switch> enable
+	Switch# configure terminal
+	Switch(config)# username admin password admin123
+	Switch(config)# username user1 password user123
+	Switch(config)# line vty 0 4
+	Switch(config-line)# login local
+	Switch(config-line)# end
+	Switch# write memory
+
+
+SSH: Defining a hostname and domain name on a Cisco device is important for several reasons:
+	SSH Key Generation: SSH requires a unique identifier for the device, which is created using the hostname and domain name. This ensures that the RSA keys generated for SSH are unique and secure12.
+	Security Certificates: For features like IPsec, HTTPS, and other secure communications, certificates are often required. These certificates use the fully qualified domain name (FQDN), which is a combination of the hostname and domain name12.
+	DNS Resolution: If your network uses DNS, having a domain name helps in resolving device names to IP addresses, making it easier to manage and access devices12.
+	
+
+	hostname MySwitch
+	ip domain-name cisco.net
+	crypto key gen rsa 
+	1024
+	username admin privilege 15 secret admin123  | username cisco password cisco
+	line vty 0 15
+	transport input ssh
+	login local 
+	do w
+	exit 
+Optional : Ensure that only SSH version 2 is used for better security.
+	ip ssh version 2
+
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname MySwitch
+Switch(config)# ip domain-name example.com
+Switch(config)# crypto key generate rsa
+Switch(config)# username admin privilege 15 secret admin123
+Switch(config)# line vty 0 4
+Switch(config-line)# transport input ssh
+Switch(config-line)# login local
+Switch(config)# ip ssh version 2
+Switch(config-line)# end
+Switch# write memory
+
+
+Test:
+show ip ssh
+ssh -l [username] [ip_address]
+
+enable pass cisco
+service password-en
+do w
+
+
+================Config For Router Access Switches============
+
+en 
+conf t 
+no ip domain-lookup
+banner motd $ No UnAuthorized Access ; This is Core Router 2 $
+hostname Core-R2
+cdp run 
+line console 0
+pass cisco 
+login
+exit 
+enable pass cisco
+service password-en
+do w
+ip domain-name cisco.net
+username cisco password cisco
+crypto key gen rsa 
+1024
+line vty 0 15
+login local 
+transport input ssh 
+do w
+exit 
+
+Simple : 
+	line vty 0 15 
+	pass cisco 
+	login 
+	exit
+
+
+SSH:
+	ip domain-name cisco.net
+	username cisco password cisco
+	crypto key gen rsa 
+	1024
+	line vty 0 15
+	login local 
+	transport input ssh 
+	do w
+	exit 
+
+
+
+enable pass cisco
+service password-en
+do w
+
+
+============
+Vtp: 
+	All must trunk first in both side 
+	conf t 
+	int ra gig1/0/3-9
+	switchport mode trun
+	do w
+	conf t
+	vtp domain cisco.com
+	vtp pass cisco
+	vtp version 2
+	do w
+ 
+Vlan 10   
+name SalesAndMarketing                           
+Vlan 20   
+name HRAndLogistics 
+Vlan 30   
+name FinanceAndAccounts                 
+Vlan 40   
+name AdminAndPublicRelationships                 
+Vlan 50   
+name ICT
+Vlan 60   
+name ServerRoom
+
+Vlan 70   
+name Logistics                        
+Vlan 80   
+name customer                         
+Vlan 90   
+name Guest                            
+Vlan 100  
+name Admin                            
+Vlan 110  
+name ICT                              
+Vlan 120  
+name ServerRoom
+
+int ra fa0/3-8
+switchport mode access 
+switchport access vlan 30
+switchport port-security maximum 1
+switchport port-security mac-address sticky 
+switchport port-security violation shutdown 
+do w
+do sh port-security
+
+int ra gig0/1-2
+switchport mode access 
+switchport access vlan 99
+shutdown
+do w
+
+
+But when you add a pc in another vlan you muct configure all these again 
+switchport port-security violation shutdown 
+do sh port-sec

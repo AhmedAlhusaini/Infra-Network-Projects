@@ -1,0 +1,10 @@
+1. Topology Devices 
+2. Passive Cabling 
+3. Subnetting 
+===================
+Base Network : 192.168.1.0 
+No of Subnets : 3 
+
+
+4. Ports ( access or trunck )
+5. Vlans

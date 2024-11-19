@@ -1,0 +1,44 @@
+Case Study: Enterprise Network Infrastructure Implementation
+Background
+XYZ Corporation is a rapidly growing company with multiple departments including Sales, Engineering, HR, and Management. The company is expanding its operations and requires a robust, scalable, and secure network infrastructure to support its business activities. The IT department has been tasked with designing and implementing this network.
+
+Objectives
+The primary objectives of this project are to:
+
+Segment the network using VLANs to improve security and manageability.
+Ensure high availability and redundancy using HSRP.
+Provide dynamic IP address allocation using DHCP ( ON ROUTER OR ON SERVER ).
+Enable domain name resolution with a DNS server.
+Implement OSPF for efficient routing within the network.
+Configure PAT/NAT to allow internal devices to access the internet.
+Establish BGP peering with the ISP for external connectivity.
+Implement additional security measures and remote access capabilities.
+
+
+
+
+Tasks
+Configure VLANs:
+Create VLANs for different departments: Sales (VLAN 10), Engineering (VLAN 20), HR (VLAN 30), and Management (VLAN 40).
+Configure Distributed Switches:
+Set one switch as the root primary and another as the root secondary based on HSRP status.
+Configure HSRP:
+Implement HSRP on Distribution Switches to provide redundancy and ensure network availability.
+Configure DHCP Server:
+Set up a DHCP server on the routers to dynamically assign IP addresses to devices in each VLAN.
+Configure DNS Server:
+Set up a DNS server to resolve domain names for internal and external resources.
+Configure OSPF:
+Establish OSPF routing between Distribution Switches and Routers to ensure efficient data routing.
+Configure PAT/NAT:
+Set up PAT/NAT to allow internal devices to access the internet and configure a public Web server.
+Configure BGP:
+Establish BGP peering with the ISP using a unique router IP to ensure external connectivity.
+Optional Tasks
+ACL Configuration:
+Implement an ACL to ensure VLAN 10 in AS 300 cannot reach the Web server in AS 100.
+DHCP Snooping:
+Configure DHCP Snooping to enhance network security.
+Remote Access:
+Set up Telnet for remote access to network devices.
+

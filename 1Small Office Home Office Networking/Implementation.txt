@@ -1,0 +1,31 @@
+1. Design Topology
+2.Analyze Given Network Addresses 
+	#Check Subnetting 
+		@How Many Subnets 
+		@How Many Networks
+		@Determine N Part Vs H Part
+	# How Many Departments  
+
+Base Network Address:  192.168.40.0
+No Of Subnets / Networks : 2
+
+2^n=no of subnets ==> 2^n=2
+N=1
+255.255.255.255
+11111111.11111111.11111111.10000000 => Then Convert these to deciemal 
+255.255.255.128==This  is our subnet mask 
+
+So, 
+
+1st Subnet :
+	Mask 	  : 255.255.255.128    /25
+	Network ID: 192.168.40.0
+	Valid Range Of Valid Host : 192.168.40.1 To 192.168.40.126
+	BroadCast Id: 192.168.40.127
+	
+
+2nd Subnet :
+	Mask 	  : 255.255.255.254
+	Network ID: 192.168.40.128    /25
+	Valid Range Of Valid Host : 192.168.40.129 To 192.168.40.254
+	BroadCast Id: 192.168.40.255

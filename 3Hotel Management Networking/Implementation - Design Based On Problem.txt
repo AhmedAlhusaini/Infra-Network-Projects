@@ -1,0 +1,67 @@
+1. Topology Devices / Types & Specs  
+	A. Printer 
+	B. Wifi 
+	C. SW
+	D. Routers
+2. Passive Cabling
+	A. Floors / Physical  Cablling DIstribution
+		1. 1st Floor => Departments ( A, B )
+		2. 2nd Floor => Departments ( C, D, F )
+		3. 3rd Floor => Departments ( S,D,F, ..etc )
+	B. Cablling Between Router ( Serial or Eithernet ) ==> You need to enable serial interfaces on routers => HWIC-2T
+		Which Serial Type and what are the differences ( Serial DCE , DTE , ..etc )
+		* Where To Config Clock Rate ??
+3. Networks Summaries & Subnetting 
+4. Ports ( access or trunck )
+5. Vlans
+	A. VTP
+	B. Manuall
+6. Routing Protocols 
+
+=========Begin Config Part======
+
+0. Basic Config 
+	No Ip Lookup 
+	banner motd $--$
+	Hostname 
+	cdp run ==> show cdp neighbors 
+1. Take Routers First 
+	Turn Interfaces 
+	Set Clock Rate
+
+2. Vlans
+	Sw Port Mode Acc
+	Sw acc vlan **
+3. COnfig Router IP Add
+4. Config Int Vlan Router ==> Sub Interfaces 
+5. Config DHCP 
+6. Configure Routing Protocols 
+7. Test at each step 
+	A. Same Vlan 
+	B. Different Vlan under same router 
+	C. Vlan Under Router to Another Vlan In another Router 
+8. Config Wifi 
+9.Config SSH
+	A.Hostname => hostname F3-Router
+	B.Domain Name => ip domain-name ESRI
+	C. User Name + Pass => username admin pass P@ssw0rd
+	D.Generate Crypto Key => crypto key genereate rsa , Then 1024
+	F. 	F3-Router(config)#line vty 0 15
+		F3-Router(config-line)#login local 
+		F3-Router(config-line)#transport input ssh 
+		F3-Router(config-line)#do wr
+
+10. Test SSH Over Each Router 
+11. Configure Port security ==> Int Fa0/7 that connect in IT Department "PC-Test"
+	F3-Switch(config)#int fa0/7
+	F3-Switch(config-if)#switchport port-security 
+	F3-Switch(config-if)#switchport port-security maximum 1
+	F3-Switch(config-if)#switchport port-security mac-address sticky 
+	F3-Switch(config-if)#switchport port-security violation shutdown 
+	F3-Switch(config-if)#exit 
+	F3-Switch(config)#do w
+
+
+
+
+

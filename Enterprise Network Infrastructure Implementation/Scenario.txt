@@ -1,0 +1,9 @@
+XYZ Corporation has recently acquired a new office building and needs to set up a network infrastructure that supports its growing workforce and business operations. The IT department is responsible for designing and implementing a network that meets the following requirements:
+
+Network Segmentation: Each department should have its own VLAN to isolate traffic and improve security.
+High Availability: The network should be highly available with minimal downtime. HSRP should be configured to provide redundancy.
+Dynamic IP Allocation: Devices should receive IP addresses dynamically from a DHCP server.
+Domain Name Resolution: A DNS server should be set up to resolve domain names for internal and external resources.
+Efficient Routing: OSPF should be configured to ensure efficient routing of data within the network.
+Internet Access: Internal devices should be able to access the internet through PAT/NAT. A public Web server should be accessible from the internet.
+External Connectivity: BGP peering with the ISP should be established to ensure external connectivity.

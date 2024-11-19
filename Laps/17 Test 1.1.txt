@@ -1,0 +1,111 @@
+A network require three public subnets, subnet1 needs 10 Hosts, subnet2 needs 20 Host, and subnet3 needs 50 Host and your entrprise have network IP 220.0.0.0/24
+> use the public network what network will you use ?
+
+Using a topology of three switches and one router and using the previouse subnets  
+> provide a successful ping from any host from subnet 1,2,3 towards any host in subnet 1,2,3
+> secure the console and remote access using ssh towards the router
+> secure the remote access using telnet towards SW1 (password only)
+> secure the remote access using telnet towards SW2 (username & pass)
+
+1) which of the following Ethernet standards defines Gigabit Ethernet over UTP cabling?
+ a. 10GBASE-T
+ b.100BASE-T
+ c.1000BASE-T
+ d.None of the other answers is correct 
+
+2) which of the following is true about the CSMA/CD algorithm?
+ a. the algorith never allows collisions to occur
+ b. Collisions can happen, but the algorithm defines how the computers should notice a collisions and how to recover
+ c.The algorithm works with only two devices on the same Ethernet 
+ d. None of the other answers is correct
+
+3)Which of the following is true about the Ethernet FCS field?
+ a. Ethernet uses FCS for error recovery 
+ b. It is 2 bytes long 
+ c. It resides in the Ethernet trailer, not the Ethernet header
+ d. It is used for encryption
+
+4) Which of the following is a difference between Telnet and SSH as supported by a Cisco switch?
+ a. SSH encrypts the passwords used at login, but not other traffic; Telnet encrypts nothing
+ b. SSH encrypts all data exchange, including login passwords; Telnet encrypts nothing
+ c. Telnet is used from Microsoft operating systems, and SSh is used from UNIX and Linux operating systems
+ d. Telnet encrypts only password exchanges; SSH encrypts all data exchanges
+
+5) What type of switch memory is used to store the configuration used by the switch when it is up and working?
+ a. RAM 
+ b. ROM
+ c. Flash
+ d. NVRAM
+ e. Bubble
+
+6) In what mode can you type the command show mac address-table and expect to get a response with MAC table entries?
+ a. User mode 
+ b. Enable mode 
+ c. Global configuration mode 
+ d. Interface configuration mode 
+
+7) Which of the following statements describes part of the process of how a switch decides to forward a frame destined for a known unicast MAC address?
+ a. It compares the unicast destination address to the bridging, or MAC address, table.
+ b. It compares the unicast source address to the bridging, or MAC address, table.
+ c. It forwards the frame out all interfaces in the same VLAN except for the incoming interface.
+ d. It compares the destination IP address to the destination MAC address.
+ e. It compares the frame’s incoming interface to the source MAC entry in the MAC address table.
+
+8) Which of the following statements describes part of the process of how a LAN switch decides to forward a frame destined for a broadcast MAC address?
+ a. It compares the unicast destination address to the bridging, or MAC address, table.
+ b. It compares the unicast source address to the bridging, or MAC address, table.
+ c. It recognizes the destination MAC address as the special case of the Ethernet broadcast address.
+ d. It compares the destination IP address to the destination MAC address.
+ e. It compares the frame’s incoming interface to the source MAC entry in the MAC address table.
+
+9) An engineer wants to set up simple password protection with no usernames for some switches in a lab, for the purpose of keeping curious coworkers from logging in to the lab switches from their desktop PCs. Which of the following commands would be a useful part of that configuration?
+ a. A login vty mode subcommand
+ b. A password password console subcommand
+ c. A login local vty subcommand
+ d. A transport input ssh vty subcommand
+
+10) Which of the following line subcommands tells a switch to wait until a show command’s output has completed before displaying log messages on the screen?
+ a. logging synchronous
+ b. no ip domain-lookup
+ c. exec-timeout 0 0
+ d. history size 15
+
+11) Switch SW1 uses its Gigabit 0/1 interface to connect to switch SW2’s Gigabit 0/2 interface. 
+    SW2’s Gi0/2 interface is configured with the speed 1000 and duplex full commands. 
+    SW1 uses all defaults for interface configuration commands on its Gi0/1 interface. 
+    Which of the following are true about the link after it comes up? (Choose two answers.)
+ a. The link works at 1000 Mbps (1 Gbps).
+ b. SW1 attempts to run at 10 Mbps because SW2 has effectively disabled IEEE standard autonegotiation.
+ c. The link runs at 1 Gbps, but SW1 uses half duplex and SW2 uses full duplex.
+ d. Both switches use full duplex.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

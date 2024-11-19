@@ -1,0 +1,8 @@
+1. Test DHCP Over any device 
+2. Test SSH & Console Managment 
+	# Routers 
+	# MLS
+3. Ping Same Vlan 
+4. Ping Different Vlans
+5. Test DNS
+6. Test NAT ; Ping To External and show ip nat translations

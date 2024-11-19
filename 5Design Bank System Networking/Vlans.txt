@@ -1,0 +1,129 @@
+vlan 10 
+name Admin
+vlan 20 
+name HR
+vlan 30 
+name Finance 
+vlan 40 
+name Bussiness
+vlan 50 
+name E&C 
+vlan 60 
+name A&D
+vlan 70 
+name StudentLabs
+vlan 80 
+name IT-DEP
+
+
+
+
+
+
+
+ip dhcp pool vlan20
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1 
+dns-server 192.168.2.1
+
+ip dhcp pool vlan30
+network 192.168.3.0 255.255.255.0
+default-router 192.168.3.1 
+dns-server 192.168.3.1
+
+ip dhcp pool vlan40
+network 192.168.4.0 255.255.255.0
+default-router 192.168.4.1 
+dns-server 192.168.4.1
+
+ip dhcp pool vlan50
+network 192.168.5.0 255.255.255.0
+default-router 192.168.5.1 
+dns-server 192.168.5.1
+
+
+ip dhcp pool vlan60
+network 192.168.6.0 255.255.255.0
+default-router 192.168.6.1 
+dns-server 192.168.6.1
+
+ip dhcp pool vlan70
+network 192.168.7.0 255.255.255.0
+default-router 192.168.7.1 
+dns-server 192.168.7.1
+
+
+ip dhcp pool vlan80
+network 192.168.8.0 255.255.255.0
+default-router 192.168.8.1 
+dns-server 192.168.8.1
+
+
+ip dhcp excluded-address 192.168.2.1
+ip dhcp excluded-address 192.168.3.1
+ip dhcp excluded-address 192.168.4.1
+ip dhcp excluded-address 192.168.5.1
+ip dhcp excluded-address 192.168.6.1
+ip dhcp excluded-address 192.168.7.1
+ip dhcp excluded-address 192.168.8.1
+
+
+
+
+
+
+
+vlan 90   
+name STAFF 
+vlan 100  
+name StudentLabs 
+
+int gig1/0/1
+ip address 10.60.60.1 255.255.255.252
+ip ospf 1 area 0
+
+int gig0/0
+ip address 10.60.60.2 255.255.255.252
+ip ospf 1 area 0
+
+
+
+int vlan 90
+ip address 192.168.9.1 255.255.255.0
+ip helper-address 10.60.60.2
+ip ospf 1 area 0
+
+int vlan 100
+ip address 192.168.10.1 255.255.255.0
+ip helper-address 10.60.60.2
+ip ospf 1 area 0
+
+
+
+service dhcp 
+
+ip dhcp pool vlan90
+network 192.168.9.0 255.255.255.0
+default-router 192.168.9.1 
+dns-server 192.168.9.1
+
+ip dhcp pool vlan100
+network 192.168.10.0 255.255.255.0
+default-router 192.168.10.1 
+dns-server 192.168.10.1
+
+
+ip dhcp excluded-address 192.168.9.1
+ip dhcp excluded-address 192.168.10.1
+
+
+
+
+
+
+
+
+
+
+
+
