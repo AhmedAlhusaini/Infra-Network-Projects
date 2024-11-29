@@ -1,6 +1,6 @@
 
 Steps to Add a New Folder as a New Project to an Existing GitHub Repository
-
+=============================
 1. Navigate to Your Existing Repository
 Open your terminal.
 	Navigate to the directory of your repository (the one that contains the .git folder):
