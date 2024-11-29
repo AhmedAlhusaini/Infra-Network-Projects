@@ -161,13 +161,6 @@ access-list 2 permit 10.10.10.0 0.0.0.255
 	#Standard Vs Extended 
 	# Numbered Vs Named 
 
-
-
-
-
-
-
-
 Configure DHCP Snooping on Basic Switches
 	SW1(config)# ip dhcp snooping 
 	SW1(config)# ip dhcp snooping vlan 10
