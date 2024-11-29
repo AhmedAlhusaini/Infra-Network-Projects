@@ -126,10 +126,3 @@ The branch complements the HQ and includes:
 - Integration with cloud services for disaster recovery.
 - Advanced security measures (e.g., intrusion detection systems).
 
----
-
-## 💬 Contact
-
-For questions or collaboration:  
-📧 **Email**: network-engineer@example.com  
-📞 **Phone**: +61-XXX-XXX-XXX
