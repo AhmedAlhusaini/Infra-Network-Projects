@@ -1,8 +1,9 @@
 1.Topology :
 	Access Layer 
 	Distributed Layer 
-	Core Router  
-	ISP Router => ASs
+	Core Router 
+	Wireless Points 
+	ISP Router 
 
 
 2.Analyze Given Network Addresses ===> Subnetting 
