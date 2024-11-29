@@ -1,0 +1,40 @@
+
+Steps to Add a New Folder as a New Project to an Existing GitHub Repository
+
+1. Navigate to Your Existing Repository
+Open your terminal.
+	Navigate to the directory of your repository (the one that contains the .git folder):
+	
+			cd /path/to/existing-repo
+2. Create the New Folder
+Inside your repository, create the new folder for your project:	
+	mkdir new-folder-name
+
+Add content (files) to the new folder as required.
+
+3. Stage and Commit Changes
+Check the current status of your repository to see the untracked changes:
+
+	git status
+
+Stage the new folder and its contents:
+	git add new-folder-name
+
+Commit the changes with a descriptive message:
+
+	git commit -m "Add new project folder: new-folder-name"
+
+4. Push Changes to the Remote Repository
+
+Ensure your remote repository is set up. Check the remote URL:
+
+	git remote -v
+
+If the remote is not set up, add your GitHub repository URL:
+
+	git remote add origin https://github.com/your-username/your-repo.git
+
+Push the changes to the remote repository:
+
+	git push origin main
+(Replace main with your branch name if it's different, e.g., master.)
