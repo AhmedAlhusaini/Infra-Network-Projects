@@ -1,0 +1,120 @@
+Within Same Department Dialling is running 
+
+101 to  105  ; ok
+
+but when 101 to 305 => Unknown Number 
+
+
+So , here it comes dial peering config 
+=============================================
+
+From Finanical To HR 
+
+dial-peer voice 1 voip 
+destination-pattern 2..
+session target ipv4:10.10.10.2
+ex
+do wr
+
+
+From Finanical To ICT
+
+dial-peer voice 2 voip 
+destination-pattern 4..
+session target ipv4:10.10.10.6
+ex
+do wr
+
+
+From Finanical To Sales 
+
+dial-peer voice 3 voip 
+destination-pattern 3..
+session target ipv4:10.10.10.10
+ex
+do wr
+
+
+
+
+********************************
+
+From HR To Finanical
+
+dial-peer voice 1 voip 
+destination-pattern 1..
+session target ipv4:10.10.10.1
+ex
+do wr
+
+
+From HR To Sales 
+
+dial-peer voice 2 voip 
+destination-pattern 3..
+session target ipv4:10.10.10.10
+ex
+do wr
+
+
+From HR To ICT
+
+dial-peer voice 3 voip 
+destination-pattern 4..
+session target ipv4:10.10.10.14
+ex
+do wr
+
+
+From Sales To ICT
+
+dial-peer voice 1 voip 
+destination-pattern 4..
+session target ipv4:10.10.10.14
+ex
+do wr
+
+
+From Sales To HR
+
+dial-peer voice 2 voip 
+destination-pattern 2..
+session target ipv4:10.10.10.9
+ex
+do wr
+
+
+
+From Sales To Finanical
+
+dial-peer voice 3 voip 
+destination-pattern 1..
+session target ipv4:10.10.10.5
+ex
+do wr
+
+
+From ICT To Finanical
+
+dial-peer voice 1 voip 
+destination-pattern 1..
+session target ipv4:10.10.10.5
+ex
+do wr
+
+From ICT To HR
+
+dial-peer voice 2 voip 
+destination-pattern 2..
+session target ipv4:10.10.10.9
+ex
+do wr
+
+From ICT To Sales
+
+dial-peer voice 3 voip 
+destination-pattern 3..
+session target ipv4:10.10.10.13
+ex
+do wr
+

@@ -1,0 +1,83 @@
+We Will Configure Router On Stick ; As Two Sup interfaces 
+
+	1. Data Subinterface => GW
+	2. Voice SubInterface => GW
+
+
+Financial Router 
+======================
+int fa0/0.10
+encap dot1Q 10
+ip add 192.168.100.1 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+int fa0/0.100
+encap dot1Q 100
+ip add 172.16.100.1 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+do wr
+
+
+HR Router 
+======================
+int fa0/0.20
+encap dot1Q 20
+ip add 192.168.100.33 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+int fa0/0.100
+encap dot1Q 100
+ip add 172.16.100.33 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+do wr
+
+
+
+Sales Router 
+================
+int fa0/0.30
+encap dot1Q 30
+ip add 192.168.100.65 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+int fa0/0.100
+encap dot1Q 100
+ip add 172.16.100.65 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+do wr
+
+
+
+ICT Router 
+================
+///////////// SW \\\\\\\\\\\\\
+int fa0/1.40
+encap dot1Q 40
+ip add 192.168.100.97 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+int fa0/1.100
+encap dot1Q 100
+ip add 172.16.100.97 255.255.255.224
+ip helper-address 192.168.100.130
+ex
+do wr
+
+
+///////////// Server Site \\\\\\\\\\\\\
+
+int fa0/0.50
+encap dot1Q 50
+ip add 192.168.100.129 255.255.255.248
+ex
+
+do wr
+
+
+
+
+
+

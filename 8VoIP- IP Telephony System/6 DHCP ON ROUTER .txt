@@ -1,0 +1,40 @@
+service dhcp 
+ip dhcp excluded-address 172.16.100.1
+ip dhcp pool FinVoicePool 
+network 172.16.100.0 255.255.255.224
+default-router 172.16.100.1 
+option 150 ip 172.16.100.1
+ex
+do wr
+
+
+service dhcp 
+ip dhcp excluded-address 172.16.100.33
+ip dhcp pool HRVoicePool 
+network 172.16.100.32 255.255.255.224
+default-router 172.16.100.33
+option 150 ip 172.16.100.33
+ex
+do wr
+
+
+
+service dhcp 
+ip dhcp excluded-address 172.16.100.65
+ip dhcp pool SalesVoicePool 
+network 172.16.100.64 255.255.255.224
+default-router 172.16.100.65
+option 150 ip 172.16.100.65
+ex
+do wr
+
+
+service dhcp 
+ip dhcp excluded-address 172.16.100.97
+ip dhcp pool ICTVoicePool 
+network 172.16.100.96 255.255.255.224
+default-router 172.16.100.97
+option 150 ip 172.16.100.97
+ex
+do wr
+

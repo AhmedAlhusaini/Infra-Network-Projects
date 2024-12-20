@@ -1,0 +1,64 @@
+////////////////////Finance SWITCH \\\\\\\\\\\\\\\\\\\\\\\
+
+en
+conf t 
+hostname Finance-SW
+service password-encryption
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run 
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
+
+//////////////////// HR SWITCH \\\\\\\\\\\\\\\\\\\\\\\
+
+en
+conf t 
+hostname HR-SW
+service password-encryption
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run 
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
+//////////////////// SALES SWITCH \\\\\\\\\\\\\\\\\\\\\\\
+
+en
+conf t 
+hostname Sales-SW
+service password-encryption
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run 
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
+//////////////////// ICT SWITCH \\\\\\\\\\\\\\\\\\\\\\\
+
+en
+conf t 
+hostname ICT-SW
+service password-encryption
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run 
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 

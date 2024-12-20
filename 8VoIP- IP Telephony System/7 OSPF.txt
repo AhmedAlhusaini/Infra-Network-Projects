@@ -1,0 +1,46 @@
+OSPF Between Routers 
+=====================
+
+ICT Router 
+****************************
+router ospf 10
+network 10.10.10.4 0.0.0.3 area 0
+network 10.10.10.12 0.0.0.3 area 0
+network 192.168.100.96 0.0.0.31 area 0
+network 172.16.100.96 0.0.0.31 area 0
+network 192.168.100.128 0.0.0.7 area 0
+ex
+do wr 
+
+Financial Router 
+****************************
+router ospf 10
+network 10.10.10.4 0.0.0.3 area 0
+network 10.10.10.0 0.0.0.3 area 0
+network 192.168.100.0 0.0.0.31 area 0
+network 172.16.100.0 0.0.0.31 area 0
+ex
+do wr 
+
+
+
+HR Router 
+****************************
+router ospf 10
+network 10.10.10.8 0.0.0.3 area 0
+network 10.10.10.0 0.0.0.3 area 0
+network 192.168.100.32 0.0.0.31 area 0
+network 172.16.100.32 0.0.0.31 area 0
+ex
+do wr 
+
+
+Sales Router 
+****************************
+router ospf 10
+network 10.10.10.12 0.0.0.3 area 0
+network 10.10.10.8 0.0.0.3 area 0
+network 192.168.100.64 0.0.0.31 area 0
+network 172.16.100.64 0.0.0.31 area 0
+ex
+do wr 

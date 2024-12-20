@@ -1,0 +1,56 @@
+In L2 Switches TO Router 
+==================
+int fa0/1
+switchport mode trun
+
+In L2 Switches TO IP Phones
+==================
+
+* Here we have two options 
+	1. Trunk For Scalability = I mean we can add any IP Phone From Other Department 
+	2. Access For Allowing only This Department Vlan 
+
+I will Make it Access 
+
+
+All Config For All Switches
+====================
+int fa0/1
+switchport mode trun
+ex
+
+vlan 40
+name Data
+vlan 100
+name VOICE
+ex
+
+int ra fa0/2-24
+switchport mode access 
+switchport access Vlan 40
+switchport voice Vlan 100
+
+ex
+
+do wr
+
+Server Site Config
+=========================
+int fa0/1
+switchport mode trun
+ex
+
+vlan 50
+name Data
+ex
+
+int ra fa0/2-5
+switchport mode access 
+switchport access Vlan 50
+ex
+
+do wr
+
+
+
+
