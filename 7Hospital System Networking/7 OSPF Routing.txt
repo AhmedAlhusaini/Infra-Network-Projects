@@ -1,0 +1,69 @@
+Before Enabling Any Routing Protocol We must enable ip routing
+***************************************
+
+HQ-MLS1
+ip routing
+
+HQ-MLS2
+ip routing
+
+BR-MLS1
+ip routingS
+
+
+BR-MLS2
+ip routing
+
+
+Then 
+I have to option to enable OSPF 
+by: 
+1. Int 
+2. By Network Over MLS
+
+ip routing
+int vlan 10
+ip ospf 1 area 0
+int vlan 20
+ip ospf 1 area 0
+int vlan 30
+ip ospf 1 area 0
+int vlan 40
+ip ospf 1 area 0
+int vlan 50
+ip ospf 1 area 0
+int vlan 60
+ip ospf 1 area 0
+
+
+gig1/0/8
+ip ospf 1 area 0
+do wr
+
+
+
+ip routing
+int vlan 80
+ip ospf 1 area 0
+int vlan 90
+ip ospf 1 area 0
+int vlan 100
+ip ospf 1 area 0
+int vlan 110
+ip ospf 1 area 0
+int vlan 120
+ip ospf 1 area 0
+int vlan 130
+ip ospf 1 area 0
+
+gig1/0/1
+ip ospf 1 area 0
+do wr
+
+
+*********************************
+HQ Router To Other 
+
+
+BR Router To Other 
+

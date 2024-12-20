@@ -1,0 +1,75 @@
+
+PAT 
+
+Between Site Router To ISPs
+========================
+0. Config Clock Rate
+1. Determine inside/outside
+2. Determine Type  Overload , ..etc 
+3. Create ACL
+
+Out
+--
+BRRouter     Ser 0/2/0        174            R       C2900       Ser 0/2/0
+ISPRouter2   Ser 0/1/0        176            R       C2800       Ser 0/0/1
+ISPRouter1   Ser 0/2/1        176            R       C2800       Ser 0/2/1
+
+
+In
+--
+HQMultilayer1 Gig 0/0          154                    3650        Gig 1/0/1
+HQMultilayer2 Gig 0/1          150                    3650        Gig 1/0/1
+
+ServerSide-SW Gig 0/2          140            S       2960        Fas 0/1
+
+
+
+
+
+IN HQ
+================
+
+HQRouter(config-if)#int Ser 0/1/0 
+HQRouter(config-if)#ip nat outside 
+HQRouter(config-if)#int Ser 0/2/1
+HQRouter(config-if)#ip nat outside 
+HQRouter(config-if)#int ra gig0/0-2
+HQRouter(config-if-range)#ip nat inside
+
+HQRouter(config)#ip nat inside source list 1 interface se0/1/0  overload 
+HQRouter(config)#ip nat inside source list 1 interface se0/2/1  overload 
+
+
+HQRouter(config)#access-list 1 permit  192.168.100.0 0.0.0.63
+HQRouter(config)#access-list 1 permit  192.168.100.64 0.0.0.63
+HQRouter(config)#access-list 1 permit  192.168.100.128 0.0.0.63
+HQRouter(config)#access-list 1 permit  192.168.100.192 0.0.0.63
+HQRouter(config)#access-list 1 permit  192.168.101.0 0.0.0.63
+HQRouter(config)#access-list 1 permit  192.168.101.64 0.0.0.63
+
+ 
+
+
+
+
+
+
+In BR
+=======
+BRRouter(config)#int ra gig0/0-1
+BRRouter(config-if-range)#ip nat inside 
+
+BRRouter(config-if-range)#int se0/2/1
+BRRouter(config-if)#ip nat outside 
+BRRouter(config-if)#int se0/1/0
+BRRouter(config-if)#ip nat outside
+
+HQRouter#sh ip nat translations
+
+
+access-list 1 permit 192.168.101.128 0.0.0.31
+access-list 1 permit 192.168.101.160 0.0.0.31
+access-list 1 permit 192.168.101.192 0.0.0.31
+access-list 1 permit 192.168.101.224 0.0.0.31
+access-list 1 permit 192.168.102.0 0.0.0.31
+access-list 1 permit 192.168.102.32 0.0.0.31

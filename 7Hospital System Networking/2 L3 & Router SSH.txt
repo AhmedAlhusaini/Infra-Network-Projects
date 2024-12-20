@@ -1,0 +1,18 @@
+
+Suppose ; hostnam is configured 
+=====================
+
+ip domain name cisco.com 
+username  pass cisco
+crypto key generate rsa 
+1024 
+ip ssh version 2  
+
+
+line vty 0 4
+login local
+transport input all ( ssh is most sec )
+exit 
+
+do wr
+ 

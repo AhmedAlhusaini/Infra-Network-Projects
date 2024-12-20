@@ -1,0 +1,68 @@
+In L2 Switches 
+==================
+int ra fa0/1-2
+switchport mode trun
+
+
+
+In L3 Multi Layer Switches 
+====================
+int ra gig1/0/1-8
+switchport mode trun
+
+
+vtp mode server
+vtp domain cisco
+vtp password 123
+vtp version 2
+
+do wr
+
+Vlan Database
+============
+
+HQ
+--------------
+10   MLOCS                            
+20   MER                              
+30   MRM                              
+40   IT                               
+50   CS                               
+60   HQ-GWA                           
+
+BR
+-------------
+80   NSO                              
+90   HL                               
+100  HR                               
+110  MK                               
+120  Fiancial                         
+130  BR-GWA                           
+
+
+
+
+
+Config Vlan Access Switch
+=============
+
+@ All Vlans configured With Port Trunck to allow scalable design on floors 
+
+int ra fa0/2-5
+switchport mode access 
+switchport access vlan 60
+
+do wr 
+
+
+@ except server site make port fa0/1 that face router access with only allow vlan 70
+
+vlan 70
+name ServerSide
+int ra fa0/2-5
+switchport mode access 
+switchport access vlan 70
+
+do wr 
+
+

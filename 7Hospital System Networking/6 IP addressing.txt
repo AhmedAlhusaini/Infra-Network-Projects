@@ -1,0 +1,132 @@
+From HQMLS1 To Router 
+=========================
+
+int gig1/0/1
+no switchport 
+no sh 
+ip addre 192.168.102.81 255.255.255.252
+
+
+From HQMLS2 To Router 
+=========================
+
+int gig1/0/1
+no switchport 
+no sh 
+ip addre 192.168.102.85 255.255.255.252
+
+From Router  To MLS 1
+=========================
+
+int gig0/0 
+no sh 
+ip addre 192.168.102.82 255.255.255.252
+
+
+From Router  To MLS 2
+=========================
+
+int gig0/1 
+no sh 
+ip addre 192.168.102.85 255.255.255.252
+
+
+-------------
+
+From BRRouter To MLS1
+====================
+
+int gig0/0
+no sh 
+ip addre 192.168.102.94 255.255.255.252
+
+From BRRouter To MLS2
+====================
+
+int gig0/1 
+no sh 
+ip addre 192.168.102.97 255.255.255.252
+
+
+From MLS1 To BRRouter
+====================
+
+int gig1/0/1
+no switchport
+no sh 
+ip addre 192.168.102.93 255.255.255.252
+
+
+From MLS2 To BRRouter
+====================
+
+int gig1/0/1
+no switchport
+no sh 
+ip addre 192.168.102.97 255.255.255.252
+
+
+
+From HQ ROuter To Others 
+=======================
+
+* HQ To Serevr Side 
+
+int gig0/2
+no sh 
+ip add 192.168.102.65 255.255.255.240
+
+* HQ To BRRouter
+int ser0/2/0
+no sh 
+ip address 192.168.102.89 255.255.255.252
+
+* HQ TO ISP1
+int  ser0/2/1
+ip address 195.136.17.1 255.255.255.252
+
+* HQ To ISP2
+int ser0/1/0
+ip address 195.136.17.5 255.255.255.252
+
+
+
+
+
+From BR ROuter To Others 
+=======================
+
+* BR To HQ Router
+
+int ser0/2/0
+ip address 192.168.102.90 255.255.255.252
+
+* HQ TO ISP1
+int  ser0/1/0
+ip address 195.136.17.9 255.255.255.252
+
+* HQ To ISP2
+int ser0/2/1
+ip address 195.136.17.13 255.255.255.252
+
+
+From ISP1 To Others
+======================
+
+To HQ
+int ser0/2/1
+ip add 195.136.17.2 255.255.255.252
+
+To BR
+int ser0/0/1
+ip add 195.136.17.10 255.255.255.252
+
+From ISP2 To Others
+======================
+To HQ
+int ser0/0/1
+ip add 195.136.17.6 255.255.255.252
+
+To BR
+int ser0/2/1
+ip add 195.136.17.14 255.255.255.252

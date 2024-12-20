@@ -1,0 +1,11 @@
+int ra fa0/2-24
+switchport mode access 
+switchport port-security
+switchport port-security violation shutdown
+switchport port-security maximum 1 
+switchport port-security mac-address sticky 
+
+do wr 
+
+-----
+do sh port-security

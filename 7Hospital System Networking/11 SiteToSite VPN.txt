@@ -1,0 +1,310 @@
+
+1. Enable Security Package on Router
+
+license boot module c2900 technology-package securityk9
+do reload
+
+Explanation: This command enables the security package on the Cisco router. The do reload command reloads the router to apply the changes.
+
+2. Consider & Create Access Control List for Network Traffic Encryption
+Explanation: Create an extended access control list (ACL) to specify the network traffic that needs to be encrypted. This involves permitting the IP addresses that you want to encrypt.
+
+Example Steps:
+Create an Extended Access Control List , and determine the traffic from aggregaed network in left site or site x to site y 
+BTW you will do access list on each site 
+
+
+
+Explanation: This command creates an extended ACL (number 100) that permits traffic between the 192.168.1.0/24 and 192.168.2.0/24 networks.
+
+Aggregate Routes:
+
+Explanation: If each site contains six networks, you can aggregate or summarize these routes to create fewer rules. For example, if the networks are contiguous, you can summarize them into a single route.
+
+Example Aggregation:
+
+access-list 100 permit ip 192.168.0.0 0.0.255.255 192.168.2.0 0.0.0.255
+
+Explanation: This command aggregates multiple networks into a single rule, simplifying the ACL configuration.
+
+
+3. Create Ethernet Ket Exchange on both router site 
+
+The command crypto isakmp policy 10 is used to configure an Internet Key Exchange (IKE) policy for IPsec VPNs. If this command is not recognized, it could be due to several reasons:
+
+Incorrect IOS Version: Ensure that your router is running a Cisco IOS version that supports the crypto isakmp commands. Some older or limited feature sets may not include this functionality.
+
+Security Package Not Enabled: Make sure the security package is enabled on your router. You can enable it with the following command:
+
+license boot module c2900 technology-package securityk9
+do reload
+
+
+Then 
+
+Router> enable
+Router# configure terminal
+Router(config)# crypto isakmp policy 10
+Router(config-isakmp)# encryption aes 256
+Router(config-isakmp)# hash sha
+
+Router(config-isakmp)# authentication pre-share
+Router(config-isakmp)# group 5
+
+Router(config-isakmp)# lifetime 86400
+
+Router(config-isakmp)# exit
+
+Set Pre-shared Key:
+
+Router(config)# crypto isakmp key your_key address peer_ip
+
+HQRouter(config)#crypto isakmp key ?
+  WORD  The UNENCRYPTED (cleartext) user password
+HQRouter(config)#crypto isakmp key vpnpakaka address 192.168.102.90
+
+
+
+Phase 2
+
+HQRouter(config)#crypto ipsec transform-set ?
+  WORD  Transform set tag
+HQRouter(config)#crypto ipsec transform-set VPN-SET ?
+  ah-md5-hmac   AH-HMAC-MD5 transform
+  ah-sha-hmac   AH-HMAC-SHA transform
+  esp-3des      ESP transform using 3DES(EDE) cipher (168 bits)
+  esp-aes       ESP transform using AES cipher
+  esp-des       ESP transform using DES cipher (56 bits)
+  esp-md5-hmac  ESP transform using HMAC-MD5 auth
+  esp-sha-hmac  ESP transform using HMAC-SHA auth
+HQRouter(config)#crypto ipsec transform-set VPN-SET esp
+HQRouter(config)#crypto ipsec transform-set VPN-SET esp-s
+HQRouter(config)#crypto ipsec transform-set VPN-SET esp-sha-hmac 
+Proposal with ESP is missing cipher
+HQRouter(config)#crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac 
+
+
+HQRouter(config)#crypto map VPN-MAP 10 ipsec
+HQRouter(config)#crypto map VPN-MAP 10 ipsec-isakmp 
+% NOTE: This new crypto map will remain disabled until a peer
+        and a valid access list have been configured.
+
+
+HQRouter(config-crypto-map)#description This my Hello VPN Connection  to Branch Network.
+HQRouter(config-crypto-map)#set pe
+HQRouter(config-crypto-map)#set peer 192.168.102.90
+HQRouter(config-crypto-map)#set
+HQRouter(config-crypto-map)#set trans
+HQRouter(config-crypto-map)#set transform-set VPN-SET 
+HQRouter(config-crypto-map)#ma
+HQRouter(config-crypto-map)#match ad
+HQRouter(config-crypto-map)#match address 110
+HQRouter(config-crypto-map)#ex
+HQRouter(config-crypto-map)#exit 
+
+
+
+
+=================================
+
+/////////////// HQ Route Aggregation /////////////////////////
+
+( 
+	192.168.100.0/26 
+	192.168.100.64/26
+	192.168.100.128/26
+	192.168.100.192/26
+
+)	--Summarised as 192.168.100.0/24
+
+(
+	192.168.101.0/26
+	192.168.101.64/26
+) 	--Summarised as 192.168.101.0/25
+	
+
+
+
+/////////////// BR Route Aggregation /////////////////////////
+
+	
+(
+	192.168.101.128/27
+	192.168.101.160/27
+	192.168.101.192/27
+	192.168.101.224/27
+	192.168.102.0/27
+	192.168.102.32/27
+
+)	--Summarised as 192.168.101.128/24
+
+
+
+	
+
+BR Router
+--------
+access-list 110 permit ip 192.168.101.128 0.0.0.255 192.168.100.0 0.0.0.225
+access-list 110 permit ip 192.168.101.128 0.0.0.225 192.168.101.0 0.0.0.127
+
+HQ Router 
+---------
+access-list 110 permit ip 192.168.100.0 0.0.0.255 192.168.101.128 0.0.0.255
+access-list 110 permit ip 192.168.101.0 0.0.0.127 192.168.101.128 0.0.0.255
+
+
+
+Finally 
+=====
+HQRouter(config)#do sh crypto ipse sa
+
+interface: Serial0/2/0
+    Crypto map tag: VPN-MAP, local addr 192.168.102.89
+
+   protected vrf: (none)
+   local  ident (addr/mask/prot/port): (192.168.100.0/255.255.255.0/0/0)
+   remote  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.0/0/0)
+   current_peer 192.168.102.90 port 500
+    PERMIT, flags={origin_is_acl,}
+   #pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+   #pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+   #pkts compressed: 0, #pkts decompressed: 0
+   #pkts not compressed: 0, #pkts compr. failed: 0
+   #pkts not decompressed: 0, #pkts decompress failed: 0
+   #send errors 0, #recv errors 0
+
+     local crypto endpt.: 192.168.102.89, remote crypto endpt.:192.168.102.90
+     path mtu 1500, ip mtu 1500, ip mtu idb Serial0/2/0
+     current outbound spi: 0x0(0)
+
+     inbound esp sas:
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+
+     outbound ah sas:
+
+     outbound pcp sas:
+
+   local  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.128/0/0)
+   remote  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.0/0/0)
+   current_peer 192.168.102.90 port 500
+    PERMIT, flags={origin_is_acl,}
+   #pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+   #pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+   #pkts compressed: 0, #pkts decompressed: 0
+   #pkts not compressed: 0, #pkts compr. failed: 0
+   #pkts not decompressed: 0, #pkts decompress failed: 0
+   #send errors 0, #recv errors 0
+
+     local crypto endpt.: 192.168.102.89, remote crypto endpt.:192.168.102.90
+     path mtu 1500, ip mtu 1500, ip mtu idb Serial0/2/0
+     current outbound spi: 0x0(0)
+
+     inbound esp sas:
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+
+     outbound ah sas:
+
+     outbound pcp sas:
+
+
+
+
+
+
+
+In BR Router 
+=============
+BRRouter(config)#crypto isakmp policy 10
+BRRouter(config-isakmp)#encryption aes 256
+BRRouter(config-isakmp)#authentication pre-share 
+BRRouter(config-isakmp)#group  5
+BRRouter(config-isakmp)#exit 
+BRRouter(config)#crypto isakmp key vpnpakaka addr 192.168.102.89
+BRRouter(config)#crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac 
+BRRouter(config)#crypto map VPN-MAP 10 ipsec-isakmp 
+% NOTE: This new crypto map will remain disabled until a peer
+        and a valid access list have been configured.
+BRRouter(config-crypto-map)#description This Hello World VPN Connects HQ Network.
+BRRouter(config-crypto-map)#set peer 192.168.102.89
+BRRouter(config-crypto-map)#set transform-set VPN-SET
+BRRouter(config-crypto-map)#match address 110
+BRRouter(config-crypto-map)#exit
+BRRouter(config)#int se0/1/0
+BRRouter(config-if)#crypto map VPN-MAP
+*Jan  3 07:16:26.785: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is ON
+
+
+
+
+BRRouter(config)#do sh crypto ipse sa
+
+interface: Serial0/1/0
+    Crypto map tag: VPN-MAP, local addr 195.136.17.9
+
+   protected vrf: (none)
+   local  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.0/0/0)
+   remote  ident (addr/mask/prot/port): (192.168.100.0/255.255.255.30/0/0)
+   current_peer 192.168.102.89 port 500
+    PERMIT, flags={origin_is_acl,}
+   #pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+   #pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+   #pkts compressed: 0, #pkts decompressed: 0
+   #pkts not compressed: 0, #pkts compr. failed: 0
+   #pkts not decompressed: 0, #pkts decompress failed: 0
+   #send errors 0, #recv errors 0
+
+     local crypto endpt.: 195.136.17.9, remote crypto endpt.:192.168.102.89
+     path mtu 1500, ip mtu 1500, ip mtu idb Serial0/1/0
+     current outbound spi: 0x0(0)
+
+     inbound esp sas:
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+
+     outbound ah sas:
+
+     outbound pcp sas:
+
+   local  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.30/0/0)
+   remote  ident (addr/mask/prot/port): (192.168.101.0/255.255.255.128/0/0)
+   current_peer 192.168.102.89 port 500
+    PERMIT, flags={origin_is_acl,}
+   #pkts encaps: 0, #pkts encrypt: 0, #pkts digest: 0
+   #pkts decaps: 0, #pkts decrypt: 0, #pkts verify: 0
+   #pkts compressed: 0, #pkts decompressed: 0
+   #pkts not compressed: 0, #pkts compr. failed: 0
+   #pkts not decompressed: 0, #pkts decompress failed: 0
+   #send errors 0, #recv errors 0
+
+     local crypto endpt.: 195.136.17.9, remote crypto endpt.:192.168.102.89
+     path mtu 1500, ip mtu 1500, ip mtu idb Serial0/1/0
+     current outbound spi: 0x0(0)
+
+     inbound esp sas:
+
+     inbound ah sas:
+
+     inbound pcp sas:
+
+     outbound esp sas:
+
+     outbound ah sas:
+
+     outbound pcp sas:
+
+
+

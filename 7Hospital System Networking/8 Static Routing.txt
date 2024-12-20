@@ -1,0 +1,29 @@
+Last Resort Routing 
+======================Next Hop======
+In config Mode
+
+MLS
+----------------
+HQ-MLS1
+ip route 0.0.0.0 0.0.0.0 192.168.102.82
+HQ-MLS2
+ip route 0.0.0.0 0.0.0.0 192.168.102.86
+BR-MLS1
+ip route 0.0.0.0 0.0.0.0 192.168.102.94
+BR-MLS2
+ip route 0.0.0.0 0.0.0.0 192.168.102.98
+
+
+For HQ Router 
+--------------------
+ip route 0.0.0.0 0.0.0.0 195.136.17.2
+ip route 0.0.0.0 0.0.0.0 195.136.17.6  70  
+
+( Adding AD To Act As Backup )
+
+
+
+For BR Router 
+-------------
+ip route 0.0.0.0 0.0.0.0 195.136.17.14
+ip route 0.0.0.0 0.0.0.0 195.136.17.10 70  

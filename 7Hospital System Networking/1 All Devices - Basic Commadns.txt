@@ -1,0 +1,15 @@
+en
+conf t 
+service password-encryption
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+hostname ISPRouter2
+cdp run 
+enable pass cisco
+enable secret cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
