@@ -56,3 +56,53 @@ Push the Changes to GitHub:
 		git push origin main
 
 These commands will stage all changes, commit them, and push the updated version of your project to GitHub.
+
+
+
+
+Deleting a File
+*********************
+git rm <file_name>
+	This command removes the specified file from your local repository || Remote Repo if you already change what is in local.
+git commit -m "Delete <file_name>"
+git push origin main
+
+Renaming a File
+*********************
+git mv <old_file_name> <new_file_name>
+git commit -m "Rename <old_file_name> to <new_file_name>"
+git push origin main
+
+
+Updating the Commit Message
+*********************
+You can update a commit message in several ways, but the simplest method is:
+cd path/to/your/repository
+git add <file_name>
+git commit --amend
+git push --force origin main
+
+
+Alternative Method: Interactive Rebase
+git log
+	Count the Number of Commits: Count the number of commits from the top to the commit you want to update. For example, if it’s the third commit from the top, the number is 3.
+git rebase -i HEAD~3
+	Change pick to reword next to the commit you want to update. Save and close the editor.
+git push --force origin main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
