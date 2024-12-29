@@ -1,0 +1,3 @@
+Always begin with studying case study , gathering requirments determine conceptual & Logical design.
+Determine layers of design 
+technology of each layer.
