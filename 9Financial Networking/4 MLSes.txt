@@ -1,0 +1,24 @@
+For MLSes
+*************************
+
+Thanks To VTP 
+
+
+MLS1
+/////////////
+do sh cdp ne 
+int ra gig1/0/2-8
+switchport mode trunck
+do wr
+ex
+
+MLS2
+/////////////
+
+int ra gig1/0/2-8
+switchport mode trunck
+do wr
+ex
+
+
+
