@@ -1,0 +1,68 @@
+The Ultimate Goal Is To Encrypt The Traffic Between Site To Site while passing two ISPes
+====================================================================================================
+0. Import License for routers 
+1. creat access list between summarized networks through ISPes 
+2. create Policy crypto map then encryption using algorithem AES 256 and this key to be shared 
+3. Give the preshared key to isakmp map = vpnpa55
+4. then create transform set with its parameters and name it ipsec-isakmp 
+5. Write Descruption 
+6. Set Peer IP == must equal the given above address 
+7. Finally Associate this crypto map to the outgoing interface
+
+********************************************************
+license boot module c2900 technology-package securityk9
+do reload
+
+HQ
+========
+access-list 110 permit ip 192.168.20.0 0.0.0.255 192.168.21.0 0.0.0.15 
+crypto isakmp policy 10
+encryption aes 256
+auth pre-share
+
+group 5
+exit 
+
+crypto isakmp key vpnpa55 address 192.200.100.9
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
+crypto map VPN-MAP 10 ipsec-isakmp 
+description VPN connection to SERVERSIDE-SITE
+set peer 190.200.100.9
+set transform-set VPN-SET
+match address 110
+exit 
+int se0/0/0
+crypto map VPN-MAP
+exit 
+int se0/0/1
+crypto map VPN-MAP
+exit 
+do wr
+
+Serverside Router
+===============
+
+
+access-list 110 permit ip 192.168.21.0 0.0.0.15 192.168.20.0 0.0.0.255  
+crypto isakmp policy 10
+encryption aes 256
+auth pre-share
+
+group 5
+exit 
+
+crypto isakmp key vpnpa55 address 192.200.100.1
+crypto ipsec transform-set VPN-SET esp-aes esp-sha-hmac
+crypto map VPN-MAP 10 ipsec-isakmp 
+description VPN connection to HQ-Network
+set peer 192.200.100.1
+set transform-set VPN-SET
+match address 110
+exit 
+int se0/0/0
+crypto map VPN-MAP
+exit 
+int se0/0/1
+crypto map VPN-MAP
+exit 
+do wr
