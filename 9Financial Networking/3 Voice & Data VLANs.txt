@@ -1,0 +1,42 @@
+
+All Config For All Switches
+====================
+int ra fa0/0-1
+switchport mode trun
+ex
+
+vlan 50
+name "IT-Data"
+vlan 120
+name Voice
+ex
+
+int ra fa0/3-6
+switchport mode access 
+switchport access Vlan 50
+switchport voice Vlan 120
+ex
+do wr
+
+
+
+Server Site Config
+=========================
+int fa0/1
+switchport mode trun
+ex
+
+vlan 50
+name Data
+ex
+
+int ra fa0/2-5
+switchport mode access 
+switchport access Vlan 50
+ex
+
+do wr
+
+
+
+
