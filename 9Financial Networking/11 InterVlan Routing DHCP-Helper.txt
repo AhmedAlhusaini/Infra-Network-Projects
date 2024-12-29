@@ -1,0 +1,17 @@
+In MLSes
+---------------------------
+int vlan 10
+ip helper-add 192.168.21.5
+int vlan 20
+ip helper-add 192.168.21.5
+int vlan 30
+ip helper-add 192.168.21.5
+int vlan 40
+ip helper-add 192.168.21.5
+int vlan 50
+ip helper-add 192.168.21.5
+
+do wr
+
+
+
