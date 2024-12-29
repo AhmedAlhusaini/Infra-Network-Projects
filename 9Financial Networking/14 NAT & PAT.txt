@@ -1,0 +1,23 @@
+Determine which is inside or outside
+---------
+
+int ra gig0/0-1
+ip nat inside 
+int se0/0/0 
+ip nat outside
+int se0/0/1 
+ip nat outside
+do wr
+
+Create Access List using summarize all networks to be used during nat 
+----------------
+Access-list 50 permit 192.168.20.0 0.0.0.255
+
+Then PAT
+--------------------
+ip nat inside source list 50 int se0/0/0 overload
+ip nat inside source list 50 int se0/0/1 overload
+
+do wr
+
+
