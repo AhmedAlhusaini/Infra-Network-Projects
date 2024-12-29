@@ -1,0 +1,34 @@
+Firstly the differences between VTP domain and SSH IP domain on Cisco devices:
+==========
+
+Key Differences
+Scope:
+
+	VTP Domain: Manages VLAN configurations across multiple switches.
+
+	SSH IP Domain: Used for DNS resolution and secure remote access.
+
+Functionality:
+
+	VTP Domain: Ensures VLAN consistency across switches.
+
+	SSH IP Domain: Provides a domain name for the device, aiding in DNS lookups and secure remote management.
+
+
+***************************
+int ra fa0/1-2
+switchport mode trun
+do wr
+
+vtp domain cisco
+vtp password 123
+vtp version 2
+do wr
+
+
+**************************
+
+vlan 10
+name HR
+do wr
+
