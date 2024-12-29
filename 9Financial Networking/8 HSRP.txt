@@ -1,0 +1,72 @@
+In MLS2
+=====================
+interface vlan 10
+ ip address 192.168.20.2 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.62
+ standby 1 priority 200
+ standby 1 preempt
+
+interface vlan 20
+ ip address 192.168.20.66 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.126
+ standby 1 priority 200
+ standby 1 preempt
+
+interface vlan 30
+ ip address 192.168.20.130 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.190
+ standby 1 priority 200
+ standby 1 preempt
+
+interface vlan 40
+ ip address 192.168.20.194 255.255.255.224
+ standby version 2
+ standby 1 ip 192.168.20.222
+ standby 1 priority 200
+ standby 1 preempt
+
+interface vlan 50
+ ip address 192.168.20.226 255.255.255.224
+ standby version 2
+ standby 1 ip 192.168.20.254
+ standby 1 priority 200
+ standby 1 preempt
+
+do write
+
+In MLS1
+=====================
+
+interface vlan 10
+ ip address 192.168.20.1 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.62
+
+interface vlan 20
+ ip address 192.168.20.65 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.126
+
+interface vlan 30
+ ip address 192.168.20.129 255.255.255.192
+ standby version 2
+ standby 1 ip 192.168.20.190
+
+interface vlan 40
+ ip address 192.168.20.193 255.255.255.224
+ standby version 2
+ standby 1 ip 192.168.20.222
+
+interface vlan 50
+ ip address 192.168.20.225 255.255.255.224
+ standby version 2
+ standby 1 ip 192.168.20.254
+
+do write
+
+**************
+show standby
+ 
