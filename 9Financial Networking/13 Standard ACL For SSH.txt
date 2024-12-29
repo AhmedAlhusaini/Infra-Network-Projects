@@ -1,0 +1,53 @@
+ssh -l ahmed 192.168.21.1
+
+****make sure laptop configured to obtain Ip Automatically
+
+----------
+Now All Department , any one with pass can login 
+ but i need to enable access only for it department 
+not all departments
+
+
+So , will create access list in all GWs Endpoint 
+
+MLS1
+=========
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any 
+line vty 0 15
+access-class 10 in 
+exit
+do wr
+
+MLS2
+=========
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any 
+line vty 0 15
+access-class 10 in 
+exit
+do wr
+
+Same for :
+HQ-VoIP 
+==============
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any 
+line vty 0 15
+access-class 10 in 
+exit
+do wr
+
+Two ISPs
+===========
+access-list 10 permit 192.168.20.224 0.0.0.31
+access-list 10 deny any 
+line vty 0 15
+access-class 10 in 
+exit
+do wr
+
+
+
+ 
+
