@@ -1,0 +1,31 @@
+Basic Commands 
+*******************************
+en 
+conf t 
+service password-encryption
+hostname SafariComISP
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
+
+Before config SHH ---> Hostname Must Be Configured --> The name for the keys will be: DeviceName.cisco.com
+
+ip domain name cisco.com 
+username ahmed pass cisco
+crypto key generate rsa 
+1024 
+ip ssh version 2  
+
+line vty 0 4
+login local
+transport input ssh
+exit 
+do wr
+
