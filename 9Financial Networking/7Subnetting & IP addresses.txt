@@ -1,0 +1,13 @@
+In MLS
+================
+
+1. Enable IP routing 
+2. Int Between MLS & ROuter => No Switch Port 
+
+
+
+Between ROuters 
+=============
+
+Config CLock Rate 
+Assign IPes
