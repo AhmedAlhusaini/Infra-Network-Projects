@@ -1,0 +1,16 @@
+Basic Settings  All Devices + SSH On Router & MLSes
+***************************************************************
+en 
+conf t 
+service password-encryption
+hostname SafariComISP
+no ip domain-lookup
+banner motd $ No Unauthorized Access !! $
+cdp run
+enable pass cisco
+line console 0
+pass cisco
+login 
+exit
+do wr 
+
