@@ -92,6 +92,32 @@ git push --force origin main
 
 
 
+==============================
+Adding Multiple files 
+* git add .
+* or 
+git add "9Financial Networking/0 Studying Case Study.txt" \
+        "9Financial Networking/1 All Devices Basic Settings.txt" \
+        "9Financial Networking/10 DHCP Config.txt" \
+        "9Financial Networking/11 InterVlan Routing DHCP-Helper.txt" \
+        "9Financial Networking/12 telephony-service .txt" \
+        "9Financial Networking/13 Standard ACL For SSH.txt" \
+        "9Financial Networking/14 NAT & PAT.txt" \
+        "9Financial Networking/15 IPsec Tunnel VPN.txt" \
+        "9Financial Networking/2 Router+MLS Basic Commands & SSH.txt" \
+        "9Financial Networking/3 Config VTP.txt" \
+        "9Financial Networking/3 Voice & Data VLANs.txt" \
+        "9Financial Networking/4 MLSes.txt" \
+        "9Financial Networking/5 ServerSide Security Config.txt" \
+        "9Financial Networking/7 HQ Subnetting & IPs.png" \
+        "9Financial Networking/7 RouterToMLS Subnetting&IPs.png" \
+        "9Financial Networking/7 ServerSide Subnetting&IPs.png" \
+        "9Financial Networking/7Subnetting & IP addresses.txt" \
+        "9Financial Networking/8 HSRP.txt" \
+        "9Financial Networking/9 Routing Protocols.txt" \
+        "9Financial Networking/Config.png" \
+        "9Financial Networking/Financial System Networking.mhtml" \
+        "9Financial Networking/Finanical Network Project.pkt"
 
 
 
@@ -99,6 +125,74 @@ git push --force origin main
 
 
 
+====================================
+Make CoPilt Create Iteration for each files 
+
+git add "9Financial Networking/0 Studying Case Study.txt"
+git commit -m "Add Studying Case Study"
+
+git add "9Financial Networking/1 All Devices Basic Settings.txt"
+git commit -m "Add All Devices Basic Settings"
+
+git add "9Financial Networking/10 DHCP Config.txt"
+git commit -m "Add DHCP Config"
+
+git add "9Financial Networking/11 InterVlan Routing DHCP-Helper.txt"
+git commit -m "Add InterVlan Routing DHCP-Helper"
+
+git add "9Financial Networking/12 telephony-service .txt"
+git commit -m "Add telephony-service"
+
+git add "9Financial Networking/13 Standard ACL For SSH.txt"
+git commit -m "Add Standard ACL For SSH"
+
+git add "9Financial Networking/14 NAT & PAT.txt"
+git commit -m "Add NAT & PAT"
+
+git add "9Financial Networking/15 IPsec Tunnel VPN.txt"
+git commit -m "Add IPsec Tunnel VPN"
+
+git add "9Financial Networking/2 Router+MLS Basic Commands & SSH.txt"
+git commit -m "Add Router+MLS Basic Commands & SSH"
+
+git add "9Financial Networking/3 Config VTP.txt"
+git commit -m "Add Config VTP"
+
+git add "9Financial Networking/3 Voice & Data VLANs.txt"
+git commit -m "Add Voice & Data VLANs"
+
+git add "9Financial Networking/4 MLSes.txt"
+git commit -m "Add MLSes"
+
+git add "9Financial Networking/5 ServerSide Security Config.txt"
+git commit -m "Add ServerSide Security Config"
+
+git add "9Financial Networking/7 HQ Subnetting & IPs.png"
+git commit -m "Add HQ Subnetting & IPs"
+
+git add "9Financial Networking/7 RouterToMLS Subnetting&IPs.png"
+git commit -m "Add RouterToMLS Subnetting&IPs"
+
+git add "9Financial Networking/7 ServerSide Subnetting&IPs.png"
+git commit -m "Add ServerSide Subnetting&IPs"
+
+git add "9Financial Networking/7Subnetting & IP addresses.txt"
+git commit -m "Add Subnetting & IP addresses"
+
+git add "9Financial Networking/8 HSRP.txt"
+git commit -m "Add HSRP"
+
+git add "9Financial Networking/9 Routing Protocols.txt"
+git commit -m "Add Routing Protocols"
+
+git add "9Financial Networking/Config.png"
+git commit -m "Add Config"
+
+git add "9Financial Networking/Financial System Networking.mhtml"
+git commit -m "Add Financial System Networking"
+
+git add "9Financial Networking/Finanical Network Project.pkt"
+git commit -m "Add Financial Network Project"
 
 
 
