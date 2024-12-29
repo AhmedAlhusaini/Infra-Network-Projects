@@ -1,0 +1,134 @@
+In MLSes
+============
+
+do sh ip ospf ne 
+
+
+int vlan 10
+ip ospf 1 area 0
+
+int vlan 20
+ip ospf 1 area 0
+
+int vlan 30
+ip ospf 1 area 0
+
+int vlan 40
+ip ospf 1 area 0
+
+int vlan 50
+ip ospf 1 area 0
+
+int gig1/0/1 
+ip ospf 1 area 0
+
+do wr
+
+
+
+In HQ Router
+==================
+
+int ra gig0/0-1 
+ip ospf 1 area 0
+
+int se0/0/0 
+ip ospf 1 area 0
+int se0/0/1
+ip ospf 1 area 0
+do wr
+
+
+
+do sh ip ospf ne 
+
+
+
+
+
+ANother Approach 
+*********************
+Do Network Summarize then addvertise 
+
+this to aviod advertise many network or interfaces 
+
+In MLS1
+===================
+Enable Ip ruting 
+router ospf 1 
+router-id 1.1.1.1
+
+network 10.10.10.0 0.0.0.255 area 0
+network 192.168.21.16 0.0.0.3 area 0
+network 192.168.20.0 0.0.0.255 area 0
+do wr
+
+
+In MLS2 
+======================
+Enable Ip ruting 
+router ospf 1 
+router-id 2.2.2.2
+network 10.10.10.0 0.0.0.255 area 0
+network 192.168.20.0 0.0.0.255 area 0
+network 19.168.21.20 0.0.0.3 area 0
+do wr
+
+
+
+
+In VoIP Router 
+=================
+router ospf 1 
+router-id 3.3.3.3
+net 10.10.10.0 0.0.0.255 area 0
+
+
+
+In HQ Router 
+=================
+router ospf 1 
+router-id 4.4.4.4
+net 192.168.21.16 0.0.0.3 area 0
+net 192.168.21.20 0.0.0.3 area 0
+net 190.200.100.0 0.0.0.3 area 0
+net 190.200.100.4 0.0.0.3 area 0
+
+do wr
+
+
+
+In SafariCom ISP Router 
+======================
+router ospf 1 
+router-id 5.5.5.5
+net 190.200.100.0 0.0.0.3 area 0
+net 190.200.100.8 0.0.0.3 area 0
+
+do wr
+
+
+In JTL ISP Router 
+======================
+router ospf 1 
+router-id 6.6.6.6
+net 190.200.100.4 0.0.0.3 area 0
+net 190.200.100.12 0.0.0.3 area 0
+
+do wr
+
+
+
+In Server Side Router 
+===================
+
+router ospf 1 
+router-id 7.7.7.7
+net 190.200.100.12 0.0.0.3 area 0
+net 192.168.21.0 0.0.0.15 area 0
+
+do wr
+
+
+
+do sh ip ospf ne 
