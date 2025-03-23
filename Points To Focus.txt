@@ -1,5 +1,17 @@
 Packet Tracer - Samples 
-Packet Tracer - Itself as a software
+Packet Tracer - Itself is a software
 IPsec VPN Tunnel 
-VoIP-IP
+VoIP-IP  IP - Phone
 Camera Systems 
+Certificate 
+Domain Registry - DNS
+USE AI To Generate Extra Use Cases 
+Firewalls ( Inside , outside and DMZ )
+Wireless controller (  WLX 2504 )
+Type of Devices and brands ( managed or configured ) 
+Bandwidth Calculations & Features like ( EitherChannel , ..)
+STP PortFast & BPDUguard
+ACL & Routing Protocols 
+When To Config DHCP on Router Vs Dedicated AD Server ==> What are the real settings / use cases 
+
+
