@@ -1,0 +1,177 @@
+1.Topology :
+	Access Layer 
+	Distributed Layer 
+	Core Router 
+	Wireless Points 
+	ISP Router 
+
+
+2.Analyze Given Network Addresses ===> Subnetting 
+	#Check Subnetting 
+		@How Many Subnets 
+		@How Many Networks
+		@Determine N Part Vs H Part
+	# How Many Departments  
+	# Each Department Range , First & Final & BroadCast 
+
+Then Start with Determining ===> Why ? --> Scalable Design
+	 @Trunk 
+	 @Acccess
+	 @Dynamic Desirable Ports Mode 
+
+
+Then Design Vlans:
+		Which Layer --> Access or Distributed 
+		Which Switch --> All In Each Switch or at each switch create one vlan 
+
+3. Determine where services ( different services will be enabled ) 
+like DHCP on router and so on.
+	in router / sw => services ? 
+	#set / determine required paramenters like domain name , ..
+
+
+
+
+
+Let's Configure
+=============================
+0. Basic Config:
+	no ip domain-lookup
+	banner motd $--$
+	hostname sdsd
+	cdp run ==> show cdp neighbors
+
+1. Will Follow Manuall Or Dynamic Config 
+	Access Layer --> All Vlans ( VTP or Manuall ) 
+	Distributed Layer --> All Vlans ( VTP or Manuall ) 
+
+
+1.1 Activate VTP at each SW
+	must int -> trunk 
+	must client & Server
+	in case of failour : Switch# delete flash:vlan.dat
+			     Switch# reload
+				or 
+				Switch(config)# vtp mode transparent
+
+ 
+
+1.2 Vlan10 :HR , Vlan20 : Sales , Vlan30:EnterpriseTeam , Vlan40: PSTeam  Vlan60:PMsTeam Vlan 90 Datastores
+
+----------------At this point -----------
+
+A) Test each machine using static manuall ip reach each other 
+B) now you have each vlan tack to each other , we need vlan 10 talk to vlan  40 
+C) so we need gateway !!!!!! (lec 23) don't forget to enable ip routing	
+	#Enable Trunk Int -> <-
+	# Aviod Different GW ( 10.20.20.1 , 10.10.10.1 ) so we need HSRP over vlan ints
+		*Int Vlan10 Int Vlan20 ....etc
+D) Sh which port trunck and access with allowed Vlans
+
+	sh int trunk 
+	sh int st 
+================================================
+
+Distributed Layer
+	ip routing 
+	Gateway for each vlan 
+	HSRP 
+	sh standby br
+	******************
+	Each int vlan (10,...) -> ip helper address 
+	enable at each enable ospf -> ip ospf 1 area0
+	********
+	Don't forget to enable HSRP
+ 		R(config)# interface g0/0                 >>>>> local subnet interface 
+     		R(config)# standby version 2              >>>>> HSRP v1 & v2 are not compatible 
+     		R(config-if)# standby 1 ip 172.16.0.254   >>>>> enable group # and HSRP ipv4 || & ste the virtual-IP address
+     		R(config-if)# standby 1 priority 200      >>>>> default priority 100 
+                                               		  >>>>> Active router is (1) Highest priority (2) Highest IP address     
+     		R(config-if)# standby 1 preempt           >>>>> if active router down and went up again to be elected back as the active  
+
+
+===============MLS With Router==================
+	For Each MLS-> 
+		The link between them -> set ip ( 10.50.50.1 10.50.50.2 )
+		enable OSPF for sharing network
+		The linke between them -> set ip ( 10.60.60.1 10.60.60.2 )
+		enable ospf
+		******************
+		Stop to validate sh ip route
+	
+
+===============Core Router ======
+
+	DHCP 
+		start with : service dhcp 
+		CoreRouter(config)# ip dhcp pool VLAN10
+		CoreRouter(dhcp-config)# network 10.10.10.0 255.255.255.0
+		CoreRouter(dhcp-config)# default-router 10.10.10.254
+		CoreRouter(dhcp-config)# dns-server 8.8.8.8 8.8.4.4
+		CoreRouter(dhcp-config)# domain-name vlan10.com ( domain name for each pool ) 
+		Router(config)# ip dhcp excluded-address 10.10.10.1 
+		Router(config)# ip dhcp excluded-address 10.10.10.2
+		Router(config)# ip dhcp excluded-address 10.10.10.254
+		Router# show ip dhcp pool
+		show ip dhcp server statistics
+
+
+Then On MLS Switch add helper For Each Vlan:
+	MLS1:
+
+		interface vlan 10
+		ip helper-address 10.50.50.1
+	MLS2:
+		interface vlan 10
+		ip helper-address 10.60.60.1
+************************************************************NATING***
+
+On Router int --> 
+	Determine which port will be inside and outside 
+		Set Which port in router Will be inside 
+			          R(config)# interface g0/0                                 
+         			 R(config-if)# ip nat inside 
+		Set Which port in router Will be Outside
+				R(config)# interface g0/0                                 
+         			 R(config-if)# ip nat outside
+	
+	For Static : ip nat inside source static 10.1.1.1 200.1.1.1
+			
+	For Public : Determine Access List For SUbnets ( which subnet will be go public , i mean set range of ip that will go public )
+			Then you need ; make public is vissable from MLSs
+				MLS1; ip route 0.0.0.0 0.0.0.0 fa0/4
+				MLS2; ip route 0.0.0.0 0.0.0.0 fa0/1
+enable ip nat inside
+
+
+
+
+===============================Router Privare To Router Publish ISP ========================================
+
+
+ip nat inside source list 2 interface g0/1 overload
+access-list 2 permit 10.20.20.0 0.0.0.255
+access-list 2 permit 10.10.10.0 0.0.0.255
+
+
+=================================BGB=========================================
+
+
+==========================Optional ACL =================
+	#Standard Vs Extended 
+	# Numbered Vs Named 
+
+Configure DHCP Snooping on Basic Switches
+	SW1(config)# ip dhcp snooping 
+	SW1(config)# ip dhcp snooping vlan 10
+	SW1(config)# ip dhcp snooping vlan 20
+	SW1(config)# ip dhcp snooping vlan 30
+	SW1(config)# ip dhcp snooping vlan 40
+	SW1(config)# no ip dhcp snooping information option ?
+	SW1(config)# int ra f0/3-4
+	SW1(config)# ip dhcp snooping trust
+
+
+
+	
+	
