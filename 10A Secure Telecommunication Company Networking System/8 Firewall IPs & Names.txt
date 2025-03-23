@@ -1,0 +1,44 @@
+int gig1/1
+no sh
+nameif INSIDE
+security-level 100 
+##(the most trusted interface )
+ip add 10.30.30.1 255.255.255.252
+ex 
+int gig1/2
+no sh
+nameif DMZ
+security-level 70 
+##( Partially Trusted ; range from 1 : 99 )
+Ip add 10.10.10.1 255.255.255.240
+ex 
+
+int gig1/3
+no sh
+nameif OUTSIDE
+security-level 0 
+##( NOT Trusted ; The Lowest 0 )
+Ip add 197.200.100.1 255.255.255.252
+ex 
+do wr
+
+
+=======================================
+
+Inside - Firewall To MLS
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+int gig1/0/1
+no sh 
+no switchport 
+ip add 10.30.30.2 255.255.255.252
+
+
+DMZ - Firewall To Switch
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+AD Server 
+10.10.10.5 
+255.255.255.240
+10.10.10.1
+10.10.10.5 

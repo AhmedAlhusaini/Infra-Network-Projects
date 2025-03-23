@@ -1,0 +1,34 @@
+-- VoIP is not connected here in case study to firewall , so we add MLS
+
+-- Some Devices are not the same in real world , we keep the same concepts with those aviable in packet tracer
+
+-- Here We follow in vlan different approach , at least it is the first time to me is to configure Vlans based on way of connections not the departments.  I mean LAN , WLAN , ..etc 
+
+-- When configuring a firewall in network setups like Packet Tracer, the terms "inside," "outside," and "DMZ" refer to security zones, and each serves a specific purpose in maintaining network security.
+Here's a breakdown:
+
+Inside Zone:
+
+This is the most trusted zone, typically representing the internal network of an organization (e.g., LAN).
+
+Devices in this zone, such as employee workstations, are trusted and have unrestricted access to internal resources.
+
+Traffic moving from the inside zone to other zones (e.g., outside) is often allowed with minimal restrictions.
+
+Outside Zone:
+
+This is the untrusted zone, representing the public internet or external networks.
+
+Traffic from this zone to the inside zone is highly restricted, requiring strict policies to protect internal systems.
+
+Firewalls scrutinize incoming traffic from the outside zone for potential threats.
+
+DMZ (Demilitarized Zone):
+
+This is a semi-trusted zone, often hosting public-facing services such as web servers, email servers, or DNS servers.
+
+The DMZ acts as a buffer zone between the trusted internal network and the untrusted external network.
+
+It allows external users (e.g., customers or clients) to access these services without directly exposing the internal network.
+
+Traffic between the DMZ and the inside zone is restricted and closely monitored.

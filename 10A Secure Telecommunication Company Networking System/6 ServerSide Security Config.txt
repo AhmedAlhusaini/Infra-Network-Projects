@@ -1,0 +1,27 @@
+int ra fa0/2-5
+switchport mode access 
+switchport mode vlan 60
+
+***
+switchport port-security violation shutdown  
+switchport port-security mac-address sticky 
+switchport port-security max 1
+
+*********New APplied fetaure for me 
+
+int ra fa0/6-24 , gig0/1-2
+switchport mode access 
+switchport access vlan 99 
+sh
+ex
+do wr
+
+
+
+
+Do forget to reload then 
+
+sh port-sec
+
+
+

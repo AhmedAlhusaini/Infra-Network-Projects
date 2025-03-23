@@ -1,0 +1,77 @@
+int ra fa0/1-2
+channel-group 1 mode active 
+
+
+Then STP Will deal with this new group as one port. so you will have to enable port - channel , port mode , ...etc
+
+int port-channel 1
+switchport mode trunk 
+
+
+Then Config BPDU & PortFast for the rest 
+int ra fa0/3-24 
+spanning-tree portfast
+spanning-tree bpduguard enable 
+
+do wr
+do sh ru 
+
+
+Repeat This for each group / Access Switch
+************************************************
+
+int ra fa0/1-2
+channel-group 2 mode active 
+ex
+int port-channel 2
+switchport mode trunk 
+ex
+int ra fa0/3-24 
+spanning-tree portfast
+spanning-tree bpduguard enable 
+
+do wr
+do sh ru 
+
+
+int ra fa0/1-2
+channel-group 3 mode active 
+int port-channel 3
+switchport mode trunk 
+int ra fa0/3-24 
+spanning-tree portfast
+spanning-tree bpduguard enable 
+
+do wr
+
+
+
+Repeat This at MLS ports
+************************************************
+
+int ra gig1/0/4-5
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk
+ do wr
+
+
+int ra gig1/0/6-7
+channel-group 2 mode active 
+int port-channel 2
+switchport mode trunk
+do wr
+
+
+int ra gig1/0/8-9
+channel-group 3 mode active 
+int port-channel 3
+switchport mode trunk
+ do wr
+
+
+
+
+Also Voice Gateway should be trunk either as vlan of data and voice.
+
+

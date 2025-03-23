@@ -1,0 +1,41 @@
+Access Department Switches 
+*********************************
+int ra fa0/3-11
+switchport mode access 
+switchport access Vlan 50
+switchport voice Vlan 101
+ex
+do wr
+
+int fa0/12
+switchport mode access 
+switchport access Vlan 60
+ex
+do wr
+
+int ra fa0/13-23
+switchport mode access 
+switchport access Vlan 50
+switchport voice Vlan 101
+ex
+do wr
+
+int fa0/24
+switchport mode access 
+switchport access Vlan 60
+ex
+do wr
+
+
+Core MLS Switch 
+********************************
+
+Here you must config WLC 2504 in same Vlan of Data , same for voice 
+
+RCMC-CORE-MLS(config)#int gig1/0/3
+RCMC-CORE-MLS(config-if)#switchport mode access 
+RCMC-CORE-MLS(config-if)#switchport access vlan 60
+RCMC-CORE-MLS(config-if)#do wr
+
+
+

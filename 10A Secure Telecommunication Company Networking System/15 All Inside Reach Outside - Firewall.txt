@@ -1,0 +1,11 @@
+access-list INSIDE-OUTSIDE permit icmp any any 
+access-list INSIDE-OUTSIDE permit  tcp any any eq 80 
+access-list INSIDE-OUTSIDE permit  tcp any any eq 8080
+access-list INSIDE-OUTSIDE permit  tcp any any eq 443
+access-list INSIDE-OUTSIDE permit  tcp any any eq 8443
+access-list INSIDE-OUTSIDE permit  tcp any any eq 8443
+
+access-group INSIDE-OUTSIDE in interface OUTSIDE
+
+ex
+wr mem 

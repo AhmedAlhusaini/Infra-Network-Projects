@@ -1,0 +1,29 @@
+Add Static IP 
+Then Test Ping From Your PC to WLC Controll 
+
+then Open Desktop ==> Web Brower 
+
+Type WLC IP ==> Then Start config :
+username : cisco
+pass:Cisco@123
+
+
+Then Configure :
+System Name : GISOverflow 
+Managmenet IP : 10.20.0.10
+Subnet Mask : 255.255.255.0
+Default Gateway : 10.20.0.1
+
+
+Then Config : Employee Network 
+TELECO-EMP
+Cisco@123
+
+
+Then Create Another WLAN ; 
+TELECO GUESTS --> TELECO GUEST --> Apply 
+Then COnfig Pass:
+Guest@123
+
+
+Then Check availability and connect mobiles and laptops

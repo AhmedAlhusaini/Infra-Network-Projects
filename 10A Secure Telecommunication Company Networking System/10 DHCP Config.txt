@@ -1,0 +1,23 @@
+We will create only two pools :
+1. For LAN = Wired Users 
+	Excluding Gateway IP and Broadcast IP
+	may be upon need to exclude others 
+
+2. For WLAN = Wireless Users 
+
+This is done on the server not in the Router
+**********************************************
+
+Under normal circumstances, we have an access point. Each access point is assigned to a specific department and configured within a separate VLAN. We then set up the IP helper, ensuring that each end device connected to the access point receives an IP address from the available pool without any issues.
+
+Now, what if we only have one VLAN for Wi-Fi and need it to span across the entire department? In such cases, a Wireless LAN Controller (WLC) becomes necessary.
+
+So, we config WLC -> Management 
+Then assign 
+WLC IP
+DNS 
+Others 
+
+
+Then In DHCP / AD Server :
+add in Pool Config --> WLC IP

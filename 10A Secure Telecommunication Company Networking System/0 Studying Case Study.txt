@@ -1,0 +1,61 @@
+Always begin with studying case studies, gathering requirements to determine conceptual & Logical design.
+Determine layers of design & technology of each layer.
+
+Also Determine the VLANs, Subnets, physical design, servers & Network components specs & types
+
+IPs, CIDR , Private & Public IPs  => IP Ranges & number of Users
+
+What kind of services that will be available in this network infrastructure 
+Categorize VLANs / Services 
+ACL over designs 
+================================
+
+Site Location: The Egyptian capital city, Cairo, and has occupied the fourth and fifth floors of Pharaoh’s Mega Plaza
+
+4th Floor Departments / Vlans : 
+	*  HR and Finance(40)
+	*  Product Brand and Marketing(45)
+	*  Admin and Corporate departments(35)
+
+5th Floor Departments / Vlans :
+	* IT Network & Support(45), 
+	* Software Engineering(36), and 
+	* Cloud Engineering departments(32).
+
+
+Network System Components :
+	* SeaCom ISP
+	* one 5525-X Cisco ASA Firewall
+	* one Catalyst 3850 48-Port Switch
+	* 3 Catalyst 2960 48-Port Switches
+	* 2 Catalyst 2960 24-Port Switches
+	* 1 Cisco Voice Gateway, 
+	* 1 Cisco WLC, and 
+	* 6 LAPs
+	* Cisco Voice Gateways to provide VoIP or telephony services in the network and 
+	* Cisco WLC to provide central management for Aps.
+
+
+Servers System Compoents :
+	*  Windows Server 2022 to manage the Active Directory and Radius Server, the server is responsible for DNS services and for allocating IPv4 addresses to the DHCP hosts in the network.
+	*  Hosted ERP system, 
+	*  Email server, and 
+	*  File server.
+
+Cloud System Compoents ( AZure ) :
+	*  VM, blob storage, networking, and security among others to ensure seamless business continuity. The proposed network should allow the team access to these resources. 
+
+
+
+########################################################
+Due to security requirements, it has been decided that all LAN, WLAN, and VoIP users will be on a separate network segment within the same local area network.  That means Vlans will combine similar users via connection methods not only vlan numbers 
+########################################################
+The company will be using the following IP address: 
+	10.20.0.0/16 for WLAN, 
+	192.168.10.0/24 for LAN, 
+	172.16.10.0/24 for Voice, 
+	10.10.10.0/28 for DMZ and 
+	197.200.100.0 for public addresses.
+
+
+########################################################

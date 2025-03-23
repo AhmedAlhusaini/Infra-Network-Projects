@@ -1,0 +1,86 @@
+MLS
+#####################################
+How many network we will advertise ?
+Two For LAN & WLAN + the one between MLS & Firewall
+
+Before you config you must enable :
+IP routing 
+
+then the port in front of firewall should not be switch port 
+int gig1/0/1
+no switchport 
+ip add 10.30.30.2 255.255.255.252
+
+
+
+Then , 
+
+We have two approaches :
+* OSPF over whole router 
+* OSPF Over Interface
+
+
+
+
+
+OSPF over whole router 
+********
+
+router ospf 35
+router-id 1.1.2.2
+network 192.168.10.0 0.0.0.255 area 0
+network 10.20.0.0 0.0.255.255 area 0
+network 10.30.30.0 0.0.0.3 area 0
+
+ex
+do wr
+
+OSPF Over Interface
+*****************
+int vlan 50
+ip ospf 35 area 0
+
+int vlan 60
+ip ospf 35 area 0
+
+int gig1/0/1
+ip ospf 35 area 0
+ex
+do wr
+
+
+Firewall
+#####################################
+we will advertise 3 network ( in , out & DMZ )
+
+router ospf 35
+router-id 1.1.3.3
+network 10.30.30.0 255.255.255.252 area 0
+network 10.10.10.0 255.255.255.240 area 0
+network 197.200.100.0 255.255.255.252 area 0
+ex
+wr mem
+
+##as you see here in firewall . we don't use wildcard mask but normal subnet mask 
+
+
+
+SEACOM ISP-ROUTER
+####################################
+
+router ospf 35
+router-id 1.1.4.4
+network 20.20.20.0 0.0.0.3 area 0
+network 197.200.100.0 0.0.0.3 area 0
+ex
+do wr
+
+
+AWS CLOUD
+####################################
+router ospf 35
+router-id 1.1.5.5
+network 20.20.20.0 0.0.0.3 area 0
+network 30.30.30.0 0.255.255.255 area 0
+ex
+do wr

@@ -1,0 +1,185 @@
+Basic Settings  - Summary
+***************************************************************
+en 
+conf t 
+service password-encryption
+hostname DMZ-SW
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+Before config SHH ---> Hostname Must Be Configured --> The name for the keys will be: DeviceName.cisco.com
+
+ip domain name cisco.com 
+username ahmed pass cisco
+crypto key generate rsa 
+1024 
+ip ssh version 2  
+
+line vty 0 4
+login local
+transport input ssh
+exit 
+do wr
+
+
+
+
+NOTES & Other basic Settings
+**************************
+login: Only requires a password.
+login local: Requires both a username and password.
+
+enable pass cisco : The password is stored in the configuration file using a weak, reversible encryption.
+when show run : enable password 7 0235415A4A
+
+enable secret cisco : The password is stored using a strong, non-reversible encryption (MD5 hash).
+when show run : enable secret 5 $1$mERr$BdQk4NYhPzBtJ1A0n2giK0
+
+
+clock timezone GMT 0
+For Cairo 
+================
+clock timezone GMT 2
+clock summer-time EET recurring
+For Saudi Arabia (Arabia Standard Time - AST):
+==============
+clock timezone GMT 3
+clock summer-time AST recurring
+ntp server [ntp-server-ip]
+logging buffered 4096
+logging console warnings
+snmp-server community [community-string] RO
+logging host [syslog-server-ip]
+access-list 10 permit [your-allowed-ip-range]
+
+
+################################Basic Settings############################
+
+These Basic ConFigs are excluded from : 
+SeaCom , Azure => as these resources are managed by their companies 
+
+## We Will Start with Firewall 
+
+		@@ Contain blank Password by default - Just Press Enter 
+Then Try Read & Show Version --> show version 
+Then Config
+*********************
+Conf t 
+hostname PERIMETER-FW
+enable pass cisco 
+username cisco pass cisco
+domain-name RCMC.KSA.GOV
+wr mem  
+*********************
+
+
+Others Devices ( Core , Router & Access Switches )
+============
+en 
+conf t 
+service password-encryption
+hostname DMZ-SW
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+en 
+conf t 
+service password-encryption
+hostname RCMC-ACCESS-SW-SITE1
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+en 
+conf t 
+service password-encryption
+hostname RCMC-ACCESS-SW-SITE2
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+
+en 
+conf t 
+service password-encryption
+hostname RCMC-ACCESS-SW-SITE3
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+
+en 
+conf t 
+service password-encryption
+hostname RCMC-CORE-MLS
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+en 
+conf t 
+service password-encryption
+hostname RCMC-VOICE-GATEWAY
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+line console 0
+pass cisco
+login local
+exit
+do wr 
+
+

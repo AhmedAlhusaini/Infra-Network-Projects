@@ -1,0 +1,14 @@
+MLS 
+===============================
+int vlan 50
+no sh 
+ip add 192.168.10.1 255.255.255.0
+ip helper-address 10.10.10.5
+ex
+
+int vlan 60
+no sh 
+ip add 10.20.0.1 255.255.0.0
+ip helper-address 10.10.10.5
+ex
+do wr
