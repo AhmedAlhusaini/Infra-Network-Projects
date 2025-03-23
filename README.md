@@ -10,7 +10,20 @@ This repository showcases a collection of networking projects completed througho
 
 These projects span a wide range of topics, from foundational concepts to advanced infrastructure strategies, providing step-by-step labs and exercises. Each project is meticulously documented, requiring no additional setup—just dive in, learn, enhance your skills, and share your progress with me at [ahmedalhussainy@gisoverflow.com](mailto:ahmedalhussainy@gisoverflow.com) or [ahmdlhoseny@gmail.com](mailto:ahmdlhoseny@gmail.com).
 
+## ℹ️ Disclaimer
+
 This repository also sometimes touches on Esri ArcGIS Enterprise system design and infrastructure recommendations, providing a comprehensive understanding of both networking and GIS infrastructure.
+
+### **Don't Feel Overwhelmed! Use the SQ4R Study Strategy 📖**
+
+To effectively navigate through the study materials, I recommend using the **SQ4R** method. This structured approach enhances comprehension and retention:
+
+1. **S – Survey**: Quickly scan through the material to get an overview.
+2. **Q – Question**: Formulate questions about the topics you are about to study.
+3. **R – Read**: Read actively while looking for answers to your questions.
+4. **R – Recite**: Summarize what you learned in your own words.
+5. **R – Review**: Go over the material periodically to reinforce your learning.
+6. **R – Reflect**: Connect the new knowledge with what you already know.
 
 ## DEPI Scholarship Recognition
 
@@ -43,3 +56,14 @@ at the graduation ceremony held at **Creativa Innovation Hubs**, Cairo Universit
 I’d like to extend my heartfelt thanks to my instructor, **Mohab Alaa**, for his guidance and support, and to my DEPI colleagues for the unforgettable memories we created together.
 
 ![alt text](./Assets/Graduation%20Project%20Team.jpeg)
+
+## ☕ Support My Work
+
+If you found this helpful, consider Supporting ☕ My Mission – Empowering Careers, Next Generation Infrasturecture , GIS Innovation , GIS DevOps & Cloud Learning 🚀
+
+![Buy Me A Coffe](./Assets/buyme.gif)
+
+- [☕ Buy Me a Coffee](https://buymeacoffee.com/ahmedalhusainy)
+- 📺 [Subscribe to My YouTube Channel](https://www.youtube.com/@GISOverflow)
+- 💻 [Follow My GitHub](https://github.com/AhmedAlhusaini)
+- 💻 [Book A Meeting To Support You](https://tidycal.com/ahmedtarekalhusainy)
