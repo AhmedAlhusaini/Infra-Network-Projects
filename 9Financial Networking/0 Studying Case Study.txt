@@ -1,3 +1,6 @@
 Always begin with studying case study , gathering requirments determine conceptual & Logical design.
-Determine layers of design 
-technology of each layer.
+Determine layers of design & technology of each layer.
+
+Also Determine the Vlans , Subnets , physical design , servers & Network components specs & types
+
+IPs , CIDR , Private & Public IPs  
