@@ -1,0 +1,54 @@
+MLSW1
+=================== 
+router ospf 1
+router-id 1.1.1.1
+ network 192.168.10.0 0.0.0.255 area 0  
+ network 172.16.0.0 0.0.255.255 area 0  
+ network 10.20.0.0 0.0.255.255 area 0  
+ network 10.11.11.32 0.0.0.31 area 0  
+ network 10.2.2.0 0.0.0.3 area 0  
+ network 10.2.2.4 0.0.0.3 area 0  
+
+MLSW2
+=================== 
+router ospf 1
+router-id 2.2.2.2
+ network 192.168.10.0 0.0.0.255 area 0  
+ network 172.16.0.0 0.0.255.255 area 0  
+ network 10.20.0.0 0.0.255.255 area 0  
+ network 10.11.11.32 0.0.0.31 area 0 
+ 
+ network 10.2.2.8 0.0.0.3 area 0  
+ network 10.2.2.12 0.0.0.3 area 0  
+
+
+SEACOM ISP
+====
+
+router ospf 1
+router-id 3.3.3.3
+ network 105.100.50.0 0.0.0.3 area 0  
+ network 105.100.50.4 0.0.0.3 area 0 
+ network 20.20.20.0 0.0.0.3 area 0 
+DO WR
+ 
+SAFARICOM-ISP
+============
+
+router ospf 1
+router-id 4.4.4.4
+ network 197.200.100.0 0.0.0.3 area 0  
+ network 197.200.100.4 0.0.0.3 area 0 
+ network 30.30.30.0 0.0.0.3 area 0 
+DO WR
+
+
+INTERNET/CLOUD
+============
+
+router ospf 1
+router-id 5.5.5.5
+ network 8.0.0.0 0.255.255.255 area 0  
+ network 20.20.20.0 0.0.0.3 area 0 
+ network 30.30.30.0 0.0.0.3 area 0 
+DO WR
