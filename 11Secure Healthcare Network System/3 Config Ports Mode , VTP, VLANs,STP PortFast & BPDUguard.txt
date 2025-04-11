@@ -1,0 +1,226 @@
+Firstly the differences between VTP domain and SSH IP domain on Cisco devices:
+==========
+
+Key Differences
+Scope:
+
+	VTP Domain: Manages VLAN configurations across multiple switches.
+
+	SSH IP Domain: Used for DNS resolution and secure remote access.
+
+Functionality:
+
+	VTP Domain: Ensures VLAN consistency across switches.
+
+	SSH IP Domain: Provides a domain name for the device, aiding in DNS lookups and secure remote management.
+
+
+***************************
+very important here is that vtp doest work with port negiotation , i mean you must make all pors on each device where traffic will be sent to trunk mode
+
+I recommend using VTP (VLAN Trunking Protocol) to share VLAN configurations across switches in your network. Before doing this, it is crucial to configure all ports through which VLAN traffic will be sent to trunk mode.
+
+It's important to note that VTP does not work with port negotiation. This means you must manually set all relevant ports on each device to trunk mode to ensure proper traffic flow.
+
+
+
+
+Based On Case Study :
+			Port 1-2 --> For MLS 
+			port 3-15 --> LAN / Wired Devices 
+			port 16 - 20 --> ArcGIS Enterprise Vlans ( App , webserver , data , database & serverside )
+			Port 21-24 --> Access Points / WLAN 
+
+
+
+Access Switches
+========================
+
+int ra fa0/1-2
+switchport mode trun
+
+int ra fa0/3-15
+switchport mode access
+
+
+int ra fa0/16-20
+switchport mode access 
+
+int ra fa0/21-24
+switchport mode access
+do wr
+
+
+int ra fa0/3-24
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+MLS Switches 
+===========
+
+int ra fa0/2-24
+switchport mode trun
+do wr
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+WLC Switches
+============
+int ra fa0/1-3
+switchport mode trunk
+do wr
+int ra fa0/4-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+**************************
+
+vlan 50
+name WLAN
+vlan 10
+name LAN
+vlan 99
+name VoIP
+do wr
+
+vlan 20
+name Arc_serverside
+vlan 21
+name Arc_apps
+vlan 22
+name Arc_Data
+vlan 23
+name Arc_Database
+vlan 24
+name Arc_webserver
+do wr
+
+
+
+
+*************************
+STG-Web
+---------------
+int fa0/3
+switchport access vlan 24
+do wr
+
+PRD-Web
+---------------
+
+int ra fa0/16-20
+switchport mode access
+int fa0/3
+switchport access vlan 24
+do wr 
+
+
+Access Switches 
+----------------------------
+
+5TH - PHARM/MEDICAL-SW    6TH-PROC-HR-FINA-SW
+
+int ra fa0/3-15
+switchport access vlan 10
+switchport voice vlan 99
+
+int ra fa0/16-20
+switchport access vlan 21
+
+int ra fa0/21-24
+switchport  access vlan 50
+do wr
+
+int ra fa0/3-24
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+
+5TH-RECP\GUEST-SW    7TH-INTERNALADUDIT-SW
+
+int ra fa0/3-15
+switchport access vlan 10
+switchport voice vlan 99
+
+int ra fa0/16-20
+switchport mode access
+switchport access vlan 20
+
+int ra fa0/21-24
+switchport  access vlan 50
+do wr
+
+int ra fa0/3-24
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+6TH-DOC\CONS-SW    7TH-IT TEAM-SW
+
+
+int ra fa0/3-15
+switchport access vlan 10
+switchport voice vlan 99
+
+int ra fa0/16-20
+switchport mode access
+switchport access vlan 22
+
+int ra fa0/21-24
+switchport  access vlan 50
+do wr
+
+int ra fa0/3-24
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+Controller Switche 
+----------------------------
+
+Here is an important note 
+	* WLC & LAP should be same vlan 
+	* Senior Network & AUthroized PC same Vlan 
+	* VoIP should be trunk 
+
+
+
+int ra fa0/4-20
+switchport access vlan 10
+switchport voice vlan 99
+ex
+int ra fa0/21-24
+switchport access vlan 50
+
+
+int ra fa0/4-24
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
