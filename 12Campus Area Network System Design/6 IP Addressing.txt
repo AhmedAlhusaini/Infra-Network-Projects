@@ -1,0 +1,58 @@
+** We have to enable routing first 
+
+HQ
+#########################
+MLS 1
+=========================
+ip routing 
+int gig1/0/1
+no sh 
+no switchport 
+ip add 10.20.20.33 255.255.255.252
+ex
+do wr
+
+MLS 2
+=========================
+
+ip routing 
+ int gig1/0/1
+no sh 
+no switchport 
+ip add 10.20.20.37 255.255.255.252
+ex
+do wr
+
+BR
+##############################
+
+MLS 1
+=========================
+ip routing 
+int gig1/0/8
+no sh 
+no switchport 
+ip add 10.20.20.41 255.255.255.252
+ex
+do wr
+
+
+
+MLS 2
+=========================
+
+ip routing 
+int gig1/0/1
+no sh 
+no switchport 
+ip add 10.20.20.45 255.255.255.252
+ex
+do wr
+
+
+ISPes Router + Internet 
+===============
+I choose to do it through GUI inside each router.
+
+
+
