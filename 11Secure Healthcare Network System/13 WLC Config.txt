@@ -1,0 +1,39 @@
+Add Static IP 
+Then Test Ping From Your PC to WLC Controll 
+
+then Open Desktop ==> Web Brower 
+
+Type WLC IP ==> Then Start config :
+username : cisco
+pass:Cisco@123
+
+
+Then Configure :
+System Name : HQ-WLC
+Managmenet IP : 10.10.0.50
+Subnet Mask : 255.255.0.0
+Default Gateway : 10.10.0.1
+
+
+Then Config : Employee Network 
+WIFI-EMP
+Cisco@123
+
+
+Then Create Another WLAN ; 
+TELECO GUESTS --> GUEST --> Apply 
+Then COnfig Pass:
+Guest@123
+
+Then Create Another WLAN ; 
+Corporate
+Corp@123
+
+
+Then Create Another WLAN ; 
+ExternalAudit
+aduit@123
+
+
+
+Then Check availability and connect mobiles and laptops
