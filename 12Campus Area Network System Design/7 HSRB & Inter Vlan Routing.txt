@@ -1,0 +1,489 @@
+VLANS
+======
+10   MGT                              active    
+20   LAN                              active    
+30   VoIP                             active
+50   WLAN                             active    Gig1/0/12
+199  Backhole                         active    
+
+   
+40   Arc_apps                         active    
+41   Arc_Datastore                    active    
+42   Arc_Database                     active    
+43   Arc_webserver                    active    
+44   Arc_serverside                   active 
+   
+
+
+
+Vlans
+-----------------
+1. 30		VoIP: Subnet: 10.1.100.0/24 Gateway: 10.1.100.1
+2. 10		MGT: Subnet: 192.168.10.0/24 Gateway: 192.168.10.1
+3. 20		LAN: Subnet: 172.16.0.0/24 Gateway: 172.16.0.1
+4. 50		WLAN: Subnet: 10.10.0.0/16 Gateway: 10.10.0.1
+ArcGIS Enterprise:
+
+5. 40		App: Subnet: 10.1.10.0/24 Gateway: 10.1.10.1
+6. 41		Data: Subnet: 10.1.20.0/24 Gateway: 10.1.20.1
+7. 42		Database:Subnet: 10.1.30.0/24 Gateway: 10.1.30.1
+8. 43		webserver: Subnet: 10.1.40.0/24 Gateway: 10.1.40.1
+9. 44		serverside : Subnet: 10.1.50.0/24 Gateway: 10.1.50.1
+
+
+HQ
+--------------------------------------------------
+MLS1 
+==========================
+
+int vlan 10
+ip address 192.168.10.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 10  priority 150 
+standby 10 ip 192.168.10.1
+ip ospf 1 area 0
+
+interface vlan 20
+ ip address 172.16.0.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 20  priority 150 
+standby 20 ip 172.16.0.1
+ip ospf 1 area 0
+
+
+int vlan 50
+ip address 10.10.0.2 255.255.0.0 
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 50  priority 150 
+standby 50 ip 10.10.0.1
+ip ospf 1 area 0
+
+
+
+interface vlan 40
+ip address 10.1.10.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 40  priority 150 
+standby 40 ip 10.1.10.1
+ip ospf 1 area 0
+
+interface vlan 41
+ ip address 10.1.20.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 41  priority 150 
+standby 41 ip 10.1.20.1
+ip ospf 1 area 0
+
+interface vlan 42
+ ip address 10.1.30.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 42  priority 150 
+standby 42 ip 10.1.30.1
+ip ospf 1 area 0
+
+interface vlan 43
+ip address 10.1.40.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 43  priority 150 
+standby 43 ip 10.1.40.1
+ip ospf 1 area 0
+
+interface vlan 44
+ ip address 10.1.50.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 44  priority 150 
+standby 44 ip 10.1.50.1
+ip ospf 1 area 0
+
+int vlan 30
+ ip address 10.1.100.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 30  priority 150 
+standby 30 ip 10.1.100.1
+ip ospf 1 area 0
+
+
+
+
+
+MLS2
+==================
+
+
+int vlan 10
+ip address 192.168.10.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 10  priority 100 
+standby 10 ip 192.168.10.1
+ip ospf 1 area 0
+
+interface vlan 20
+ ip address 172.16.0.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 20  priority 100 
+standby 20 ip 172.16.0.1
+ip ospf 1 area 0
+
+
+int vlan 50
+ip address 10.10.0.3 255.255.0.0 
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 50  priority 100 
+standby 50 ip 10.10.0.1
+ip ospf 1 area 0
+
+
+
+interface vlan 40
+ ip address 10.1.10.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 40  priority 100 
+standby 40 ip 10.1.10.1
+ip ospf 1 area 0
+
+interface vlan 41
+ ip address 10.1.20.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 41  priority 100 
+standby 41 ip 10.1.20.1
+ip ospf 1 area 0
+
+interface vlan 42
+ ip address 10.1.30.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 42  priority 100 
+standby 42 ip 10.1.30.1
+ip ospf 1 area 0
+
+interface vlan 43
+ip address 10.1.40.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 43  priority 100 
+standby 43 ip 10.1.40.1
+ip ospf 1 area 0
+
+interface vlan 44
+ ip address 10.1.50.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 44  priority 100 
+standby 44 ip 10.1.50.1
+ip ospf 1 area 0
+
+int vlan 30
+ ip address 10.1.100.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 30  priority 100 
+standby 30 ip 10.1.100.1
+ip ospf 1 area 0
+
+
+
+Incase of any error or duplication 
+==========================
+no int vlan 10
+no int vlan 20
+no int vlan 30
+no int vlan 40
+no int vlan 50
+no int vlan 41
+no int vlan 42
+no int vlan 43
+no int vlan 44
+
+
+Finally 
+========
+Do sh standby brief
+
+
+Interface   Grp  Pri P State    Active          Standby         Virtual IP
+Vl10        10   100   Standby  192.168.10.2    local           192.168.10.1   
+Vl20        20   100   Standby  172.16.0.2      local           172.16.0.1     
+Vl50        50   100   Standby  10.10.0.2       local           10.10.0.1      
+Vl40        40   100   Standby  10.1.10.2       local           10.1.10.1      
+Vl41        41   100   Standby  10.1.20.2       local           10.1.20.1      
+Vl42        42   100   Standby  10.1.30.2       local           10.1.30.1      
+Vl43        43   100   Standby  10.1.40.2       local           10.1.40.1      
+Vl44        44   100   Standby  10.1.50.2       local           10.1.50.1      
+Vl30        30   100   Standby  10.1.100.2      local           10.1.100.1  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+BR
+--------------------------------------------------
+
+Vlans
+-----------------
+
+vlan 60
+name BR-LAN
+vlan 70
+name BR-VoIP
+vlan 90
+name BR-WLAN
+vlan 199
+name Backhole
+
+vlan 80
+name BR-Arc_apps
+vlan 81
+name BR-Arc_Datastore
+vlan 82
+name BR-Arc_Database
+vlan 83
+name BR-Arc_webserver
+vlan 84
+name BR-Arc_serverside
+exit
+
+
+
+1. 70		VoIP: Subnet: 10.1.110.0/24 Gateway: 10.1.110.1
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+NO Managment Vlan Here as requested by CaseStudy 
+2. 10		MGT: Subnet: 192.168.10.0/24 Gateway: 192.168.10.1
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+3. 60		LAN: Subnet: 172.17.0.0/24 Gateway: 172.17.0.1
+4. 90		WLAN: Subnet: 10.11.0.0/16 Gateway: 10.11.0.1
+
+ArcGIS Enterprise:
+
+5. 80		App: Subnet: 10.1.120.0/24 Gateway: 10.1.120.1
+6. 81		Data: Subnet: 10.1.130.0/24 Gateway: 10.1.130.1
+7. 82		Database:Subnet: 10.1.140.0/24 Gateway: 10.1.140.1
+8. 83		webserver: Subnet: 10.1.150.0/24 Gateway: 10.1.150.1
+9. 84		serverside : Subnet: 10.1.160.0/24 Gateway: 10.1.160.1
+
+
+
+MLS1 
+==========================
+
+
+interface vlan 60
+ ip address 172.17.0.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 60  priority 150 
+standby 60 ip 172.17.0.1
+ip ospf 1 area 0
+
+
+int vlan 90
+ip address 10.11.0.2 255.255.0.0 
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 90  priority 150 
+standby 90 ip 10.10.0.1
+ip ospf 1 area 0
+
+int vlan 70
+ ip address 10.1.110.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 70  priority 150 
+standby 70 ip 10.1.110.1
+ip ospf 1 area 0
+
+
+interface vlan 80
+ip address 10.1.120.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 80  priority 150 
+standby 80 ip 10.1.120.1
+ip ospf 1 area 0
+
+interface vlan 81
+ ip address 10.1.130.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 81  priority 150 
+standby 81 ip 10.1.130.1
+ip ospf 1 area 0
+
+interface vlan 82
+ ip address 10.1.140.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 82  priority 150 
+standby 82 ip 10.1.140.1
+ip ospf 1 area 0
+
+interface vlan 83
+ip address 10.1.150.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 83  priority 150 
+standby 83 ip 10.1.150.1
+ip ospf 1 area 0
+
+interface vlan 84
+ ip address 10.1.160.2 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 84  priority 150 
+standby 84 ip 10.1.160.1
+ip ospf 1 area 0
+
+
+
+
+
+
+MLS2
+==================
+
+
+interface vlan 60
+ ip address 172.17.0.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 60  priority 150 
+standby 60 ip 172.17.0.1
+ip ospf 1 area 0
+
+
+int vlan 90
+ip address 10.11.0.3 255.255.0.0 
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 90  priority 150 
+standby 90 ip 10.10.0.1
+ip ospf 1 area 0
+
+
+int vlan 70
+ ip address 10.1.110.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 70  priority 150 
+standby 70 ip 10.1.110.1
+ip ospf 1 area 0
+
+
+
+
+interface vlan 80
+ip address 10.1.120.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 80  priority 150 
+standby 80 ip 10.1.120.1
+ip ospf 1 area 0
+
+interface vlan 81
+ ip address 10.1.130.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 81  priority 150 
+standby 81 ip 10.1.130.1
+ip ospf 1 area 0
+
+interface vlan 82
+ ip address 10.1.140.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 82  priority 150 
+standby 82 ip 10.1.140.1
+ip ospf 1 area 0
+
+interface vlan 83
+ip address 10.1.150.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 83  priority 150 
+standby 83 ip 10.1.150.1
+ip ospf 1 area 0
+
+interface vlan 84
+ ip address 10.1.160.3 255.255.255.0
+ip helper-address 10.20.20.5
+ip helper-address 10.20.20.6
+standby 84  priority 150 
+standby 84 ip 10.1.160.1
+ip ospf 1 area 0
+
+
+Incase of any error or duplication 
+==========================
+no int vlan 60
+no int vlan 70
+no int vlan 80
+no int vlan 81
+no int vlan 82
+no int vlan 83
+no int vlan 84
+no int vlan 84
+no int vlan 90
+
+
+
+Finally 
+========
+Do sh standby brief
+
+
+Interface   Grp  Pri P State    Active          Standby         Virtual IP
+Vl60        60   150   Standby  172.17.0.3      local           172.17.0.1     
+Vl90        90   150   Standby  10.11.0.3       local           10.10.0.1      
+Vl70        70   150   Standby  10.1.110.3      local           10.1.110.1     
+Vl80        80   150   Standby  10.1.120.3      local           10.1.120.1     
+Vl81        81   150   Standby  10.1.130.3      local           10.1.130.1     
+Vl82        82   150   Standby  10.1.140.3      local           10.1.140.1     
+Vl83        83   150   Standby  10.1.150.3      local           10.1.150.1     
+Vl84        84   150   Standby  10.1.160.3      local           10.1.160.1  
+
+
