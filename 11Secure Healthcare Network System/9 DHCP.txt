@@ -1,0 +1,5 @@
+Creating Pools on DHCP Server 10.20.10.10
+
+**Please Note : WLC IP for WAN and please note this must be in same subnet 
+
+10.10.0.50
