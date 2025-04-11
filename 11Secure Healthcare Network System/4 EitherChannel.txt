@@ -1,0 +1,21 @@
+Then STP Will deal with this new group as one port. so you will have to enable port - channel , port mode , ...etc
+
+int ra fa0/2-24
+switchport mode trun
+do wr
+
+
+
+int ra fa0/11-15
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk 
+ex
+do wr
+
+
+
+
+Also Voice Gateway should be trunk either as vlan of data and voice.
+
+
