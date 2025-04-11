@@ -1,0 +1,46 @@
+Then STP will deal with this new group as one port. so you will have to enable port - channel , port mode , etc
+
+HQ
+---------------
+MLSw1
+======
+int ra gig1/0/9-11
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk 
+ex
+do wr
+
+MLSw2
+======
+int ra gig1/0/8-10
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk 
+ex
+do wr
+
+BR
+----------------
+
+MLSw1
+======
+int ra gig1/0/6-7
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk 
+ex
+do wr
+
+MLSw2
+======
+int ra gig1/0/7-8
+channel-group 1 mode active 
+int port-channel 1
+switchport mode trunk 
+ex
+do wr
+
+Also Voice Gateway should be trunk either as vlan of data and voice.
+
+
