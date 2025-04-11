@@ -1,0 +1,49 @@
+** We have to enable routing first in MLSWes
+
+
+MLS 1
+=========================
+ip routing 
+int gig1/0/1
+no sh 
+no switchport 
+ip add 10.2.2.1 255.255.255.252
+ex
+do wr
+
+int gig1/0/2
+no sh 
+no switchport 
+ip add 10.2.2.9 255.255.255.252
+ex
+do wr
+
+
+MLS 2
+=========================
+
+ip routing 
+ int gig1/0/1
+no sh 
+no switchport 
+ip add 10.2.2.5 255.255.255.252
+ex
+do wr
+
+
+int gig1/0/2
+no sh 
+no switchport 
+ip add 10.2.2.13 255.255.255.252
+ex
+do wr
+
+
+
+
+ISPes Router + Internet 
+===============
+I choose to do it through GUI inside each router.
+
+
+
