@@ -271,9 +271,57 @@ Telephony Services
 (config)# pass cisco
 (config)# login
 (config)# exit 
+
+en 
+conf t 
+service password-encryption
+hostname DMZ-SW
+no ip domain-lookup
+banner motd $ No Unauthorized Access THIS PUNISHABLE BY LAW !! $
+cdp run
+enable secret cisco
+IP domain-name RCMC.KSA.GOV 
+username cisco pass cisco
+#Before config SHH ---> Hostname Must Be Configured --> The name for the keys will be: DeviceName.cisco.com Then Config Username and password
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2 
+#if you want to add access list to allow only vlan to have this access and deny others
+access-list 2 permit 192.168.10.0 0.0.0.255
+access-list 2 deny any 
+line console 0
+pass cisco
+login local #or login only
+exec-timeout 3 0 #this is will log the user out whey they idel for 3 mnutes 0 seconds 
+logging synchronous
+
+line vty 0 15 
+#set number of sessions 
+login local
+#only accept remote session through ssh that use device user database for giving access
+transport input ssh
+
+##Here as you add access list you should bind this access list 
+access-class 2 in 
+
+
+clock timezone GMT 0
+spanning-tree mode rapid-pvst
+spanning-tree portfast default
+
+do wr 
+
+
+**Please Note : 
+Line Console 0:
+
+This is used to configure physical access to the device through the console port. It's typically accessed via a cable directly connected to the device, using terminal emulators like PuTTY or Tera Term.
+
+Line VTY 0 4:
+
+This is used to configure virtual access to the device via Telnet or SSH. These lines allow multiple concurrent remote sessions (hence "0 to 4" supports up to 5 simultaneous sessions).
+
  
 # show banner motd
-
 ========================================================================================
 user PC CMD:
 ============
