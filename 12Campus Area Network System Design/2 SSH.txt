@@ -1,0 +1,20 @@
+
+IP domain-name cisco.com 
+username cisco pass cisco
+username ahmed pass cisco
+username zain pass cisco
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2 
+access-list 2 permit 192.168.10.0 255.255.255.0
+access-list 2 deny any
+line console 0
+pass cisco
+login 
+exec-timeout 3 0 
+line vty 0 15 
+login local
+transport input ssh
+access-class 2 in 
+exit
+do wr 
+
