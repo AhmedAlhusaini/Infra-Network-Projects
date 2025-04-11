@@ -1,0 +1,96 @@
+
+Here are optimized **AI prompts** you can use to generate a **comprehensive network case study report** for any given scenario. These prompts are structured to extract detailed information based on your template and ensure the AI returns a complete analysis:
+
+---
+
+### **1. General Case Study Analysis Prompt**  
+
+
+**Prompt:**  
+*"Act as a senior network engineer analyzing the following case study. Provide a detailed report using this structure:  
+
+1. **Site Location**: Identify company name, headquarters, and branch locations , floors and others to be able to imagine logical design .
+*"List all floors, departments, and their network requirements (users, VLANs, devices) from the case study. Include any special arrangements like server rooms or wireless coverage needs."*  
+
+   - Company Name: [Provide the company's name]
+   - Headquarters: [Mention the primary headquarters location]
+   - Branch Locations: [List any branch locations, if applicable] 
+ 
+2. **Physical Building Components**: Break down each floor's / branches or whatever case analyze it into logical departments, user count, and VLAN assignments.  
+   for example in case of floors 
+   - Floor 1: [Describe which departments and components are on this floor, number of users, and VLAN details]
+   - Floor 2: [Describe which departments and components are on this floor, number of users, and VLAN details]
+   - Floor 3: [Describe which departments and components are on this floor, number of users, and VLAN details]
+   - Additional Notes: [Include any specific features or arrangements per floor]
+
+3. **Network System Components and services **: List switches, routers, wireless infrastructure, VoIP, and redundancy features.
+   - Switching Hardware: [List types of switches and their roles]
+   - Routing Hardware: [Mention routers and protocols used, such as OSPF]
+   - Wireless Infrastructure: [Provide details on Wireless Access Points and the Wireless LAN Controller]
+   - VoIP Services: [Describe VoIP components such as IP phones and Voice Gateways]
+   - Redundancy Features: [Include technologies like EtherChannel and HSRP] 
+   - List the network hardware used (e.g., switches, routers, access points).
+   - Include protocols and technologies deployed (e.g., routing protocols, VLANs, EtherChannel).
+   - Outline wireless network infrastructure and any VoIP systems.
+
+ 
+4. **system compoenents "Servers & Services" **: Detail server hardware, virtualization, hosted services (DNS/DHCP), and storage.
+   - Server Hardware: [Specify the servers used and their configurations]
+   - Virtualization: [Describe the hypervisors and virtual machine functions]
+   - Hosted Services: [List internal services like DNS, DHCP, email, and file sharing]
+   - Storage Solutions: [Mention storage hardware and configurations] 
+ 
+5. **Cloud System compoenent and services **: Specify cloud platforms (e.g., AWS/Azure) and services used. 
+   - Cloud Platform: [Indicate the platform used, such as AWS or Azure]
+   - Cloud Services: [Explain the core cloud functionalities, such as application hosting or business continuity] 
+6. **Security system compoenet and services **: Describe firewalls, ACLs, segmentation, and additional protections (BPDUguard, etc.). 
+*"Extract all security measures mentioned (firewalls, ACLs, VPNs) and propose additional protections (e.g., IDS/IPS) based on industry best practices. Highlight segmentation policies."*  
+
+   - Firewall: [Provide details on the type of firewall and its configuration]
+   - Access Control: [Mention ACLs and secure access policies]
+   - Network Segmentation: [Describe segmentation for LAN, WLAN, and VoIP]
+   - Additional Security Features: [Include any other security measures like BPDUguard or monitoring protocols]
+
+ 
+7. **Subnetting/VLANs**: Provide IP ranges for WLAN, LAN, Voice, DMZ, and VLAN IDs. 
+   - WLAN Subnet: [Provide the IP range allocated]
+   - LAN Subnet: [Provide the IP range allocated]
+   - Voice Subnet: [Provide the IP range allocated]
+   - DMZ Subnet: [Provide the IP range allocated]
+   - VLANs: [List VLAN IDs and their corresponding functions]
+ 
+8. **Public and Private IP Addressin**: List public/private IP ranges.
+   - WLAN IP Range: [Provide the range]
+   - LAN IP Range: [Provide the range]
+   - Voice IP Range: [Provide the range]
+   - DMZ IP Range: [Provide the range]
+   - Public IP Range: [Provide the range]
+
+  
+9. **Additional Notes, Recommendations, and Observations**: Cover scalability, redundancy, future tech, and documentation.  
+   - Scalability: [Mention plans or recommendations for scaling up]
+   - Redundancy: [Include recommendations for ensuring redundancy]
+   - Future Technologies: [Suggest any emerging technologies to consider]
+   - Performance Testing: [Note testing results or future plans]
+   - Documentation: [Recommend maintaining updated documentation]
+
+10. **Configuration**: Summarize hostnames, passwords, inter-VLAN routing, and testing results. 
+Here i need to devided into basic configs for all devices 
+and specific confis for each group of devices 
+	#Core Switches 
+	#MLS
+	#Router
+	#ISP ROuter
+	#Firewall 
+	#VoIP Router 
+and Others 
+11. Verification & Testing Prompt**  
+*"Generate a step-by-step testing plan to validate:  
+- Inter-VLAN routing.  
+- Site-to-site VPN connectivity.  
+- DHCP/DNS functionality.  
+- Firewall rule effectiveness.  
+Include expected outcomes and troubleshooting steps."*  
+
+also write the logical order of configuring and implement all configs in the case study / project 
+ 
