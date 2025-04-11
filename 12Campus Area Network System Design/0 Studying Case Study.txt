@@ -1,0 +1,139 @@
+Always begin with studying case studies, gathering requirements to determine conceptual & Logical design.
+Determine layers of design & technology of each layer.
+
+Also Determine the VLANs, Subnets, physical design, servers & Network components specs & types
+
+IPs, CIDR , Private & Public IPs  => IP Ranges & number of Users
+
+What kind of services that will be available in this network infrastructure 
+Categorize VLANs / Services 
+ACL over designs 
+================================
+
+The Analysis of the Martin Luther King University case study based on your template:
+
+---
+
+ 1. Site Location  
+- Company Name: Martin Luther King University  
+- Headquarters: Main Campus (Primary location, hosts IT department and DMZ)  
+- Branch Locations: One branch campus (100 miles apart from the main campus)  
+
+---
+
+ 2. Physical Building Components  
+*(Assuming a multi-floor structure per campus; adjust as needed)*  
+- Floor 1:  
+  - Departments: Health & Sciences, Business  
+  - Users: ~7,500 per campus (scaling to 15,000 by 2025)  
+  - VLANs: LAN (VLAN 20), WLAN (VLAN 50), Voice (separate subnet)  
+- Floor 2:  
+  - Departments: Engineering/Computing, Art/Design  
+  - Users: ~7,500 per campus  
+  - VLANs: Same as Floor 1 + Management (VLAN 10)  
+- Floor 3:  
+  - IT Infrastructure: Server farm (DMZ), WLC, Core switches  
+  - VLANs: DMZ (10.20.20.0/27), Blackhole (VLAN 199)  
+- Additional Notes:  
+  - Each faculty has dedicated Catalyst 2960 switches.  
+  - Wireless APs per department, managed centrally by WLC.  
+
+---
+
+ 3. Network System Components and Services  
+- Switching Hardware:  
+  - Core: 2x Catalyst 3850 (per campus)  
+  - Access: Catalyst 2960 (per faculty)  
+- Routing Hardware:  
+  - Firewalls (Cisco ASA 5500-X) act as routers; OSPF for dynamic routing.  
+- Wireless Infrastructure:  
+  - Cisco WLC + Lightweight APs (LAPs) per department.  
+- VoIP Services:  
+  - IP phones in each department; voice subnets (172.16.0.0/16 and 172.17.0.0/16).  
+- Redundancy Features:  
+  - HSRP for gateway redundancy.  
+  - EtherChannel (LACP) for link aggregation.  
+
+---
+
+ 4. Servers System Components and Services  
+- Server Hardware: 2x physical servers for virtualization.  
+- Virtualization: Hypervisor for multiple VMs (DHCP, DNS, etc.).  
+- Hosted Services:  
+  - DHCP (redundant servers), DNS, FTP, WEB, Email, SMTP in DMZ.  
+- Storage Solutions: Not specified (assume SAN/NAS for scalability).  
+
+---
+
+ 5. Cloud System Components and Services  
+- Cloud Platform: Google Cloud.  
+- Cloud Services: Hosting university resources globally (e.g., LMS, email).  
+
+---
+
+ 6. Security System Components and Services  
+- Firewall: Cisco ASA 5500-X (per campus); DMZ at main campus.  
+- Access Control:  
+  - Standard ACL for SSH (restricts access to Senior Engineer’s PC).  
+  - Security zones/policies on ASA.  
+- Network Segmentation:  
+  - Separate VLANs for LAN/WLAN/VoIP/DMZ.  
+- Additional Security:  
+  - BPDUguard, STP PortFast.  
+  - IPsec VPN for site-to-site encryption.  
+
+---
+
+ 7. Subnetting and VLANs Details  
+| Network 		| IP Range            	   | VLAN ID     | Purpose          |  
+|---------------	|------------------------- |-------------|----------------------|  
+| WLAN        		| 192.168.10.0/24          | 50          | Wireless management  |  
+| LAN (Main)  		| 10.10.0.0/16             | 20          | Main campus LAN      |  
+| LAN (Branch)		| 10.11.0.0/16             | 20          | Branch campus LAN    |  
+| Voice (Main)		| 172.16.0.0/16            | -           | VoIP                 |  
+| Voice (Branch)	| 172.17.0.0/16            | -           | VoIP                 |  
+| DMZ         		| 10.20.20.0/27            | -           | Server farm          |  
+| Public (Main)		| 105.100.50.0/30          | -           | ISP connectivity     |  
+| Public (Branch)	| 205.200.100.0/30         | -           | ISP connectivity     |  
+| VLANs: 10 (Management), 20 (LAN), 50 (WLAN), 199 (Blackhole).  
+
+---
+
+ 8. Public and Private IP Addressing  
+- WLAN: 192.168.10.0/24  
+- LAN: 10.10.0.0/16 (Main), 10.11.0.0/16 (Branch)  
+- Voice: 172.16.0.0/16 (Main), 172.17.0.0/16 (Branch)  
+- DMZ: 10.20.20.0/27  
+- Public: 105.100.50.0/30 (Main), 205.200.100.0/30 (Branch)  
+
+---
+
+ 9. Additional Notes & Recommendations  
+- Scalability: Design supports doubling users by 2025 (subnet ranges allow expansion).  
+- Redundancy: HSRP, dual DHCP servers, EtherChannel.  
+- Future Tech: Consider SD-WAN for improved VPN performance.  
+- Performance Testing: Test failover (HSRP, VPN), VLAN routing.  
+- Documentation: Maintain diagrams, IP schemes, and security policies.  
+
+---
+
+ 10. Basic Settings & Configuration  
+- Hostnames: Configured per device (e.g., CoreSW-Main, ASA-Branch).  
+- Passwords: Encrypted passwords, SSH-only for remote access.  
+- Banner Messages: Configured for legal warnings.  
+- Inter-VLAN Routing: Enabled on multilayer switches (tested).  
+- Other Settings:  
+  - OSPF on firewalls/switches.  
+  - Static IPs for servers, DHCP for endpoints.  
+- Final Testing:  
+  - Verify VLAN communication, VPN tunnel, DHCP assignments, firewall policies.  
+
+---
+
+ Key Observations  
+- Strengths: Hierarchical design, redundancy, clear segmentation.  
+- To Improve:  
+  - Add IDS/IPS for deeper security.  
+  - Document cloud integration specifics (Google Cloud ↔ On-prem).  
+
+Let me know if you’d like to dive deeper into any section!
