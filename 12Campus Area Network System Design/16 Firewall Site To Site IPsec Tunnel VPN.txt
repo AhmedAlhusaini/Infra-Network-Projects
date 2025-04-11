@@ -1,0 +1,213 @@
+The Ultimate Goal Is To Encrypt The Traffic Between Site To Site while passing two ISPes
+====================================================================================================
+Step 1:-  Create Crypto Ikev1 Policy
+
+In this step, we will configure the HAGLE information.
+Hash, authentication, group, encryption must be the same on both sides.
+
+
+Step 2:- Create A Tunnel-Group To Specify A Pre-Shared Key For Peer.
+The pre-shared key should be the same on both sides
+To create a tunnel group, there are two steps :
+Create tunnel-group
+
+then 
+Specify pre-shared key in tunnel-group
+
+
+Step 3:- Create IPsec Transform-Set
+
+Step 4:- Define Interesting Traffic ACCESS-LIST
+Traffic which we want to secure via VPN that is Interesting traffic (192.168.1.1 and 192.168.2.1)
+Step 5:- Create A Crypto Map
+It is used to create a particular list of VPN ACCESS-LIST, TRANSFORM-SET, and PEER IP.
+
+Step 6:- Enable IKEV1 And Apply Crypto Map On The Interface
+
+Step 7:- Apply Same Steps For Branch 2 ASA Device
+Ip addresses will not same. Make sure to use the correct IP addresses for Branch2 ASA.
+
+
+
+As you see here network size almost same , what if they are different 
+The pure concept behind VPN ACLs when dealing with different network sizes is ensuring that only the required traffic flows securely between sites. Let me break it down:
+
+Concept 1: Define What Needs to Communicate
+If HQ has 10 VLANs and Branch has only 2 VLANs, you have to decide:
+
+Which networks at HQ should communicate with Branch?
+
+Which networks at Branch should communicate with HQ?
+
+Do all HQ VLANs need access to Branch, or only specific ones?
+
+Since VPN ACLs control traffic passing through the tunnel, you must only allow relevant subnets.
+
+
+Concept 2: Access-List Should Match Available Networks
+Each site should configure matching ACLs based on subnets it owns.
+
+Example Scenario
+HQ: VLANs 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+
+Branch: VLANs 10, 60
+
+\\\\\\\\\\\\\\\\\\\\\
+HQ VPN ACL
+//////////////////////
+
+access-list VPN-HQ permit ip 172.16.0.0 255.255.255.0 172.17.0.0 255.255.255.0  ! LAN VLAN HQ ↔ Branch
+access-list VPN-HQ permit ip 192.168.10.0 255.255.255.0 192.168.10.0 255.255.255.0  ! MGT VLAN HQ ↔ Branch
+crypto map CMAP match address VPN-HQ
+
+\\\\\\\\\\\\\\\\\\\\\
+Branch VPN ACL
+//////////////////////
+access-list VPN-BR permit ip 172.17.0.0 255.255.255.0 172.16.0.0 255.255.255.0  ! LAN VLAN Branch ↔ HQ
+access-list VPN-BR permit ip 192.168.10.0 255.255.255.0 192.168.10.0 255.255.255.0  ! MGT VLAN Branch ↔ HQ
+crypto map CMAP match address VPN-BR
+
+
+oncept 3: Traffic Filtering & Security
+Restrict Unnecessary Access:
+
+Don't allow all VLANs to connect—only the needed ones.
+
+Consistency in ACLs:
+
+HQ and Branch must mirror ACLs (HQ permits Branch, Branch permits HQ).
+
+Use Subnet Mask Correctly:
+
+If Branch has only VLAN 10 & 60, HQ shouldn't use permit ip any any.
+
+
+Final Thoughts
+ACLs define what traffic is encrypted & sent through VPN.
+
+You must list only the VLANs that need to communicate.
+
+Each site should permit ONLY the relevant subnets, not the full network.
+
+
+
+********************************************************
+license boot module c2900 technology-package securityk9
+do reload
+
+BR-FWL
+========
+crypto ikev1 policy 10
+hash sha
+authentication pre-share
+group 2
+lifetime 86400
+encryption 3des
+exit 
+
+tunnel-group 105.100.50.2 type IPsec-l2l
+tunnel-group 105.100.50.2 IPsec-attributes
+ikev1 pre-shared-key cisco
+
+crypto ipsec ikev1 transform-set TSET esp-3des esp-sha-hmac
+
+access-list VPN-BR permit ip 192.168.10.0 255.255.255.0 172.16.0.0 255.255.255.0  
+access-list VPN-BR permit ip 192.168.10.0 255.255.255.0 10.10.0.0 255.255.0.0  
+
+access-list VPN-BR permit ip 172.17.0.0 255.255.255.0 172.16.0.0 255.255.255.0 
+access-list VPN-BR permit ip 172.17.0.0 255.255.255.0 10.10.0.0 255.255.0.0  
+
+access-list VPN-BR permit ip 10.11.0.0 255.255.0.0 172.16.0.0 255.255.255.0  
+access-list VPN-BR permit ip 10.11.0.0 255.255.0.0 10.10.0.0 255.255.0.0  
+
+access-list VPN-BR permit ip 10.20.20.0 255.255.255.224 172.16.0.0 255.255.255.0  
+access-list VPN-BR permit ip 10.20.20.0 255.255.255.224 10.10.0.0 255.255.0.0  
+
+access-list VPN-BR permit ip 10.1.120.0 255.255.255.0 10.1.10.0 255.255.255.0  
+access-list VPN-BR permit ip 10.1.130.0 255.255.255.0 10.1.20.0 255.255.255.0  
+access-list VPN-BR permit ip 10.1.140.0 255.255.255.0 10.1.30.0 255.255.255.0  
+access-list VPN-BR permit ip 10.1.150.0 255.255.255.0 10.1.40.0 255.255.255.0  
+access-list VPN-BR permit ip 10.1.160.0 255.255.255.0 10.1.50.0 255.255.255.0  
+access-list VPN-BR permit ip 10.1.110.0 255.255.255.0 10.1.100.0 255.255.255.0  
+
+
+
+crypto map CMAP 10 set peer 105.100.50.2
+
+crypto map CMAP 10 set ikev1 transform-set TSET
+crypto map CMAP 10 match address VPN-ACL
+crypto map CMAP interface outside
+crypto ikev1 enable outside
+
+
+HQ-FWL
+===============
+
+
+crypto ikev1 policy 10
+hash sha
+authentication pre-share
+group 2
+lifetime 86400
+encryption 3des
+exit 
+
+tunnel-group 205.200.100.2 type IPsec-l2l
+tunnel-group 205.200.100.2 IPsec-attributes
+ikev1 pre-shared-key cisco
+
+crypto ipsec ikev1 transform-set TSET esp-3des esp-sha-hmac
+
+access-list VPN-HQ permit ip 192.168.10.0 255.255.255.0 172.17.0.0 255.255.255.0  
+access-list VPN-HQ permit ip 192.168.10.0 255.255.255.0 10.11.0.0 255.255.0.0  
+access-list VPN-HQ permit ip 172.16.0.0 255.255.255.0 172.17.0.0 255.255.255.0 
+access-list VPN-HQ permit ip 172.16.0.0 255.255.255.0 10.11.0.0 255.255.0.0 
+access-list VPN-HQ permit ip 10.10.0.0 255.255.0.0 172.17.0.0 255.255.0.0  
+access-list VPN-HQ permit ip 10.10.0.0 255.255.0.0 10.11.0.0 255.255.0.0  
+access-list VPN-HQ permit ip 10.20.20.0 255.255.255.224 172.17.0.0 255.255.0.0  
+access-list VPN-HQ permit ip 10.20.20.0 255.255.255.224 10.11.0.0 255.255.0.0 
+access-list VPN-HQ permit ip 10.1.10.0 255.255.255.0 10.1.120.0 255.255.255.0  
+access-list VPN-HQ permit ip 10.1.20.0 255.255.255.0 10.1.130.0 255.255.255.0  
+access-list VPN-HQ permit ip 10.1.30.0 255.255.255.0 10.1.140.0 255.255.255.0  
+access-list VPN-HQ permit ip 10.1.40.0 255.255.255.0 10.1.150.0 255.255.255.0  
+access-list VPN-HQ permit ip 10.1.50.0 255.255.255.0 10.1.160.0 255.255.255.0  
+access-list VPN-HQ permit ip 10.1.100.0 255.255.255.0 10.1.110.0 255.255.255.0  
+
+crypto map CMAP 10 set peer 205.200.100.2
+crypto map CMAP 10 set ikev1 transform-set TSET
+crypto map CMAP 10 match address VPN-ACL	
+crypto map CMAP interface outside
+crypto ikev1 enable outside
+
+
+
+
+
+
+
+
+
+
+
+NEXT:
+
+
+Check Tunnel Status:
+show crypto ikev1 sa
+show crypto ipsec sa
+
+
+Verify ACL Matches Correct VLAN Subnets:
+show access-list VPN-ACL
+
+
+Ensure No IP Conflicts:
+show ip interface brief
+
+
+
+
+
+
+
+
