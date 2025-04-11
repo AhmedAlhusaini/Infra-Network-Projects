@@ -1,0 +1,158 @@
+HQ 
+--------
+
+MLSW1
+----------
+conf t
+router ospf 1
+router-id 1.1.1.1  ! Assign a unique router ID
+
+! Advertise HQ VLANs
+
+network 10.20.20.32 0.0.0.3 area 0    ! To Firewall Network
+network 192.168.10.0 0.0.0.255 area 0 ! MGT
+network 172.16.0.0 0.0.0.255 area 0   ! LAN
+network 10.10.0.0 0.0.255.255 area 0  ! WLAN
+network 10.1.100.0 0.0.0.255 area 0   ! VoIP
+
+network 10.1.10.0 0.0.0.255 area 0    ! App
+network 10.1.20.0 0.0.0.255 area 0    ! Data
+network 10.1.30.0 0.0.0.255 area 0    ! Database
+network 10.1.40.0 0.0.0.255 area 0    ! Webserver
+network 10.1.50.0 0.0.0.255 area 0    ! Serverside
+
+
+MLSW2
+----------
+
+router ospf 1
+router-id 2.2.2.2  ! Assign a unique router ID
+
+! Advertise HQ VLANs
+
+network 10.20.20.36 0.0.0.3 area 0    ! To Firewall Network
+network 192.168.10.0 0.0.0.255 area 0 ! MGT
+network 172.16.0.0 0.0.0.255 area 0   ! LAN
+network 10.10.0.0 0.0.255.255 area 0  ! WLAN
+network 10.1.100.0 0.0.0.255 area 0   ! VoIP
+
+network 10.1.10.0 0.0.0.255 area 0    ! App
+network 10.1.20.0 0.0.0.255 area 0    ! Data
+network 10.1.30.0 0.0.0.255 area 0    ! Database
+network 10.1.40.0 0.0.0.255 area 0    ! Webserver
+network 10.1.50.0 0.0.0.255 area 0    ! Serverside
+
+
+
+BR
+-----------------
+MLSW1
+==============
+
+router ospf 1
+router-id 3.3.3.3  ! Assign a unique router ID
+
+! Advertise Branch VLANs
+network 10.20.20.40 0.0.0.3 area 0    ! To Firewall Network
+network 172.17.0.0 0.0.0.255 area 0   ! BR-LAN
+network 10.11.0.0 0.0.255.255 area 0  ! BR-WLAN
+network 10.1.110.0 0.0.0.255 area 0   ! BR-VoIP
+
+network 10.1.120.0 0.0.0.255 area 0   ! BR-App
+network 10.1.130.0 0.0.0.255 area 0   ! BR-Data
+network 10.1.140.0 0.0.0.255 area 0   ! BR-Database
+network 10.1.150.0 0.0.0.255 area 0   ! BR-Webserver
+network 10.1.160.0 0.0.0.255 area 0   ! BR-Serverside
+
+exit
+
+
+MLSW2
+==============
+
+router ospf 1
+router-id 4.4.4.4  ! Assign a unique router ID
+
+! Advertise Branch VLANs
+network 10.20.20.44 0.0.0.3 area 0    ! To Firewall Network
+network 172.17.0.0 0.0.0.255 area 0   ! BR-LAN
+network 10.11.0.0 0.0.255.255 area 0  ! BR-WLAN
+network 10.1.110.0 0.0.0.255 area 0   ! BR-VoIP
+
+network 10.1.120.0 0.0.0.255 area 0   ! BR-App
+network 10.1.130.0 0.0.0.255 area 0   ! BR-Data
+network 10.1.140.0 0.0.0.255 area 0   ! BR-Database
+network 10.1.150.0 0.0.0.255 area 0   ! BR-Webserver
+network 10.1.160.0 0.0.0.255 area 0   ! BR-Serverside
+
+exit
+
+
+
+
+HQ-ISP
+====================
+
+router ospf 1
+router-id 5.5.5.5 
+network 105.100.50.0 0.0.0.3 area 0    
+network 20.20.20.0 0.0.0.3 area 0  
+do wr
+  
+BRANCH-ISP
+====================
+
+router ospf 1
+router-id 6.6.6.6 
+network 205.200.100.0 0.0.0.3 area 0    
+network 30.30.30.0 0.0.0.3 area 0  
+do wr
+
+
+INTERNET ROUTER
+====================
+
+router ospf 1
+router-id 7.7.7.7 
+network 20.20.20.0 0.0.0.3 area 0    
+network 30.30.30.0 0.0.0.3 area 0  
+network 8.0.0.0 0.255.255.255 area 0  
+do wr
+
+
+
+
+
+
+HQ-Firewall
+======================
+**Please Note In Firewall We don't write wildcared but subnet mark
+
+router ospf 1
+router-id 8.8.8.8 
+network 10.20.20.36 255.255.255.252 area 0 
+network 10.20.20.32 255.255.255.252 area 0     
+network 105.100.50.0 255.255.255.252 area 0  
+network 10.20.20.0 255.255.255.224 area 0  
+ex
+wr mem
+
+
+BR-Firewall
+======================
+**Please Note In Firewall We don't write wildcared but subnet mark
+
+router ospf 1
+router-id 9.9.9.9
+network 10.20.20.40 255.255.255.252 area 0 
+network 10.20.20.44 255.255.255.252 area 0     
+network 205.200.100.0 255.255.255.252 area 0  
+ex
+wr mem
+
+
+
+
+
+
+
