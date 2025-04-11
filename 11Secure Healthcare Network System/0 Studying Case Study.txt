@@ -1,0 +1,119 @@
+Always begin with studying case studies, gathering requirements to determine conceptual & Logical design.
+Determine layers of design & technology of each layer.
+
+Also Determine the VLANs, Subnets, physical design, servers & Network components specs & types
+
+IPs, CIDR , Private & Public IPs  => IP Ranges & number of Users
+
+What kind of services that will be available in this network infrastructure 
+Categorize VLANs / Services 
+ACL over designs 
+================================
+
+1. Site Location
+	Company Name: Dr. Devi ShettyLabs Limited
+
+	Headquarters: Mumbai, India
+
+	Building: Great Namaste Towers
+
+	Floors Utilized: 35th, 36th, and 37th floors of the building.
+
+2. Physical Building Components
+Floor			Departments/Components			Users			VLANs
+
+35th			Pharmacy, Medical Labs			200			VLAN 10 (LAN)
+			Reception, Guest Area			1,000			VLAN 50 (WLAN)
+
+36th			Doctors, Consultancy			200			VLAN 10 (LAN)
+			Procurement, HR, Finance		300			VLAN 10 (LAN)
+
+37th			Internal Auditors, Corporate Functions	120			VLAN 10 (LAN)
+			IT Team (Various Subdivisions)		300			VLAN 10 (LAN)
+
+Note: Each floor is equipped with wireless access points managed centrally via a Wireless LAN Controller (WLC) for WLAN (VLAN 50). VoIP (VLAN 99) is also implemented across all departments.
+
+3. Network System Components & Services
+	Switching Infrastructure:
+		2 Catalyst 3850 (48-Port)
+		8 Catalyst 2960 (48-Port)
+		2 Catalyst 2960 (24-Port)
+	Routing:
+		Cisco WAN Router (also supports VoIP traffic).
+		OSPF for dynamic route advertisement.
+
+	Wireless Connectivity: Managed via Cisco Wireless LAN Controller (WLC) and 10 Lightweight Access Points (LAPs).
+	Voice Infrastructure: Cisco Voice Gateways deployed for VoIP and telephony.
+	Redundancy: LACP EtherChannel and HSRP implemented.
+
+
+4. Servers System Components and Services
+	Server Hardware:
+		2 HP ProLiant DL38 Gen10 servers (failover enabled).
+		Virtualization through VMWare ESXi.
+
+	Internal Virtual Machines:
+		Red Hat Directory Server: Manages LDAP directory, DNS, and DHCP services.
+		Health Information System (HIS).
+		Email Server.
+		File Server.
+
+	Storage Devices:
+		Two NetApp storage devices for efficient data management.
+
+
+5. Cloud System Components and Services
+	Platform: AWS Cloud
+		Core Functions:
+			Hosts the healthcare system for global accessibility.
+			Supports developers and cloud engineers for application continuity and deployment.
+			Ensures seamless scalability of business processes.
+
+
+6. Security System Components & Services and Policies
+	Firewall:
+		Cisco ASA 5500-X series.
+		Configured with zones, security levels, and inspection policies.
+
+	Access Controls: Standard ACL for SSH (only Senior Network Security Engineer’s PC is allowed via VTY).
+	Segmentation: Separate network segments for LAN, WLAN, and VoIP users.
+	Protocols: BPDUguard and PortFast to enhance Spanning Tree Protocol (STP) performance.
+
+7. Subnetting & VLANs Details
+	Subnetting:
+		WLAN: 10.10.0.0/16
+		LAN: 192.168.0.0/20
+		Voice: 172.16.0.0/20
+		DMZ: 10.20.20.0/26
+
+	VLAN IDs:
+		VLAN 10: LAN (internal devices and departments).
+		VLAN 50: WLAN (guests, auditors, corporate users).
+		VLAN 99: VoIP (telephony).
+
+8. Public & Private IPs for All Ranges
+Purpose			IP Address Range		Type
+WLAN			10.10.0.0/16			Private
+LAN			192.168.0.0/20			Private
+Voice			172.16.0.0/20			Private
+DMZ			10.20.20.0/26			Private
+Public Services		197.200.100.0 (allocated)	Public
+
+9. Notes, Recommendations, and Other Considerations
+Scalability: Account for the anticipated doubling of users by ensuring sufficient IPs and bandwidth.
+Redundancy: Include additional failover links and redundant network hardware.
+Future Technologies: Monitor and integrate AI-driven network management systems for predictive maintenance.
+Testing: Continuously test configurations, especially OSPF and ASA policies, to ensure compliance.
+Documentation: Maintain thorough and up-to-date documentation of all configurations and subnetting schemes.
+
+10. Basic Settings and Overall Configuration
+	Hostnames, passwords, and banner messages configured for all devices.
+	Password encryption and IP domain lookup disabled to streamline operations.
+	Testing completed to ensure inter-VLAN routing, connectivity, and overall functionality.
+
+
+
+Finally Any ESRI Modification will not be mentioned Here , ^-^ but upon need and configs as you will see later , Good Luck
+
+
+
