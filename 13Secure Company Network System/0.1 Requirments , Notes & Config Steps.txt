@@ -1,0 +1,318 @@
+# 🛰️ Your Site Help Guide  
+Case Study Network Design Report – Cytonn Innovation Ltd.
+
+---
+
+## ✅ 1. Site Location
+
+- Company Name: Cytonn Innovation Ltd  
+- Headquarters: Nairobi, Kenya  
+- Branch Locations: None mentioned  
+- New Office Building:  
+  - Structure: 3 floors  
+  - Staff: ~600 employees  
+  - Key Areas:
+    - Ground Floor: Reception, HR, Guest WLAN, Meeting Rooms  
+    - First Floor: Development Teams (Frontend, Backend, DevOps), VoIP Phones, LAN  
+    - Second Floor: IT, Servers (Physical & Virtual), DMZ, Network Operations Center  
+  - Wireless Coverage: Required on all floors  
+  - Server Room: Located on Second Floor (Core IT + Cloud Gateway)
+
+- Special Network Arrangements:
+  - Wireless access on each floor
+  - Centralized Server Room (Ground Floor)
+  - VoIP telephony throughout
+  - Google Cloud Integration
+  - Staff devices: laptops, IP phones, printers, servers
+
+## ✅ 2. Requirements Extraction
+
+### 📌 Business Requirements
+
+- Scalable design to accommodate user growth (600+ staff)
+- Centralized IT management & security enforcement
+- Remote access to cloud systems (Google Cloud integration)
+- Voice & video communication via VoIP
+- Guest wireless access on separate VLAN
+- Network should support hybrid cloud connectivity
+
+---
+
+### 📌 Technical Requirements
+
+#### 🧩 Hardware:
+
+- Core/Access Layer:
+  - 3x Cisco Catalyst 3850 multilayer switches (1 per floor)
+  - 2x Cisco Catalyst 2960 access switches (VoIP and WLAN APs)
+- Routers:
+  - 2x Cisco ISR routers for WAN & Cloud integration
+- Firewalls:
+  - 2x Cisco ASA 5500-X (active/passive failover)
+- Wireless:
+  - 1x Wireless LAN Controller (WLC)
+  - 6x APs (2 per floor)
+- Other:
+  - 1x Physical Server for virtualization (VMware/Hyper-V)
+  - 1x NAS storage
+
+---
+
+#### 💾 Software:
+
+- Google Cloud Platform (hybrid link to private cloud)
+- Hypervisor (VMware ESXi or Hyper-V)
+- Network OS: Cisco IOS (Switches & Routers), ASA OS (Firewall)
+- Management: Cisco Prime Infrastructure / WLC GUI
+
+---
+
+#### 🌐 Protocols & Configurations:
+- VLANs: Segmentation by function
+  - VLAN 10 – Management  
+  - VLAN 20 – Staff LAN  
+  - VLAN 30 – VoIP  
+  - VLAN 40 – Wireless  
+  - VLAN 50 – Server  
+  - VLAN 99 – Native VLAN (Control)  
+- Routing: OSPF for internal routing, default route to ASA
+- Redundancy: HSRP between L3 switches, EtherChannel via LACP
+- VPN: Site-to-cloud IPsec VPN on ASA
+- Security: ACLs, DMZ zoning, SSH/HTTPS only access
+- STP Enhancements: PortFast, BPDU Guard
+- OSPF for dynamic routing  
+- HSRP for gateway redundancy  
+- IPsec VPN for remote/cloud access  
+- LACP for link aggregation (switch uplinks)
+
+---
+
+#### 🔐 Security:
+
+- Firewall zoning (Inside, DMZ, Outside)
+- ACLs to control access per VLAN
+- SSH-only access for admin
+- Enable DHCP snooping and dynamic ARP inspection
+
+---
+
+#### 👥 User Demands:
+
+- Total staff: 600 (approx.)
+- VoIP support for all staff phones
+- Scalable WLAN on all floors
+- DMZ for future web services and cloud sync
+- Projected growth: 30% in 2 years
+
+---
+
+### 📊 VLAN & Subnetting Table
+
+| Function         | Network        | Subnet Mask         | VLAN ID | IP Range                 | User Count  | Other Info                    |
+|------------------|--------------------|----------------------|---------|---------------------|-------------|------------------------------ |
+| Management       | 192.168.10.0/24    | /24 (255.255.255.0) | 10      | 192.168.10.1–254     | 20          | Switches, Routers, WLC        |
+| Staff LAN        | 192.168.20.0/23    | /23 (255.255.254.0) | 20      | 192.168.20.1–510     | 400         | Staff desktops & laptops      |
+| VoIP             | 192.168.30.0/24    | /24 (255.255.255.0) | 70      | 192.168.30.1–254     | 100         | IP Phones                     |
+| Guest WiFi       | 192.168.40.0/24    | /24 (255.255.255.0) | 50      | 192.168.40.1–254     | 50          | Captive portal                |
+| DMZ              | 192.168.50.0/24    | /24 (255.255.255.0) | 60      | 192.168.50.1–254     | 10          | Web, DNS, cloud connector     |
+| WLAN Controller  | 192.168.60.0/29    | /29 (255.255.255.248)| 80     | 192.168.60.1–6       | -           | Uplink between APs & WLC      |
+
+
+
+
+## ✅ 3. Implementation Notes & Constraints
+
+### ⛔ Constraints
+
+- Centralized network in a single building
+- Only one Internet provider (risk of ISP downtime)
+- Use of physical and virtualized servers requires advanced planning
+- Entire solution must fit a single building footprint (3 floors)  
+- Google Cloud used for offsite backup and service hosting  
+- No redundant ISPs currently – Airtel dependency  
+- VoIP system must be high-quality and secure
+
+### ⚠️ Risks
+
+- VLAN sprawl if departments increase
+- Misconfiguration of DMZ may expose critical systems
+- OSPF loops if passive interfaces not properly set
+- ISP Failure = complete loss of WAN  
+- Improper VLAN control = traffic flooding  
+- DMZ exposure if firewall misconfigured  
+
+### 🔎 Key Considerations
+
+#### 🔁 Redundancy:
+- Dual links between floors using EtherChannel (LACP)
+- HSRP between L3 switches for gateway redundancy
+  - HSRP between 2 Core L3 Switches
+  - Dual Power Supply Switches, UPS support
+  - Load balancing with LACP uplinks
+
+#### 📶 Segmentation:
+- Each VLAN maps to a separate IP subnet , VLAN-based isolation for VoIP, WiFi, Servers, Staff
+- DMZ services completely isolated with ASA Firewall rules
+
+#### 📈 Scalability:
+- Subnets are /23 or larger to allow growth
+- IPsec VPN supports cloud expansion
+  - Use `/22` for LAN → room for 1024 hosts  
+  - `/24` subnets for smaller segments  
+  - Recommend SD-WAN for multi-site future growth 
+
+#### 🧩 Challenges:
+- Ensuring VoIP QoS across switches
+- Inter-VLAN routing configuration on 3850 switches
+- Secure firewall NAT and ACL logic
+
+
+## ✅ 4. Configuration Steps
+
+### 🛠️ Device Initialization
+
+```bash
+hostname CoreSwitch1
+enable secret cisco123
+line vty 0 4
+ password cisco123
+ login
+ service password-encryption
+banner motd ^Authorized Access Only^
+```
+
+---
+
+### 📡 VLAN Setup on Switch
+
+```bash
+vlan 10
+ name Management
+vlan 20
+ name StaffLAN
+vlan 30
+ name VOIP
+vlan 40
+ name GuestWiFi
+vlan 50
+ name DMZ
+vlan 60
+ name WLC_Uplink
+```
+
+---
+
+### 🌐 Inter-VLAN Routing (Layer 3 Switch)
+
+```bash
+interface vlan 10
+ ip address 192.168.10.1 255.255.255.0
+interface vlan 20
+ ip address 192.168.20.1 255.255.254.0
+interface vlan 30
+ ip address 192.168.30.1 255.255.255.0
+...
+ip routing
+```
+
+---
+
+### 🔄 HSRP Setup
+
+```bash
+interface vlan 20
+ standby 1 ip 192.168.20.254
+ standby 1 priority 110
+ standby 1 preempt
+```
+
+---
+
+### 🔐 Security Configuration
+
+```bash
+spanning-tree portfast default
+spanning-tree bpduguard enable
+ip dhcp snooping
+ip dhcp snooping vlan 20,30
+ip arp inspection vlan 20,30
+```
+
+---
+
+### 🌐 OSPF Routing
+
+```bash
+router ospf 1
+ network 192.168.0.0 0.0.255.255 area 0
+ passive-interface default
+ no passive-interface vlan 10
+```
+
+---
+
+### 🔥 ASA Firewall Zones
+
+- Inside: VLAN 10, 20, 30  
+- DMZ: VLAN 50  
+- Outside: ISP interface
+
+ACL Example:
+
+```bash
+access-list OUTSIDE_IN deny tcp any any eq 22
+access-list OUTSIDE_IN permit tcp any host 192.168.50.10 eq 443
+```
+
+---
+
+## ✅ 5. Observations and Recommendations During Implementation
+
+### 🧭 Adjustments Made
+
+- Replaced router-based routing with multilayer switch OSPF
+- Increased subnet sizes to support device growth (/23)
+
+### 💡 Best Practices
+
+- Use SSH for all remote device access
+- Maintain VLAN naming consistency across switches
+- Implement logging on ASA for VPN and traffic events
+
+### 🔮 Future Enhancements
+
+| Type      | Recommendation | Why |
+|-----------|----------------|-----|
+| Immediate | Enable ASA logging | Troubleshoot VPN/DMZ issues |
+| Short-Term | Add redundant Internet link | Reduce ISP downtime risk |
+| Long-Term | Implement SD-WAN | Enhance remote/cloud optimization |
+
+### 📚 Documentation Importance
+- Maintain records of all VLANs, subnets, device configs, and change logs
+- Every device config must be backed up  
+- Changes must be tracked for audits  
+- Use version control (e.g., GitLab Wiki or SharePoint)
+
+---
+
+## ✅ 6. Validation Testing Plan
+
+| Test                          | Description                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------|
+| Inter-VLAN Communication      | Ping from a device in VLAN 20 to VLAN 30 to verify Layer 3 routing         |
+| VPN Connectivity              | Simulate file transfer to Google Cloud via IPsec tunnel                    |
+| DHCP Functionality            | Ensure IP allocation from VLAN 20 DHCP pool                                |
+| Failover Test (HSRP)          | Shut down CoreSwitch1, verify traffic switches to backup switch            |
+| Security ACL                  | Try SSH from Guest VLAN, confirm it's blocked by ASA                       |
+| WiFi Access                   | Connect via Guest AP, verify Internet access and isolation from LAN VLANs  |
+
+## 🔹 Validation Testing Plan
+
+| Test Type                  | Test Procedure                                                    | Expected Result                      |
+|---------------------------|--------------------------------------------------------------------|--------------------------------------|
+| Inter-VLAN Communication  | Ping from VLAN 20 to VLAN 50                                       | Success                              |
+| VPN Connectivity          | Simulate file transfer via IPsec tunnel to GCP                     | Success                              |
+| DHCP Functionality        | Device on VLAN 20 receives IP from 192.168.20.0/22                 | Lease confirmed                      |
+| Failover Tests            | Shut down primary HSRP – backup responds as gateway                | No service disruption                |
+| ACL Security Check        | Attempt SSH from VLAN 40 to core switch                            | Access denied (ACL works)            |
+
