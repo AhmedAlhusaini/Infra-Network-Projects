@@ -1,0 +1,58 @@
+Add Static IP 
+Then Test Ping From Your PC to WLC Controll 
+
+then Open Desktop ==> Web Brower 
+
+Type WLC IP ==> Then Start config :
+username : cisco
+pass:Cisco@123
+
+
+Then Configure :
+System Name : GTECH-WLC
+Managmenet IP : 10.20.0.10
+Subnet Mask : 255.255.0.0
+Default Gateway : 10.20.0.1
+
+
+Then Config : Employee Network 
+WIFI-EMP
+Cisco@123
+
+
+Then Create Another WLAN ; 
+GUESTS-WIFI --> GUESTs-Wifi --> Apply 
+Then COnfig Pass:
+
+Guest@123
+
+Then Create Another WLAN ; 
+Corporate-WIFI
+Corp@123
+
+
+Then Create Another WLAN ; 
+ExternalAudit-WIFI
+aduit@123
+
+
+
+===================Just To remember there is a service to share WIFI Network across sites 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+But here we have a problem regarding the branch access points 								|
+															|	
+so we need to allow some ports on firewall - capwap ports :5246 , 5247 12222 12223 					|
+															|	
+access-list INSIDE-DMZ extended permit udp any any eq 5246								|
+access-list INSIDE-DMZ extended permit udp any any eq 5247
+access-list INSIDE-DMZ extended permit udp any any eq 12222
+access-list INSIDE-DMZ extended permit udp any any eq 12223
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+
+
+
+
+
+Then Check availability and connect mobiles and laptops
