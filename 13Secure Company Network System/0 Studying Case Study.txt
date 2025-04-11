@@ -1,0 +1,266 @@
+Always begin with studying case studies, gathering requirements to determine conceptual & Logical design.
+Determine layers of design & technology of each layer.
+
+Also Determine the VLANs, Subnets, physical design, servers & Network components specs & types
+
+IPs, CIDR , Private & Public IPs  => IP Ranges & number of Users
+
+What kind of services that will be available in this network infrastructure 
+Categorize VLANs / Services 
+ACL over designs 
+================================
+
+
+## **1. Site Location**
+
+- **Company Name**: Cytonn Innovation Ltd  
+- **Headquarters**: Nairobi, Kenya (new 3-floor building – main campus)  
+- **Branch Locations**: 1 Branch Campus (general remote connectivity noted)
+
+### **Building Overview (Main Campus)**
+
+| Floor | Departments                                               | Notes                                     |
+|-------|-----------------------------------------------------------|-------------------------------------------|
+| 3     | ICT Department (Software Dev, Network, System Admins etc.)| Dedicated server room, high traffic floor |
+| 2     | Finance & Accounts, Admin & PR                            | Medium network load                       |
+| 1     | Sales & Marketing, HR & Logistics                         | Guest WiFi, lobby, moderate VoIP usage    |
+
+---
+
+## **2. Physical Building Components (Departments, Users, VLANs)**
+
+### **Floor 1 – Sales, Marketing, HR, Logistics**
+- **Departments**: Sales & Marketing, HR, Logistics
+- **Users**: ~200
+- **VLANs**:
+  - VLAN 20 – LAN Users
+  - VLAN 50 – WLAN
+  - VLAN 70 – VoIP
+  - VLAN 199 – Blackhole
+
+### **Floor 2 – Finance & Admin**
+- **Departments**: Finance & Accounts, Admin & Public Relations
+- **Users**: ~150
+- **VLANs**:
+  - VLAN 20 – LAN Users
+  - VLAN 50 – WLAN
+  - VLAN 70 – VoIP
+
+### **Floor 3 – ICT Department + Server Room**
+- **Departments**: Developers, Engineers, Analysts
+- **Users**: ~250
+- **Server Room**: Static IPs, Management VLAN, DMZ services
+- **VLANs**:
+  - VLAN 10 – Management
+  - VLAN 20 – LAN Users
+  - VLAN 50 – WLAN
+  - VLAN 70 – VoIP
+
+---
+
+## **3. Network System Components and Services**
+
+### **Switching Hardware**
+- **Core**: 2 x Cisco Catalyst 3850 (48-port, ML switching, routing enabled)
+- **Access**: Cisco Catalyst 2960 (on each floor, 48-port)
+
+### **Routing Hardware**
+- **Routers**: Functions handled by Firewalls and Core Switches (Layer 3)
+- **Routing Protocol**: OSPF for internal routing and route advertisement
+
+### **Wireless Infrastructure**
+- **WLC**: 2 Cisco WLCs centrally managing all APs
+- **APs**: Lightweight Access Points per floor/department
+
+### **VoIP Services**
+- **Voice Gateway**: Cisco Voice Gateway
+- **Devices**: IP Phones for all departments
+- **VLAN**: 70 for Voice
+
+### **Redundancy Features**
+- **EtherChannel**: LACP on Core and Access Switch uplinks
+- **HSRP**: Redundancy and failover between core devices
+- **STP Enhancements**: PortFast and BPDUguard on access ports
+
+---
+
+## **4. System Components – Servers & Services**
+
+### **Server Hardware**
+- 2 Physical Servers (RAID for redundancy)
+- Located in Floor 3 Server Room
+
+### **Virtualization**
+- Hypervisor (VMware ESXi / Hyper-V)
+- Hosts: DNS, DHCP (2 for failover), AD, Radius, File Sharing, etc.
+
+### **Hosted Services**
+- **Inside Zone (Firewall)**:
+  - Active Directory (AD), DNS, DHCP, Radius
+- **DMZ Zone**:
+  - Web, Email, FTP, SMTP, App servers, NAS
+
+### **Storage Solutions**
+- **NAS** in DMZ (File sharing, backups)
+- **RAID** Storage for internal servers
+
+---
+
+## **5. Cloud System Components and Services**
+
+### **Cloud Platform**
+- AWS / Azure Hybrid Cloud (mentioned generally)
+
+### **Cloud Services**
+- Application Hosting
+- Secure remote access to services
+- Business Continuity and Backups
+
+---
+
+## **6. Security System Components and Services**
+
+### **Firewall**
+- 2 x Cisco ASA 5500-X (Inside, Outside, DMZ zones)
+- Policy-based control between zones
+
+### **Access Control**
+- **ACLs**:
+  - Standard ACL on VTY for SSH (Senior Security Engineer Only)
+  - ACLs on VLAN interfaces for service access
+- **SSH**: Enabled with restricted access
+
+### **Network Segmentation**
+- VLANs: Management (10), LAN (20), WLAN (50), VoIP (70), Blackhole (199)
+- Server segments in Inside & DMZ
+- VLAN-based isolation
+
+### **Additional Security Features**
+- BPDUguard on access ports
+- PortFast on workstations
+- MAC address sticky on access ports (recommended)
+- VPN: For branch access (Site-to-Site VPN tunnel)
+
+---
+
+## **7. Subnetting / VLANs**
+
+| Function        | VLAN ID | IP Range/Subnet        |
+|---------------- |---------|------------------------|
+| Management      | 10      | 192.168.10.0/24        |
+| LAN Users       | 20      | 172.16.0.0/16          |
+| WLAN            | 50      | 10.20.0.0/16           |
+| VoIP            | 70      | 172.30.0.0/16          |
+| DMZ             | —       | 10.11.11.0/27          |
+| Blackhole       | 199     | N/A (no active IPs)    |
+
+---
+
+## **8. Public and Private IP Addressing**
+
+| Zone        | IP Range              |
+|-------------|-----------------------|
+| WLAN        | 10.20.0.0/16          |
+| LAN         | 172.16.0.0/16         |
+| VoIP        | 172.30.0.0/16         |
+| DMZ         | 10.11.11.0/27         |
+| Public IPs  | 105.100.50.0/30 (SEACOM), 197.200.100.0/30 (Safaricom) |
+
+---
+
+## **9. Additional Notes, Recommendations, and Observations**
+
+### **Scalability**
+- Add more VLANs and subnets as departments grow
+- Implement VLAN Trunking on uplinks
+
+### **Redundancy**
+- Dual ISP
+- Dual firewalls and core switches with HSRP
+- LACP EtherChannel for bandwidth + fault tolerance
+
+### **Future Technologies**
+- SD-WAN for branch integration
+- Network Access Control (NAC) for role-based access
+- SIEM tools for monitoring
+
+### **Performance Testing**
+- Plan to use ICMP, ping sweeps, and traffic monitoring tools
+
+### **Documentation**
+- Maintain detailed network topology diagrams, config backups, and IP/VLAN tables
+
+---
+
+## **10. Configuration Summary**
+
+### **Basic Configs for All Devices**
+- Hostnames, console/encrypted passwords
+- `no ip domain-lookup`
+- Banner MOTD
+- SSH access only to secure hosts
+- VTY ACLs
+
+### **#Core Switches (L3)**
+- VLAN interfaces with IPs
+- OSPF configuration
+- HSRP setup
+- EtherChannel (LACP)
+- Inter-VLAN routing
+
+### **#MLS (Multi-Layer Switches)**
+- VLAN creation and trunking
+- STP settings: PortFast, BPDUguard
+- Access port assignments
+- DHCP relay to DHCP servers
+
+### **#Firewall (Cisco ASA 5500-X)**
+- Zone-based policy configuration (inside, outside, DMZ)
+- NAT rules for DMZ and external services
+- OSPF static route injection
+
+### **#ISP Router**
+- Static routing toward ASA
+- Redundant internet links via SEACOM & Safaricom
+
+### **#VoIP Router / Gateway**
+- VLAN 70 configuration
+- Call Manager Express (CME) or SIP trunk settings
+
+---
+
+## **11. Verification & Testing Plan**
+
+### **Testing Plan**
+
+| Test 					| Step 					       		| Expected Outcome | Troubleshooting 			   |
+|---------------------------------------|----------------------------------------------		|------------------|-----------------			   |
+| **1. Inter-VLAN Routing** 		| Ping across VLANs via default gateway on MLS 		| Success 	   | Check VLAN interfaces, routing 	   |
+| **2. DHCP/DNS** 			| Clients receive IPs and resolve domain names 		| Success 	   | DHCP scope, DNS server check 	   |
+| **3. Site-to-Site VPN** 		| Remote branch connects to HQ resources       		| Tunnel up 	   | Check IKE/ESP settings 		   |
+| **4. Firewall Rules** 		| Internal clients can’t reach DMZ resources directly   | Denied packets   | Verify ACLs, zone policies 	   |
+| **5. VoIP** 				| IP phones register and make calls 			| Dial tone 	   | Check VLAN, DHCP Option 150, CME      |
+| **6. WLAN** 				| Users connect via WLC and APs 			| Connected        | Check WLC config, DHCP, IP addressing |
+
+---
+
+## **Logical Order of Configuration**
+
+1. Configure Core Switches (VLANs, interfaces, inter-VLAN routing, OSPF)
+2. Configure Access Switches (Access ports, VLANs, STP)
+3. Setup DHCP/DNS/AD servers (IP, roles)
+4. Configure Firewalls (Interfaces, zones, policies)
+5. Configure ISP Routers and test internet
+6. Setup WLC and register APs
+7. Setup VoIP Gateway and phones
+8. Implement ACLs, security, and PortFast/BPDUguard
+9. Implement HSRP and EtherChannel
+10. Test, verify, document
+
+---
+
+Let me know if you'd like a **network diagram**, **Cisco Packet Tracer simulation**, or a **PDF version** of this report.
+Finally Any ESRI Modification will not be mentioned Here , ^-^ but upon need and configs as you will see later , Good Luck
+
+
+
