@@ -1,0 +1,81 @@
+After Creating Firewall Security Zones , Traffic should follow policy to be enabled between different zones.
+
+Before configuring the Traffic Policy => We must Enable NAT to allow traffic or translating traffic between inside private resources to public one.
+
+
+
+object network INSIDE-OUTSIDE-LAN
+subnet 192.168.10.0 255.255.0.0
+nat (INSIDE, OUTSIDE) dynamic interface 
+
+object network INSIDE-OUTSIDE-Wireless
+subnet 10.10.0.0 255.255.0.0
+nat (INSIDE, OUTSIDE) dynamic interface
+ 
+object network INSIDE-DMZ-LAN
+subnet 10.20.10.0 255.255.255.192 
+nat (DMZ, OUTSIDE) DYNAMIC interface 
+
+
+
+Regarding The Enterprise - Vlans 
+1. serverside : Subnet: 10.1.10.0/24 Gateway: 10.1.10.1
+2. App: Subnet: 10.1.20.0/24 Gateway: 10.1.20.1
+3. Data: Subnet: 10.1.30.0/24 Gateway: 10.1.30.1
+4. Database:Subnet: 10.1.40.0/24 Gateway: 10.1.40.1
+5. webserver: Subnet: 10.1.50.0/24 Gateway: 10.1.50.1
+
+
+
+We Will Use CIDAR To Combine Them All Into 1 IP
+
+object network INSIDE-OUTSIDE-ArcGISEnterprise
+subnet 10.1.0.0 255.255.240.0 
+nat (INSIDE, OUTSIDE) DYNAMIC interface 
+
+
+
+Then Configure Policy
+
+
+
+access-list INSIDE-DMZ extended permit icmp any any 
+
+access-list INSIDE-DMZ extended permit udp any any eq 67 
+access-list INSIDE-DMZ extended permit udp any any eq 68 
+
+access-list INSIDE-DMZ extended permit udp any any eq 53
+access-list INSIDE-DMZ extended permit tcp any any eq 53
+
+access-list INSIDE-DMZ extended permit tcp any any eq 80
+access-list INSIDE-DMZ extended permit tcp any any eq 8080
+access-list INSIDE-DMZ extended permit tcp any any eq 443
+access-list INSIDE-DMZ extended permit tcp any any eq 8443
+
+access-list INSIDE-DMZ extended permit tcp any any eq 25
+access-list INSIDE-DMZ extended permit tcp any any eq 110
+access-list INSIDE-DMZ extended permit tcp any any eq 143
+
+access-list INSIDE-DMZ extended permit tcp any any eq 445
+access-list INSIDE-DMZ extended permit tcp any any eq 21
+
+access-list INSIDE-DMZ extended permit udp any any eq bootps
+access-list INSIDE-DMZ extended permit udp any any eq bootpc
+access-list INSIDE-DMZ extended permit tcp any any eq domain
+access-list INSIDE-DMZ extended permit tcp any any eq domain
+access-list INSIDE-DMZ extended permit tcp any any eq domain
+
+access-list INSIDE-DMZ extended permit udp any host 10.20.10.10 eq 67
+access-list INSIDE-DMZ extended permit udp host 10.20.10.10 eq 68 any
+
+access-group INSIDE-DMZ  in interface DMZ
+wr mem
+
+
+access-list INSIDE-OUTSIDE extended permit icmp any any 
+access-group INSIDE-OUTSIDE in interface OUTSIDE
+
+wr mem
+
+
+
