@@ -1,0 +1,507 @@
+Firstly the differences between VTP domain and SSH IP domain on Cisco devices:
+==========
+
+Key Differences
+Scope:
+
+	VTP Domain: Manages VLAN configurations across multiple switches.
+
+	SSH IP Domain: Used for DNS resolution and secure remote access.
+
+Functionality:
+
+	VTP Domain: Ensures VLAN consistency across switches.
+
+	SSH IP Domain: Provides a domain name for the device, aiding in DNS lookups and secure remote management.
+
+
+***************************
+very important here is that vtp doest work with port negiotation , i mean you must make all ports on each device where traffic will be sent to trunk mode
+
+I recommend using VTP (VLAN Trunking Protocol) to share VLAN configurations across switches in your network. Before doing this, it is crucial to configure all ports through which VLAN traffic will be sent to trunk mode.
+
+It's important to note that VTP does not work with port negotiation. This means you must manually set all relevant ports on each device to trunk mode to ensure proper traffic flow.
+
+
+
+
+Based On Case Study :
+			Port 1-2 --> For MLS 
+			port 3-12 --> LAN / Wired Devices 
+			port 12 -14 --> Management Vlan ( In one Switch , otherwise from 3-14 for LAN ) 
+			port 15 - 18 --> ArcGIS Enterprise Vlans ( App , webserver , data , database & serverside )
+			port 19- 20 --> For VoIP
+			Port 21-24 --> Access Points / WLAN 
+			ports gig or any unused ports --> blackhole vlan 
+
+
+============== HQ-Preparing Ports ==========
+
+
+Access Switches
+========================
+
+int ra fa0/1-2
+switchport mode trun
+
+int ra fa0/3-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+MLS Switches 
+===========
+
+HQ-MLSW1
+-----
+int ra fa0/2-11
+switchport mode trun
+do wr
+
+int gig1/0/12
+switchport mode access
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+HQ-MLSW2
+-----
+int ra fa0/2-11
+switchport mode trun
+do wr
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+
+
+***********HQ-Creating Vlans***************
+
+
+vlan 10
+name MGT
+vlan 20
+name LAN
+Vlan 30
+name VoIP
+
+vlan 50
+name WLAN
+vlan 199
+name Backhole
+
+
+
+
+
+
+vlan 40
+name Arc_apps
+
+vlan 41
+name Arc_Datastore
+
+vlan 42
+name Arc_Database
+
+vlan 43
+name Arc_webserver
+do wr
+
+vlan 44
+name Arc_serverside
+
+
+HQ-Access Switches 
+----------------------------
+			Port 1-2 --> For MLS 
+			port 3-12 --> LAN / Wired Devices 
+			port 12 -14 --> Management Vlan ( In one Switch , otherwise from 3-14 for LAN ) 
+			port 15 - 18 --> ArcGIS Enterprise Vlans ( App , webserver , data , database & serverside )
+			port 19- 20 --> For VoIP
+			Port 21-24 --> Access Points / WLAN 
+			ports gig or any unused ports --> blackhole vlan 
+
+
+
+
+
+int ra fa0/3-12
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/13-14
+switchport access vlan 10
+
+int ra fa0/15-18
+switchport  access vlan 43
+
+int ra fa0/19-20
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+
+int ra fa0/3-12
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/13-14
+switchport access vlan 10
+
+int ra fa0/15-18
+switchport  access vlan 40
+
+int ra fa0/19-20
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+int ra fa0/3-12
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/13-14
+switchport access vlan 10
+
+int ra fa0/15-18
+switchport  access vlan 44
+
+int ra fa0/19-20
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+
+int ra fa0/3-12
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/13-14
+switchport access vlan 10
+
+int ra fa0/15-18
+switchport  access vlan 41
+
+int ra fa0/19-20
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+int ra fa0/3-12
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/13-14
+switchport access vlan 10
+
+int ra fa0/15-18
+switchport  access vlan 42
+
+int ra fa0/19-20
+switchport access vlan 20
+switchport voice vlan 30
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+int ra fa0/3-20
+switchport access vlan 20
+switchport voice vlan 30
+
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport mode access 
+switchport access vlan 10
+
+do wr
+
+
+
+
+HQ-In MLSWes
+======
+HQ-MLSW1
+
+ports are trunk , but only one port assigned for wlan 
+int gig1/0/12
+switchport mode acc
+switchport acc vlan 50
+
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+
+============== BR-Preparing Ports ==========
+
+
+Access Switches
+========================
+
+int ra fa0/1-2
+switchport mode trun
+
+int ra fa0/3-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+MLS Switches 
+===========
+
+HQ-MLSW1
+-----
+int ra fa0/2-12
+switchport mode trun
+do wr
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+HQ-MLSW2
+-----
+int ra fa0/2-12
+switchport mode trun
+do wr
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+
+
+***********BR-Creating Vlans***************
+
+
+
+vlan 60
+name BR-LAN
+Vlan 70
+name BR-VoIP
+
+vlan 90
+name BR-WLAN
+vlan 199
+name Backhole
+
+
+80   BR-Arc_apps                          
+81   BR-Arc_Datastore                     
+82   BR-Arc_Database                      
+83   BR-Arc_webserver                     
+84   BR-Arc_serverside 
+do wr
+
+
+ 
+
+
+BR-Access Switches 
+----------------------------
+			Port 1-2 --> For MLS 
+			port 3-12 --> LAN / Wired Devices 
+			port 12 -14 --> Management Vlan ( In one Switch , otherwise from 3-14 for LAN ) 
+			port 15 - 18 --> ArcGIS Enterprise Vlans ( App , webserver , data , database & serverside )
+			port 19- 20 --> For VoIP
+			Port 21-24 --> Access Points / WLAN 
+			ports gig or any unused ports --> blackhole vlan 
+
+
+
+
+
+int ra fa0/3-14
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/15-18
+switchport  access vlan 83
+
+int ra fa0/19-20
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 90
+
+int ra gig0/1-2
+switchport access vlan 199
+do wr
+
+
+
+int ra fa0/3-14
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/15-18
+switchport  access vlan 80
+
+int ra fa0/19-20
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 90
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+int ra fa0/3-14
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/15-18
+switchport  access vlan 84
+
+int ra fa0/19-20
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 90
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+
+int ra fa0/3-14
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/15-18
+switchport  access vlan 81
+
+int ra fa0/19-20
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 90
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+int ra fa0/3-14
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/15-18
+switchport  access vlan 82
+
+int ra fa0/19-20
+switchport access vlan 60
+switchport voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 90
+
+int ra gig0/1-2
+switchport access vlan 199
+
+do wr
+
+
+
+BR-In MLSWes
+======
+
+NA
+
+
+
+DMZ SW
+==============
+int ra fa0/2-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+
+
