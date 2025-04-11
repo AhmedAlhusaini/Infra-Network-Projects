@@ -1,0 +1,228 @@
+Firstly the differences between VTP domain and SSH IP domain on Cisco devices:
+==========
+
+Key Differences
+Scope:
+
+	VTP Domain: Manages VLAN configurations across multiple switches.
+
+	SSH IP Domain: Used for DNS resolution and secure remote access.
+
+Functionality:
+
+	VTP Domain: Ensures VLAN consistency across switches.
+
+	SSH IP Domain: Provides a domain name for the device, aiding in DNS lookups and secure remote management.
+
+
+***************************
+very important here is that vtp doest work with port negiotation , i mean you must make all ports on each device where traffic will be sent to trunk mode
+
+I recommend using VTP (VLAN Trunking Protocol) to share VLAN configurations across switches in your network. Before doing this, it is crucial to configure all ports through which VLAN traffic will be sent to trunk mode.
+
+It's important to note that VTP does not work with port negotiation. This means you must manually set all relevant ports on each device to trunk mode to ensure proper traffic flow.
+
+
+
+
+Based On Case Study :
+
+| Function         | Network        | Subnet Mask         | VLAN ID | IP Range                 | User Count  | Other Info                    |
+|------------------|--------------------|----------------------|---------|---------------------|-------------|------------------------------ |
+| Management       | 192.168.10.0/24    | /24 (255.255.255.0) | 10      | 192.168.10.1–254     | 20          | Switches, Routers, WLC        |
+| Staff LAN        | 192.168.20.0/23    | /23 (255.255.254.0) | 20      | 192.168.20.1–510     | 400         | Staff desktops & laptops      |
+| VoIP             | 192.168.30.0/24    | /24 (255.255.255.0) | 70      | 192.168.30.1–254     | 100         | IP Phones                     |
+| Guest WiFi       | 192.168.40.0/24    | /24 (255.255.255.0) | 50      | 192.168.40.1–254     | 50          | Captive portal                |
+| DMZ              | 192.168.50.0/24    | /24 (255.255.255.0) | 60      | 192.168.50.1–254     | 10          | Web, DNS, cloud connector     |
+| WLAN Controller  | 192.168.60.0/29    | /29 (255.255.255.248)| 80     | 192.168.60.1–6       | -           | Uplink between APs & WLC      |
+
+
+
+
+So,
+			Port 1-2 --> For MLS 
+			port 3-12 --> LAN / Wired Devices 
+			port 13 -15 --> Management Vlan ( In one Switch , otherwise from 3-14 for LAN ) 
+			port 16- 20 --> For VoIP
+			Port 21-24 --> Access Points / WLAN 
+			ports gig or any unused ports --> blackhole vlan 
+
+
+============== Preparing Ports ==========
+
+
+Access Switches
+========================
+
+int ra fa0/1-2
+switchport mode trun
+
+int ra fa0/3-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+MLS Switches 
+===========
+
+MLSW1
+-----
+int ra fa0/3-11
+switchport mode trun
+do wr
+
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+MLSW2
+-----
+int ra fa0/3-11
+switchport mode trun
+do wr
+vtp domain cisco.net
+vtp mode server
+vtp password 123
+vtp version 2
+do wr
+
+
+
+
+
+***********Creating Vlans***************
+
+vlan 10
+name MGT
+vlan 20
+name LAN 
+vlan 50
+name WLAN 
+vlan 70
+name VOIP 
+vlan 199
+name BLACKHOLE
+vlan 90
+name INSIDESERVER
+
+
+
+
+
+
+Access Switches 
+----------------------------
+			Port 1-2 --> For MLS 
+			port 3-10 --> LAN / Wired Devices 
+			port 11 -14 --> Management Vlan ( In one Switch , otherwise from 3-14 for LAN ) 
+			port 15- 20 --> For VoIP
+			Port 21-24 --> Access Points / WLAN 
+			ports gig or any unused ports --> blackhole vlan 
+
+
+** But Here you have to edit end devices ports to be mapped with this , i mean make VoIP on above ports and so on for others.
+
+
+int ra fa0/3-10
+switchport access vlan 20
+
+int ra fa0/11-14
+switchport access vlan 10
+
+int ra fa0/15-20
+switchport  voice vlan 70
+
+int ra fa0/21-24
+switchport access vlan 10
+
+int ra fa0/21-24
+switchport access vlan 50
+
+int ra gig0/1-2
+switchport access vlan 199
+shut
+do wr
+
+
+or 
+
+int ra fa0/3-4
+switchport mode access 
+switchport access vlan 20
+
+int ra fa0/5-6 
+switchport mode access 
+switchport voice vlan 70
+
+int fa0/7
+switchport mode access 
+switchport access vlan 50
+
+int ra fa0/8-24, gig0/1-2
+switchport mode access 
+switchport access vlan 199
+shut
+exit
+do wr
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+In Last Switch - INSIDESERVERS-SW
+///////////////////////////////////////
+
+
+int fa0/8
+switchport mode trun
+
+int ra fa0/3-4
+switchport mode access 
+switchport access vlan 20
+
+int ra fa0/5-6 
+switchport mode access 
+switchport voice vlan 70
+
+int ra fa0/7 , fa0/9
+switchport mode access 
+switchport access vlan 50
+
+int ra fa0/10-12
+switchport mode access 
+switchport access vlan 90
+exit
+do wr
+
+
+
+
+
+In MLSWes
+======
+
+No Activities is done as ports are configured as a trunk while configuring VTP 
+
+
+DMZ SW
+==============
+int ra fa0/1-24
+switchport mode access
+spanning-tree portfast 
+spanning-tree bpduguard enable
+do wr
+
+
+
+
