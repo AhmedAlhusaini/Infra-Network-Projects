@@ -1,0 +1,90 @@
+FWL1
+========================================
+INSIDE
+----------------------
+en 
+
+conf t 
+hostname FWL1
+
+int gig1/3
+no shut 
+ip add 10.2.2.2 255.255.255.252
+nameif INSIDE1
+security-level 100
+
+
+int gig1/4
+no shut 
+ip add 10.2.2.6 255.255.255.252
+nameif INSIDE2
+security-level 100
+
+
+DMZ
+-------------------------
+int gig1/5
+no shut 
+ip add 10.11.11.1 255.255.255.224
+nameif DMZ
+security-level 75
+
+
+
+OUTSIDE
+=================
+int gig1/1
+no shut 
+ip add 105.100.50.2  255.255.255.252
+nameif OUTSIDE1
+security-level 0
+
+
+int gig1/2
+no shut 
+ip add 197.200.100.2 255.255.255.252
+nameif OUTSIDE2
+security-level 0
+
+
+
+FWL2
+========================================
+INSIDE
+----------------------
+en 
+
+conf t 
+hostname FWL2
+
+int gig1/3
+no shut 
+ip add 10.2.2.10 255.255.255.252
+nameif INSIDE1
+security-level 100
+
+
+int gig1/4
+no shut 
+ip add 10.2.2.14 255.255.255.252
+nameif INSIDE2
+security-level 100
+
+
+OUTSIDE
+=================
+int gig1/1
+no shut 
+ip add 105.100.50.6  255.255.255.252
+nameif OUTSIDE1
+security-level 0
+
+
+int gig1/2
+no shut 
+ip add 197.200.100.6 255.255.255.252
+nameif OUTSIDE2
+security-level 0
+
+
+
