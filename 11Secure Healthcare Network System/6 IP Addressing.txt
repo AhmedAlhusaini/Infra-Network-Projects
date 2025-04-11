@@ -1,0 +1,77 @@
+MLS 1
+=========================
+int fa0/1
+no sh 
+no switchport 
+ip add 10.30.10.5 255.255.255.252
+ex
+ip routing
+do wr
+
+MLS 2
+=========================
+int fa0/1
+no sh 
+no switchport 
+ip add 10.30.10.9 255.255.255.252
+ex
+ip routing
+do wr
+
+
+
+WAN Router
+===============
+
+int fa0/1
+no sh
+ip add 10.30.10.6 255.255.255.252
+ex
+ip routing
+do wr
+
+
+int fa1/0
+no sh 
+ip add 10.30.10.10 255.255.255.252
+ex
+ip routing
+do wr
+
+
+int fa0/0
+no sh 
+ip add 10.30.10.2 255.255.255.252
+ex
+ip routing
+do wr
+
+
+
+ISP Router
+=============
+int gig0/0/0
+no sh 
+ip add 197.200.100.1 255.255.255.252
+
+int gig0/0/1
+no sh 
+ip add 20.20.20.2 255.255.255.252
+do wr
+
+
+
+
+AWS Cloud Router 
+==================
+int gig0/1
+no sh 
+ip add 20.20.20.1 255.255.255.252
+do wr
+
+int gig0/0
+no sh 
+ip add 30.0.0.1 255.0.0.0
+do wr
+
+
