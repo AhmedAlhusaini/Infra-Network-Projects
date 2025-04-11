@@ -1,0 +1,71 @@
+FWL1
+=================
+
+
+Static ROutes 
+---------
+route OUTSIDE1 0.0.0.0 0.0.0.0 105.100.50.1 
+route OUTSIDE2 0.0.0.0 0.0.0.0 197.200.100.1 70
+
+** Here we add administrative distance to make one route as primary and the second is the backup 
+
+
+
+
+OSPF
+====
+
+router ospf 1
+router-id 10.10.10.10
+
+network 10.2.2.0 255.255.255.252 area 0
+network 10.2.2.4 255.255.255.252 area 0
+network 105.100.50.0 255.255.255.252 area 0
+network 197.200.100.0  255.255.255.252 area 0
+network 10.11.11.0 255.255.255.252 area 0
+
+
+
+
+
+FWL2 
+=================
+
+
+Static ROutes 
+---------
+route OUTSIDE1 0.0.0.0 0.0.0.0 197.200.100.5 70
+route OUTSIDE2 0.0.0.0 0.0.0.0 105.100.50.5 
+
+** Here we add administrative distance to make one route as primary and the second is the backup 
+
+
+
+
+OSPF
+====
+
+router ospf 1
+router-id 11.11.11.11
+
+network 10.2.2.12 255.255.255.252 area 0
+network 10.2.2.8 255.255.255.252 area 0
+network 105.100.50.4 255.255.255.252 area 0
+network 197.200.100.4  255.255.255.252 area 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
