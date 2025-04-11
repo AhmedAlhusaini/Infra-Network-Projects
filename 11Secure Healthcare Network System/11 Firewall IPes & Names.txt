@@ -1,0 +1,28 @@
+Outside - Firewall To Internet Router
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+interface GigabitEthernet1/1
+no sh 
+ nameif outside
+ security-level 0
+ ip address 197.200.100.2 255.255.255.252
+
+
+DMZ - Firewall To Switch
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+interface GigabitEthernet1/2
+no sh 
+ nameif DMZ
+ security-level 70
+ ip address 10.20.10.1 255.255.255.192
+
+
+Inside - Firewall To Router
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+interface GigabitEthernet1/3
+no sh 
+ nameif inside
+ security-level 100
+ ip address 10.30.10.1 255.255.255.252
+
