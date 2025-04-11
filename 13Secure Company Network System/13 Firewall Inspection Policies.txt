@@ -1,0 +1,200 @@
+After Creating Firewall Security Zones , Traffic should follow policy to be enabled between different zones.
+
+Before configuring the Traffic Policy => We must Enable NAT to allow traffic or translating traffic between inside private resources to public one.
+
+Also , we must config the default static routing 
+
+
+
+FWL1
+======================
+** Firstly we will create a nat for only LAN & WLAN not for MGT
+
+object network INSIDEalan1-OUTSIDElan1 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDElan2-OUTSIDElan1 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDEwlan1-OUTSIDEwlan1 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDEwlan2-OUTSIDEwlan1 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE1) dynamic interface 
+
+
+
+
+
+object network INSIDEalan1-OUTSIDElan2 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDElan2-OUTSIDElan2 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDEwlan1-OUTSIDEwlan2 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDEwlan2-OUTSIDEwlan2 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE2) dynamic interface 
+
+
+----------******-------*****--------******
+
+object network DMZ-OUTSIDE1
+subnet 10.11.11.0 255.255.255.224
+nat (DMZ, OUTSIDE1) dynamic interface 
+
+object network DMZ-OUTSIDE2
+subnet 10.11.11.0 255.255.255.224
+nat (DMZ, OUTSIDE2) dynamic interface 
+
+
+
+
+
+FWL2
+======================
+** Firstly we will create a nat for only LAN & WLAN not for MGT
+
+object network INSIDEalan1-OUTSIDElan1 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDElan2-OUTSIDElan1 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDEwlan1-OUTSIDEwlan1 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE1) dynamic interface 
+
+
+
+object network INSIDEwlan2-OUTSIDEwlan1 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE1) dynamic interface 
+
+
+
+
+
+object network INSIDEalan1-OUTSIDElan2 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDElan2-OUTSIDElan2 
+subnet 172.16.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDEwlan1-OUTSIDEwlan2 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE2) dynamic interface 
+
+
+
+object network INSIDEwlan2-OUTSIDEwlan2 
+subnet 10.20.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE2) dynamic interface 
+
+
+
+
+
+
+
+
+Then Configure Policy
+
+FWL1
+*******************************
+access-list RES-ACC extended permit icmp any any 
+access-list RES-ACC extended permit tcp any any eq 80
+access-list RES-ACC extended permit tcp any any eq 8080
+access-list RES-ACC extended permit tcp any any eq 443
+access-list RES-ACC extended permit tcp any any eq 8443
+access-list RES-ACC extended permit udp any any eq 53
+access-list RES-ACC extended permit tcp any any eq 53
+access-list RES-ACC extended permit udp any any eq 67 
+access-list RES-ACC extended permit udp any any eq 68 
+access-list RES-ACC extended permit tcp any any eq 25
+access-list RES-ACC extended permit tcp any any eq 110
+access-list RES-ACC extended permit tcp any any eq 143
+access-list RES-ACC extended permit tcp any any eq 445
+access-list RES-ACC extended permit tcp any any eq 21
+access-list RES-ACC extended permit tcp any any eq 20
+
+
+Then Bind These Policy 
+
+
+access-group RES-ACC  in interface DMZ
+access-group RES-ACC  in interface OUTSIDE1
+access-group RES-ACC  in interface OUTSIDE2
+
+wr mem
+
+
+
+
+
+
+
+FWL2
+*******************************
+access-list RES-ACC extended permit icmp any any 
+access-list RES-ACC extended permit tcp any any eq 80
+access-list RES-ACC extended permit tcp any any eq 8080
+access-list RES-ACC extended permit tcp any any eq 443
+access-list RES-ACC extended permit tcp any any eq 8443
+access-list RES-ACC extended permit udp any any eq 53
+access-list RES-ACC extended permit tcp any any eq 53
+access-list RES-ACC extended permit udp any any eq 67 
+access-list RES-ACC extended permit udp any any eq 68 
+access-list RES-ACC extended permit tcp any any eq 25
+access-list RES-ACC extended permit tcp any any eq 110
+access-list RES-ACC extended permit tcp any any eq 143
+access-list RES-ACC extended permit tcp any any eq 445
+access-list RES-ACC extended permit tcp any any eq 21
+access-list RES-ACC extended permit tcp any any eq 20
+
+
+Then Bind These Policy 
+
+
+
+access-group RES-ACC  in interface OUTSIDE1
+access-group RES-ACC  in interface OUTSIDE2
+
+wr mem
+
+
+
