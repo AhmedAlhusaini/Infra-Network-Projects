@@ -1,0 +1,125 @@
+Open CISCO-VOICE-GATEWAY
+*************************************
+int fa0/0
+no sh 
+ex
+
+int fa0/0.99
+encapsulation dot1Q 99 
+ip add 10.1.100.1 255.255.255.0
+ex
+do wr
+
+
+
+
+Then COnfig DHCP For IP Telephones IP 
+*******************************
+
+service dhcp
+ip dhcp pool VOIP
+network 10.1.100.0 255.255.255.0
+default-router 10.1.100.1
+option 150 ip 10.1.100.1 
+ex
+do wr
+
+
+
+Telephony Service
+*************************
+
+telephony-service
+
+max-ephones 20
+ max-dn 20
+auto assign 1 to 20
+ip source-address 10.1.100.1 port 2000
+
+do wr
+
+
+Ephone Config 
+****************************
+ephone-dn 1
+number  3001
+
+
+ephone-dn 2
+number  3002
+
+
+ephone-dn 3
+number  3003
+
+
+ephone-dn 4
+number  3004
+
+
+ephone-dn 5
+number  3005
+
+
+ephone-dn 6
+number  3006
+
+
+ephone-dn 7
+number  3007
+
+
+ephone-dn 8
+number  3008
+
+
+ephone-dn 9
+number  3009
+
+
+ephone-dn 10
+number  3010
+
+
+ephone-dn 11
+number  3011
+
+
+ephone-dn 12
+number  3012
+
+
+ephone-dn 13
+number  3013
+
+
+ephone-dn 14
+number  3014
+
+
+ephone-dn 15
+number  3015
+
+ephone-dn 16
+number  3016
+
+
+ephone-dn 17
+number  3017
+
+
+ephone-dn 18
+number  3018
+
+
+ephone-dn 19
+number  3019
+
+
+ephone-dn 20
+number  3020
+
+
+
+ex
+do wr
