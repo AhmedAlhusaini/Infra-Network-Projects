@@ -1,0 +1,250 @@
+After Creating Firewall Security Zones , Traffic should follow policy to be enabled between different zones.
+
+Before configuring the Traffic Policy => We must Enable NAT to allow traffic or translating traffic between inside private resources to public one.
+
+Also , we must config the default static routing 
+
+
+
+HQ- FWL
+======================
+
+router OUTSIDE 0.0.0.0 0.0.0.0 105.100.50.1
+
+
+BR-FWL
+================
+router OUTSIDE 0.0.0.0 0.0.0.0 205.200.100.1
+
+
+
+HQ- FWL
+======================
+
+object network INSIDE1-OUTSIDE-MGT 
+subnet 192.168.10.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-LAN 
+subnet 172.16.0.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-WLAN 
+subnet 10.10.0.0 255.255.0.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-VOIP
+subnet 10.1.100.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-ENTERAPP
+subnet 10.1.10.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-ENTERDATA
+subnet 10.1.20.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+
+object network INSIDE1-OUTSIDE-ENTERDATABASE
+subnet 10.1.30.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-ENTERWEBSERVER
+subnet 10.1.40.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+object network INSIDE1-OUTSIDE-ENTERSERVERSIDE
+subnet 10.1.50.0 255.255.255.0
+nat (INSIDE1, OUTSIDE) dynamic interface 
+
+
+-------
+
+object network INSIDE2-OUTSIDE-MGT 
+subnet 192.168.10.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-LAN 
+subnet 172.16.0.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-WLAN 
+subnet 10.10.0.0 255.255.0.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-VOIP
+subnet 10.1.100.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-ENTERAPP
+subnet 10.1.10.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-ENTERDATA
+subnet 10.1.20.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+
+object network INSIDE2-OUTSIDE-ENTERDATABASE
+subnet 10.1.30.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-ENTERWEBSERVER
+subnet 10.1.40.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+object network INSIDE2-OUTSIDE-ENTERSERVERSIDE
+subnet 10.1.50.0 255.255.255.0
+nat (INSIDE2, OUTSIDE) dynamic interface 
+
+ 
+
+We Will Use CIDAR To Combine Them All Into 1 IP
+==============================================
+object network INSIDE-OUTSIDE-ArcGISEnterprise
+subnet **************************
+nat (INSIDE, OUTSIDE) DYNAMIC interface 
+
+
+
+
+
+
+BR- FWL
+======================
+
+object network BR-Inside1-OUTSIDE-LAN 
+subnet 172.17.0.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+object network BR-Inside1-OUTSIDE-WLAN 
+subnet 10.11.0.0 255.255.0.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+object network BR-Inside1-OUTSIDE-VOIP
+subnet 10.1.110.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+
+object network BR-Inside1-OUTSIDE-ENTERAPP
+subnet 10.1.120.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+object network BR-Inside1-OUTSIDE-ENTERDATA
+subnet 10.1.130.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+
+object network BR-Inside1-OUTSIDE-ENTERDATABASE
+subnet 10.1.140.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+object network BR-Inside1-OUTSIDE-ENTERWEBSERVER
+subnet 10.1.150.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+object network BR-Inside1-OUTSIDE-ENTERSERVERSIDE
+subnet 10.1.160.0 255.255.255.0
+nat (BR-Inside1, OUTSIDE) dynamic interface 
+
+
+-------
+
+object network BR-Inside2-OUTSIDE-LAN 
+subnet 172.17.0.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+object network BR-Inside2-OUTSIDE-WLAN 
+subnet 10.11.0.0 255.255.0.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+object network BR-Inside2-OUTSIDE-VOIP
+subnet 10.1.110.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+
+object network BR-Inside2-OUTSIDE-ENTERAPP
+subnet 10.1.120.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+object network BR-Inside2-OUTSIDE-ENTERDATA
+subnet 10.1.130.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+
+object network BR-Inside2-OUTSIDE-ENTERDATABASE
+subnet 10.1.140.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+object network BR-Inside2-OUTSIDE-ENTERWEBSERVER
+subnet 10.1.150.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+object network BR-Inside2-OUTSIDE-ENTERSERVERSIDE
+subnet 10.1.160.0 255.255.255.0
+nat (brinside2, OUTSIDE) dynamic interface 
+
+We Will Use CIDAR To Combine Them All Into 1 IP
+==============================================
+object network INSIDE-OUTSIDE-ArcGISEnterprise
+subnet ******************************* 
+nat (INSIDE, OUTSIDE) DYNAMIC interface 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Then Configure Policy
+
+
+
+access-list INSIDE-DMZ extended permit icmp any any 
+access-list INSIDE-DMZ extended permit udp any any eq 67 
+access-list INSIDE-DMZ extended permit udp any any eq 68 
+
+access-list INSIDE-DMZ extended permit udp any any eq 53
+access-list INSIDE-DMZ extended permit tcp any any eq 53
+
+access-list INSIDE-DMZ extended permit tcp any any eq 80
+access-list INSIDE-DMZ extended permit tcp any any eq 8080
+
+access-list INSIDE-DMZ extended permit tcp any any eq 443
+access-list INSIDE-DMZ extended permit tcp any any eq 8443
+
+access-list INSIDE-DMZ extended permit tcp any any eq 25
+access-list INSIDE-DMZ extended permit tcp any any eq 110
+
+access-list INSIDE-DMZ extended permit tcp any any eq 143
+access-list INSIDE-DMZ extended permit tcp any any eq 445
+
+access-list INSIDE-DMZ extended permit tcp any any eq 21
+access-list INSIDE-DMZ extended permit tcp any any eq 20
+
+access-list INSIDE-DMZ extended permit udp any host 10.20.20.5 eq 67
+access-list INSIDE-DMZ extended permit udp host 10.20.20.5 eq 68 any
+
+Then Bind These Policy 
+
+
+access-group INSIDE-DMZ  in interface DMZ
+access-group INSIDE-DMZ  in interface OUTSIDE
+
+wr mem
+
+
+
