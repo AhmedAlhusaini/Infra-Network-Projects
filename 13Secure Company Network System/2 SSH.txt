@@ -1,0 +1,21 @@
+Basic Commands 
+*******************************
+
+Before config SHH ---> Hostname Must Be Configured --> The name for the keys will be: DeviceName.cisco.com
+
+IP domain-name cisco.com 
+username cisco pass cisco
+crypto key generate rsa general-keys modulus 1024
+ip ssh version 2 
+access-list 1 permit 192.168.10.0 0.0.0.255
+access-list 1 deny any 
+line console 0
+pass cisco
+login local 
+exec-timeout 3 0
+logging synchronous
+line vty 0 15
+login local
+transport input ssh
+access-class 1 in 
+exit
