@@ -1,0 +1,147 @@
+VLANS
+======
+10   MGT                              active    
+20   LAN                              active    
+50   WLAN                             active    
+70   VOIP                             active    
+90   INSIDESERVER                     active    
+199  BLACKHOLE                        active 
+
+
+
+Vlans & Network 
+-----------------
+MGT - Vlan 10 			192.168.10.0/24
+LAN-vlan 20 			172.16.0.0/16
+WLAN-vlan50-			10.20.0.0/16
+VoIP-vlan 70-			172.30.0.0/16
+INSIDE SERVERS-vlan 90-		10.11.11.32/27
+DMZ-				10.11.11.0/27
+
+
+
+
+*** I have some notes here : 
+		# we will make both routers active stanby 
+			@ This mean One MLSW will be active for vlan 10 & 20 
+			@ The MLSW2 will be active for the 50 & 90
+		# All End Devices except  VoIP will get it's ip through DHCP Inside server , but VoIP through Cisco VoIP Router Gateway 
+
+
+
+
+
+
+MLS1 
+==========================
+
+interface vlan 10
+no shut 
+ ip address 192.168.10.3 255.255.255.0
+ip helper-address 10.11.11.36
+ standby 10 priority 100
+ standby 10 ip 192.168.10.1
+ ip ospf 1 area 0
+
+interface vlan 20
+no sh 
+ ip address 172.16.0.3 255.255.0.0
+ip helper-address 10.11.11.36
+ standby 20 priority 100
+ standby 20 ip 172.16.0.1
+ ip ospf 1 area 0
+
+interface vlan 50
+no sh 
+ ip address 10.20.0.2 255.255.0.0
+ip helper-address 10.11.11.36
+ standby 50 priority 150
+ standby 50 ip 10.20.0.1
+ ip ospf 1 area 0
+
+
+interface vlan 90
+no sh 
+ ip address 10.11.11.34 255.255.255.224
+ip helper-address 10.11.11.36
+ standby 90 priority 150
+ standby 90 ip 10.11.11.33
+ ip ospf 1 area 0
+
+do wr
+
+
+
+MLS2
+==================
+
+
+interface vlan 10
+no sh 
+ ip address 192.168.10.2 255.255.255.0
+ip helper-address 10.11.11.36
+ standby 10 priority 150
+ standby 10 ip 192.168.10.1
+ ip ospf 1 area 0
+
+interface vlan 20
+no sh 
+ ip address 172.16.0.2 255.255.0.0
+ip helper-address 10.11.11.36
+ standby 20 priority 150
+ standby 20 ip 172.16.0.1
+ ip ospf 1 area 0
+
+interface vlan 50
+no sh 
+ ip address 10.20.0.3 255.255.0.0
+ip helper-address 10.11.11.36
+ standby 50 priority 100
+ standby 50 ip 10.20.0.1
+ ip ospf 1 area 0
+
+
+interface vlan 90
+no sh 
+ ip address 10.11.11.35 255.255.255.224
+ip helper-address 10.11.11.36
+ standby 90 priority 100
+ standby 90 ip 10.11.11.33
+ ip ospf 1 area 0
+
+dp wr
+
+ 
+
+
+
+Incase of any error or duplication 
+==========================
+
+no interface vlan 10
+no interface vlan 20
+no interface vlan 90
+no interface vlan 50
+
+
+Finally 
+========
+Do sh standby brief
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
