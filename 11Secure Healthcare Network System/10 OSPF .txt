@@ -1,0 +1,97 @@
+OSPF Will be created over each interface not over router network approach 
+=====
+
+
+MLSes
+--------------------
+int vlan 10
+ip ospf 1 area 0
+
+int vlan 50
+ip ospf 1 area 0
+
+interface vlan 20
+ip ospf 1 area 0
+
+interface vlan 21
+ip ospf 1 area 0
+
+interface vlan 22
+ip ospf 1 area 0
+
+interface vlan 23
+ip ospf 1 area 0
+
+interface vlan 24
+ip ospf 1 area 0
+
+int vlan 99
+ip ospf 1 area 0
+
+
+int fa0/1
+ip ospf 1 area 0
+
+WAN Router
+=====
+int fa0/0
+ip ospf 1 area 0
+
+int fa0/1
+
+int fa1/0
+ip ospf 1 area 0
+
+
+
+
+ISP ROUTER 
+===========
+int ra gig0/0/0-1
+ip ospf 1 area 0
+
+
+AWS CLOUD
+=====
+Router(config)#interface GigabitEthernet0/0
+Router(config-if)#ip ospf 1 area 0
+Router(config)#interface GigabitEthernet0/1
+Router(config-if)#ip ospf 1 area 0
+
+
+
+----------------------------------------------------------------------------------------------------------------
+Please Note: OSPF over Interface is not stable on Packet Tracer , so every time you close the project you will 
+need to re-config ospf on MLSes
+
+Using This :
+int vlan 10
+ip ospf 1 area 0
+
+int vlan 50
+ip ospf 1 area 0
+
+interface vlan 20
+ip ospf 1 area 0
+
+interface vlan 21
+ip ospf 1 area 0
+
+interface vlan 22
+ip ospf 1 area 0
+
+interface vlan 23
+ip ospf 1 area 0
+
+interface vlan 24
+ip ospf 1 area 0
+
+int vlan 99
+ip ospf 1 area 0
+
+
+int fa0/1
+ip ospf 1 area 0
+
+
+
