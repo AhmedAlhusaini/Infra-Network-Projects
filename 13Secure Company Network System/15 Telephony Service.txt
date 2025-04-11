@@ -1,0 +1,135 @@
+Open CISCO-VOICE-GATEWAY
+*************************************
+int fa0/0
+no sh 
+ex
+
+int fa0/0.70
+encapsulation dot1Q 99 
+ip add 172.30.0.1 255.255.0.0
+ex
+do wr
+
+
+
+
+Then COnfig DHCP For IP Telephones IP 
+*******************************
+
+service dhcp
+ip dhcp pool VOIP
+network 172.30.0.0 255.255.0.0
+default-router 172.30.0.1
+option 150 ip 172.30.0.1
+ex
+do wr
+
+
+
+Telephony Service
+*************************
+
+telephony-service
+
+max-ephones 30
+max-dn 30
+ip source-address 172.30.0.1 port 2000
+auto assign 1 to 30
+do wr
+
+
+Ephone Config 
+****************************
+ephone-dn 1
+ number 401
+
+ephone-dn 2
+ number 402
+
+ephone-dn 3
+ number 403
+
+ephone-dn 4
+ number 404
+
+ephone-dn 5
+ number 405
+
+ephone-dn 6
+ number 406
+
+ephone-dn 7
+ number 407
+
+ephone-dn 8
+ number 408
+
+ephone-dn 9
+ number 409
+
+ephone-dn 10
+ number 410
+
+ephone-dn 11
+ number 411
+
+ephone-dn 12
+ number 412
+
+ephone-dn 13
+ number 413
+
+ephone-dn 14
+ number 414
+
+ephone-dn 15
+ number 415
+
+ephone-dn 16
+ number 416
+
+ephone-dn 17
+ number 417
+
+ephone-dn 18
+ number 418
+
+ephone-dn 19
+ number 419
+
+ephone-dn 20
+ number 420
+
+ephone-dn 21
+ number 421
+
+ephone-dn 22
+ number 422
+
+ephone-dn 23
+ number 423
+
+ephone-dn 24
+ number 424
+
+ephone-dn 25
+ number 425
+
+ephone-dn 26
+ number 426
+
+ephone-dn 27
+ number 427
+
+ephone-dn 28
+ number 428
+
+ephone-dn 29
+ number 429
+
+ephone-dn 30
+ number 430
+
+
+ex
+do wr
