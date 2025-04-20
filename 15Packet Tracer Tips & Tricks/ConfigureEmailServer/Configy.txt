@@ -1,0 +1,83 @@
+Setting up an email server in Cisco Packet Tracer involves configuring a server with the necessary email services and ensuring communication with the connected devices. Follow these steps to configure and test an email server:
+
+### Configuration Steps:
+1. Set Up the Server
+   - Click on the Server in Packet Tracer.
+   - Navigate to the Services tab.
+   - Select Email from the available services.
+
+2. Configure SMTP and POP3 Services
+   - Enable SMTP (for sending emails).
+   - Enable POP3 (for receiving emails).
+   - Set the domain name (e.g., `mail.local`).
+   - Create user accounts with usernames and passwords.
+
+3. Configure IP Address for the Server
+   - Go to the Config tab.
+   - Set a Static IP Address (e.g., `192.168.1.100`).
+   - Configure the Default Gateway (e.g., `192.168.1.1`).
+
+4. Set Up the PCs
+   - Click on PC1 and PC2.
+   - Navigate to the Desktop tab.
+   - Open Email Application.
+   - Configure account settings:
+     - SMTP server: `192.168.1.100`
+     - POP3 server: `192.168.1.100`
+     - Username and password.
+
+
+- Outgoing Mail Server: This is typically SMTP (Simple Mail Transfer Protocol), which is responsible for sending emails from your device to the recipient's mail server.
+- Incoming Mail Server: This can be either POP3 (Post Office Protocol) or IMAP (Internet Message Access Protocol).  
+  - POP3 downloads emails to your device, usually removing them from the server.  
+  - IMAP keeps emails on the server so you can access them from multiple devices.  
+
+So, if you're looking at your email settings, your Outgoing Mail Server would be SMTP, and your Incoming Mail Server would be either IMAP or POP3, depending on your email provider's configuration.  
+
+Need help configuring these? Let me know! 🚀  
+
+
+5. Testing the Setup
+   - On PC1, send an email to PC2.
+   - Check whether PC2 receives the email.
+   - Reply from PC2 and confirm successful communication.
+
+### Troubleshooting:
+- Ensure the server's IP settings match the network configuration.
+- Confirm that email services are properly enabled.
+- Check firewalls or security settings that might block traffic.
+
+-------------
+
+
+
+When you send an email from PC1 to PC2, several processes take place behind the scenes. Here’s a simplified breakdown of what happens:
+
+### 1. PC1 Sends the Email
+- The email client on PC1 connects to the SMTP (Simple Mail Transfer Protocol) server you configured.
+- PC1 authenticates with the server using the credentials you provided.
+- The email is packaged into a data format and forwarded to the SMTP server.
+
+### 2. SMTP Server Processes the Email
+- The SMTP server checks the recipient's domain (PC2's email address).
+- If it's local (i.e., within the same network), the server directly stores the email in the POP3/IMAP mailbox for PC2.
+- If it's meant for an external network, the SMTP server forwards it to another mail server via the internet.
+
+### 3. PC2 Receives the Email
+- PC2’s email client connects to the POP3 or IMAP server and checks for new messages.
+- POP3 downloads the email to PC2, while IMAP keeps the email on the server for access from multiple devices.
+- The email appears in PC2’s inbox, ready for the user to read.
+
+### Testing & Verification
+After sending the email, PC2 should be able to:
+- Open the email client.
+- See the new message in the inbox.
+- Reply to or forward the message as needed.
+
+If the email isn't received, you may need to check:
+- SMTP and POP3/IMAP settings.
+- Firewall or network restrictions.
+- User authentication details.
+
+Would you like a deeper dive into troubleshooting? 🚀
+
