@@ -1,0 +1,28 @@
+Cisco Packet Tracer File Types & Differences
+
+
+Cisco Packet Tracer supports four different file types, each serving a unique purpose:
+
+1. .pka – Packet Tracer Activity File
+Used in learning activities.
+
+Includes instructions and scoring for students.
+
+Contains two networks: Initial Network (visible) & Answer Network (hidden for scoring).
+
+2. .pkt – Packet Tracer Network File
+Saves custom-built simulated networks.
+
+No scoring or instructions included.
+
+Allows background images to be embedded.
+
+3. .pksz – Packet Tracer Tutored Activity File
+Specific to Packet Tracer Tutored Activities (PTTA).
+
+Bundles a .pka file, media assets, and hinting scripts for guided learning.
+
+4. .pkz – Compressed Packet Tracer File
+A compressed version of .pkt or .pka files.
+
+Helps reduce file size for easy sharing.
