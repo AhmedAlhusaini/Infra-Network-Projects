@@ -1,0 +1,26 @@
+
+
+Now, I have configured the FTP server, successfully uploaded a file, and retrieved that file on another PC.  
+
+What happens if multiple users edit the file simultaneously, or if I update the file?
+
+---
+
+### Answering Your Question  
+When dealing with concurrent file editing or file updates, FTP does not have built-in file locking or version control, so here’s what happens:
+
+#### 1. Multiple Users Editing the Same File at the Same Time  
+- No Live Collaboration: FTP is a file transfer protocol, not a live collaborative tool like Google Docs or Git.
+- Overwrite Issues: If multiple users download and edit the same file simultaneously, the last user to upload (put) the file will overwrite all previous versions without warning.
+- Risk of Data Loss: If users don't communicate, previous edits can be lost when the file is overwritten.
+
+#### 2. Updating the File  
+- When you update the file and upload it (`put` command), it replaces the existing version on the FTP server.
+- There is no version history unless you manually create backup copies before updating.
+
+### Solutions to Prevent Issues  
+- Use File Locking: Some advanced FTP servers support file locking to prevent simultaneous edits.
+- Enable Version Control: Use external tools like Git or a version-controlled document system to track changes.
+- Communication Matters: Make sure users coordinate file edits before uploading to avoid overwriting.
+
+
