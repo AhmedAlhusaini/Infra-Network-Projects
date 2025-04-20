@@ -1,0 +1,68 @@
+### Configuring an FTP Server in Cisco Packet Tracer  
+Setting up an FTP (File Transfer Protocol) server in Cisco Packet Tracer allows devices to transfer files over the network. Here's how to configure it and understand what happens behind the scenes.
+
+---
+
+### Configuration Steps:
+
+#### 1. Set Up the FTP Server
+- Click on the Server in Packet Tracer.
+- Go to the Services tab.
+- Select FTP and Enable the service.
+- Create user accounts with:
+  - Username and password (e.g., `user1` / `password123`).
+  - Set access permissions for file uploads/downloads.
+
+#### 2. Configure the Server's IP Address
+- Go to the Config tab.
+- Set a Static IP Address (e.g., `192.168.1.100`).
+- Configure the Default Gateway (e.g., `192.168.1.1`).
+
+#### 3. Configure FTP Access on PCs
+- Click on PC1 or PC2.
+- Go to the Desktop tab.
+- Open Command Prompt.
+- Use the `ftp` command:
+  ```cmd
+  ftp 192.168.1.100
+  ```
+- Enter credentials (username & password).
+- Use commands such as:
+  - `dir` – List files on the server.
+  - `get filename.txt` – Download a file.
+  - `put filename.txt` – Upload a file.
+
+#### 4. Testing the Setup
+- PC1 uploads a file to the FTP server.
+- PC2 downloads the file from the FTP server.
+- Verify file availability on both ends.
+
+---
+
+### Behind the Scenes (How FTP Works)
+
+1. PC1 Establishes Connection  
+   - PC1 initiates a session with the FTP server via TCP port 21.
+   - The server authenticates the user.
+
+2. File Upload Process  
+   - PC1 sends a `PUT` request to the FTP server.
+   - The server stores the file.
+
+3. PC2 Retrieves the File  
+   - PC2 sends a `GET` request.
+   - The server transmits the file back over the network.
+
+4. Communication & Data Transfer  
+   - FTP operates using active mode or passive mode, determining how connections are managed.
+   - A control connection is established first (for commands).
+   - A data connection is opened separately (for file transfers).
+
+---
+
+### Troubleshooting
+- Ensure correct IP configuration.
+- Verify firewall settings (FTP may be blocked).
+- Check that user credentials match server settings.
+- Use `ping` to test network connectivity.
+
