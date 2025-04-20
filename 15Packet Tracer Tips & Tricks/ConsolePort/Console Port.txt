@@ -1,0 +1,32 @@
+### Console Port & Password Differences in Cisco Devices  
+
+The console port is a physical interface on networking devices (like routers and switches) used for direct access to the device’s command-line interface (CLI). It allows administrators to configure and troubleshoot the device without needing network connectivity.
+
+---
+
+### Key Differences Between Enable Password, Line Console, and Others  
+
+| Feature 		| Enable Password 				| Line Console Password 				| Enable Secret 				| VTY Password 						|
+|---------		|---------------------			       	|--------------------------				|------------------				|------------------					|
+| Purpose 		| Protects privileged EXEC mode 	       	| Secures console access 				| Encrypts privileged EXEC mode password 	| Secures remote access (Telnet/SSH) 			|
+| Usage 		| Required to enter privileged mode (`enable`) 	| Required when accessing via console port 		| More secure alternative to `enable password` 	| Required for remote login 				|
+| Encryption 		| Stored in plain text (less secure) 		| Stored in plain text (unless encrypted) 		| Uses MD5 encryption (more secure) 		| Stored in plain text (unless encrypted) 		|
+| Configuration Command | `enable password <password>` 			| `line console 0` → `password <password>` → `login` 	| `enable secret <password>` 			| `line vty 0 4` → `password <password>` → `login` 	|
+
+---
+
+### Additional Notes:
+- Enable Password vs. Enable Secret:  
+  - `enable password` stores the password in plain text, making it vulnerable.  
+  - `enable secret` encrypts the password using MD5, making it more secure.  
+  - Best practice: Always use `enable secret` instead of `enable password`.
+
+- Line Console Password:  
+  - Used to secure direct access via the console port.  
+  - Without this password, anyone with physical access can modify the device.
+
+- VTY Password:  
+  - Used for remote access via Telnet or SSH.  
+  - If not configured, remote users may access the device without authentication.
+
+
