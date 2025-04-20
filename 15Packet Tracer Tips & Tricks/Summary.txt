@@ -1,0 +1,7 @@
+In this module, you learned that there is more than one type of Packet Tracer file. These file types are used for different purposes and include: .pka, .pkt, .pksz, and .pkz.
+
+The .pka file type is a Packet Tracer Activity file and is the file type you will experience most often. A .pka file has an instructions window. The activity is usually scored as well. This file type contains two networks: an initial network and an answer network. The .pkt file type is created when a simulated network is built in Packet Tracer and saved. A .pkt file has no instructions window or activity scoring.
+
+You already know what a .pksz file is because you used it for the PTTA – Logical and Physical Mode Exploration in Module 1. These files bundle a .pka file, media assets, and a scripting file for the hinting system. These activities provide support, in the form of contextualized hints, for students who are working on completing the activity. The .pkz file is no longer used. You also learned about Packet Tracer Media Object (PTMO) and Packet Tracer Skills Assessment (PTSA) which are both used for assessment purposes.
+
+This module also included instructional videos to help you complete the Packet Tracer – Create a Simple Network activity. In that .pka you used the logical mode to build a network, configure end devices and verify connectivity. And finally, another video demonstrated some of the advanced features of Cisco Packet Tracer. We recommend that you open up Cisco Packet Tracer and keep exploring!
