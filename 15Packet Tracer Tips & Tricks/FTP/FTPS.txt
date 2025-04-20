@@ -1,0 +1,44 @@
+### Configuring FTPS with Security & Encryption Features  
+FTPS (FTP Secure) is an extension of FTP that adds SSL/TLS encryption to secure file transfers. Here’s how to configure it on Windows Server using IIS (Internet Information Services):
+
+#### 1. Install the FTP Server Role
+- Open Server Manager → Click Add Roles and Features.
+- Select Web Server (IIS) → Expand FTP Server.
+- Enable FTP Service and FTP Extensibility.
+- Click Install.
+
+#### 2. Configure an FTPS Site
+- Open IIS Manager → Click Sites → Add FTP Site.
+- Set the Physical Path (where files will be stored).
+- Assign an IP Address and Port (21 for FTP, 990 for FTPS).
+
+#### 3. Enable SSL/TLS Encryption
+- In IIS Manager, go to FTP SSL Settings.
+- Select Require SSL (to enforce encryption).
+- Choose an SSL Certificate (either self-signed or from a trusted CA).
+- Click Apply.
+
+#### 4. Configure User Authentication & Permissions
+- Go to FTP Authentication → Enable Basic Authentication.
+- In FTP Authorization Rules, allow access to specific users or groups.
+- Set Read/Write permissions for secure file access.
+
+#### 5. Configure Firewall & Passive Mode
+- Open Windows Firewall → Allow FTP Server.
+- In IIS, set Passive Mode Ports (e.g., 5000-5100).
+- Ensure FTP over TLS is enabled.
+
+#### 6. Test FTPS Connection
+- Use an FTPS client like FileZilla.
+- Connect using Explicit FTPS (AUTH TLS) or Implicit FTPS (Port 990).
+- Verify secure file transfers.
+
+---
+
+### Is FTPS a Windows Feature Role?
+Yes! FTPS is integrated into Windows Server as part of the IIS FTP Server role on Windows – 4sysops](https://4sysops.com/archives/setting-up-a-secure-ftp-server-ftps-on-windows/). You can enable it via Server Manager or PowerShell:
+
+```powershell
+Install-WindowsFeature Web-FTP-Server, Web-Mgmt-Console
+```
+
